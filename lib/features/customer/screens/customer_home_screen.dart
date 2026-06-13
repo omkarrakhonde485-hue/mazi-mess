@@ -103,7 +103,8 @@ class _CustomerHomeScreenState extends ConsumerState<CustomerHomeScreen> {
                       QuickActionCard(
                         icon: Icons.event_busy_outlined,
                         label: 'Leave Management',
-                        onTap: () => _showComingSoon('Leave Management'),
+                        onTap: () =>
+                            context.push(AppRoute.leaveManagement.path),
                       ),
                       QuickActionCard(
                         icon: Icons.receipt_long_outlined,

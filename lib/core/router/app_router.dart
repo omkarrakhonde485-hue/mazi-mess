@@ -11,6 +11,7 @@ import '../../features/customer/screens/explore_screen.dart';
 import '../../features/customer/screens/mess_details_screen.dart';
 import '../../features/customer/screens/profile_screen.dart';
 import '../../features/customer/screens/subscriptions_screen.dart';
+import '../../features/leave_management/screens/leave_management_screen.dart';
 
 enum AppRoute {
   splash('/'),
@@ -21,7 +22,8 @@ enum AppRoute {
   explore('/explore'),
   messDetails('/explore/:messId'),
   profile('/profile'),
-  subscriptions('/subscriptions');
+  subscriptions('/subscriptions'),
+  leaveManagement('/leave-management');
 
   const AppRoute(this.path);
 
@@ -88,6 +90,11 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: AppRoute.subscriptions.path,
         name: AppRoute.subscriptions.name,
         builder: (context, state) => const SubscriptionsScreen(),
+      ),
+      GoRoute(
+        path: AppRoute.leaveManagement.path,
+        name: AppRoute.leaveManagement.name,
+        builder: (context, state) => const LeaveManagementScreen(),
       ),
     ],
     errorBuilder: (context, state) => Scaffold(
