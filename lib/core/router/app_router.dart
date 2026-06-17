@@ -11,6 +11,7 @@ import '../../features/customer/screens/explore_screen.dart';
 import '../../features/customer/screens/mess_details_screen.dart';
 import '../../features/customer/screens/profile_screen.dart';
 import '../../features/customer/screens/subscriptions_screen.dart';
+import '../../features/customer/screens/payment_history_screen.dart';
 import '../../features/leave_management/screens/leave_management_screen.dart';
 
 enum AppRoute {
@@ -23,6 +24,7 @@ enum AppRoute {
   messDetails('/explore/:messId'),
   profile('/profile'),
   subscriptions('/subscriptions'),
+  paymentHistory('/payment-history'),
   leaveManagement('/leave-management');
 
   const AppRoute(this.path);
@@ -95,6 +97,11 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: AppRoute.leaveManagement.path,
         name: AppRoute.leaveManagement.name,
         builder: (context, state) => const LeaveManagementScreen(),
+      ),
+      GoRoute(
+        path: AppRoute.paymentHistory.path,
+        name: AppRoute.paymentHistory.name,
+        builder: (context, state) => const PaymentHistoryScreen(),
       ),
     ],
     errorBuilder: (context, state) => Scaffold(

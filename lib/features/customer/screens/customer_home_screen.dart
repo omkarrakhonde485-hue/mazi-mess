@@ -109,7 +109,7 @@ class _CustomerHomeScreenState extends ConsumerState<CustomerHomeScreen> {
                       QuickActionCard(
                         icon: Icons.receipt_long_outlined,
                         label: 'Payment History',
-                        onTap: () => _showComingSoon('Payment History'),
+                        onTap: () => context.push(AppRoute.paymentHistory.path),
                       ),
                       QuickActionCard(
                         icon: Icons.person_outline,
