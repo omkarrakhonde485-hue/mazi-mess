@@ -13,6 +13,7 @@ import '../../features/customer/screens/profile_screen.dart';
 import '../../features/customer/screens/subscriptions_screen.dart';
 import '../../features/customer/screens/payment_history_screen.dart';
 import '../../features/leave_management/screens/leave_management_screen.dart';
+import '../../features/notifications/screens/notifications_screen.dart';
 
 enum AppRoute {
   splash('/'),
@@ -25,7 +26,8 @@ enum AppRoute {
   profile('/profile'),
   subscriptions('/subscriptions'),
   paymentHistory('/payment-history'),
-  leaveManagement('/leave-management');
+  leaveManagement('/leave-management'),
+  notifications('/notifications');
 
   const AppRoute(this.path);
 
@@ -102,6 +104,11 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: AppRoute.paymentHistory.path,
         name: AppRoute.paymentHistory.name,
         builder: (context, state) => const PaymentHistoryScreen(),
+      ),
+      GoRoute(
+        path: AppRoute.notifications.path,
+        name: AppRoute.notifications.name,
+        builder: (context, state) => const NotificationsScreen(),
       ),
     ],
     errorBuilder: (context, state) => Scaffold(

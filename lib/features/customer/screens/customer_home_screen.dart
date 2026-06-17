@@ -9,6 +9,7 @@ import '../../../core/router/app_router.dart';
 import '../../../models/subscription_model.dart';
 import '../widgets/notice_card.dart';
 import '../widgets/quick_action_card.dart';
+import '../../notifications/providers/notifications_provider.dart';
 
 class CustomerHomeScreen extends ConsumerStatefulWidget {
   const CustomerHomeScreen({super.key});
@@ -43,6 +44,15 @@ class _CustomerHomeScreenState extends ConsumerState<CustomerHomeScreen> {
             tooltip: 'Explore',
             icon: const Icon(Icons.explore_outlined),
             onPressed: () => context.push(AppRoute.explore.path),
+          ),
+          IconButton(
+            tooltip: 'Notifications',
+            icon: Badge(
+              isLabelVisible: ref.watch(notificationsProvider).any((n) => !n.isRead),
+              label: Text('${ref.watch(notificationsProvider).where((n) => !n.isRead).length}'),
+              child: const Icon(Icons.notifications_outlined),
+            ),
+            onPressed: () => context.push(AppRoute.notifications.path),
           ),
         ],
       ),
