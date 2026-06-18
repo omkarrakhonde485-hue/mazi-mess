@@ -14,6 +14,7 @@ import '../../features/customer/screens/subscriptions_screen.dart';
 import '../../features/customer/screens/payment_history_screen.dart';
 import '../../features/leave_management/screens/leave_management_screen.dart';
 import '../../features/notifications/screens/notifications_screen.dart';
+import '../../features/owner/screens/owner_dashboard_screen.dart';
 
 enum AppRoute {
   splash('/'),
@@ -27,7 +28,8 @@ enum AppRoute {
   subscriptions('/subscriptions'),
   paymentHistory('/payment-history'),
   leaveManagement('/leave-management'),
-  notifications('/notifications');
+  notifications('/notifications'),
+  ownerDashboard('/owner-dashboard');
 
   const AppRoute(this.path);
 
@@ -109,6 +111,11 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: AppRoute.notifications.path,
         name: AppRoute.notifications.name,
         builder: (context, state) => const NotificationsScreen(),
+      ),
+      GoRoute(
+        path: AppRoute.ownerDashboard.path,
+        name: AppRoute.ownerDashboard.name,
+        builder: (context, state) => const OwnerDashboardScreen(),
       ),
     ],
     errorBuilder: (context, state) => Scaffold(
