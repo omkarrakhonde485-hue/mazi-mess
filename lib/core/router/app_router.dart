@@ -15,6 +15,7 @@ import '../../features/customer/screens/payment_history_screen.dart';
 import '../../features/leave_management/screens/leave_management_screen.dart';
 import '../../features/notifications/screens/notifications_screen.dart';
 import '../../features/owner/screens/owner_dashboard_screen.dart';
+import '../../features/owner/screens/join_requests_screen.dart';
 
 enum AppRoute {
   splash('/'),
@@ -29,7 +30,8 @@ enum AppRoute {
   paymentHistory('/payment-history'),
   leaveManagement('/leave-management'),
   notifications('/notifications'),
-  ownerDashboard('/owner-dashboard');
+  ownerDashboard('/owner-dashboard'),
+  joinRequests('/owner-dashboard/join-requests');
 
   const AppRoute(this.path);
 
@@ -116,6 +118,11 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: AppRoute.ownerDashboard.path,
         name: AppRoute.ownerDashboard.name,
         builder: (context, state) => const OwnerDashboardScreen(),
+      ),
+      GoRoute(
+        path: AppRoute.joinRequests.path,
+        name: AppRoute.joinRequests.name,
+        builder: (context, state) => const JoinRequestsScreen(),
       ),
     ],
     errorBuilder: (context, state) => Scaffold(

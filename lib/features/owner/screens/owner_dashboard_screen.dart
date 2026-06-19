@@ -777,7 +777,7 @@ class _OwnerDashboardScreenState extends ConsumerState<OwnerDashboardScreen> {
         }),
         const SizedBox(height: 4),
         OutlinedButton.icon(
-          onPressed: () => _showComingSoon('View All Requests'),
+          onPressed: () => context.push(AppRoute.joinRequests.path),
           icon: const Icon(Icons.arrow_forward, size: 16),
           label: const Text('View All Requests'),
         ),
