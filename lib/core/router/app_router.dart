@@ -18,6 +18,8 @@ import '../../features/owner/screens/owner_dashboard_screen.dart';
 import '../../features/owner/screens/join_requests_screen.dart';
 import '../../features/owner/screens/customer_management_screen.dart';
 import '../../features/owner/screens/customer_profile_screen.dart';
+import '../../features/owner/screens/plan_management_screen.dart';
+import '../../features/owner/screens/plan_form_screen.dart';
 
 enum AppRoute {
   splash('/'),
@@ -35,7 +37,9 @@ enum AppRoute {
   ownerDashboard('/owner-dashboard'),
   joinRequests('/owner-dashboard/join-requests'),
   customerManagement('/owner-dashboard/customers'),
-  customerProfile('/owner-dashboard/customers/:customerId');
+  customerProfile('/owner-dashboard/customers/:customerId'),
+  planManagement('/owner-dashboard/plans'),
+  planForm('/owner-dashboard/plans/form');
 
   const AppRoute(this.path);
 
@@ -139,6 +143,19 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (context, state) {
           final customerId = state.pathParameters['customerId'];
           return CustomerProfileScreen(customerId: customerId);
+        },
+      ),
+      GoRoute(
+        path: AppRoute.planManagement.path,
+        name: AppRoute.planManagement.name,
+        builder: (context, state) => const PlanManagementScreen(),
+      ),
+      GoRoute(
+        path: AppRoute.planForm.path,
+        name: AppRoute.planForm.name,
+        builder: (context, state) {
+          final plan = state.extra as Plan?;
+          return PlanFormScreen(initialPlan: plan);
         },
       ),
     ],

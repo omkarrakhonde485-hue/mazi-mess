@@ -392,10 +392,15 @@ class CustomerProfileScreen extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            'Plan Extensions / Leave logs',
-                            style: textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
+                          Expanded(
+                            child: Text(
+                              'Plan Extensions / Leave logs',
+                              style: textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
+                          const SizedBox(width: 12),
                           Text(
                             customer.leaveSummary,
                             style: textTheme.titleMedium?.copyWith(

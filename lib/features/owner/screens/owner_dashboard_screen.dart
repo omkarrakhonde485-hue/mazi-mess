@@ -558,10 +558,14 @@ class _OwnerDashboardScreenState extends ConsumerState<OwnerDashboardScreen> {
             children: [
               Row(
                 children: [
-                  Text(
-                    mealTitle,
-                    style: textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
+                  Flexible(
+                    child: Text(
+                      mealTitle,
+                      style: textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
                   if (isLive) ...[
@@ -907,52 +911,58 @@ class _OwnerDashboardScreenState extends ConsumerState<OwnerDashboardScreen> {
   Widget _buildQuickActionsGrid() {
     return Column(
       children: [
-        Row(
-          children: [
-            Expanded(
-              child: QuickActionTile(
-                icon: Icons.qr_code_scanner,
-                label: 'Scan Attendance',
-                subtitle: 'Verify codes',
-                trailingIcon: null,
-                onTap: () => _showComingSoon('Scan Attendance'),
+        IntrinsicHeight(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Expanded(
+                child: QuickActionTile(
+                  icon: Icons.qr_code_scanner,
+                  label: 'Scan Attendance',
+                  subtitle: 'Verify codes',
+                  trailingIcon: null,
+                  onTap: () => _showComingSoon('Scan Attendance'),
+                ),
               ),
-            ),
-            const SizedBox(width: 10),
-            Expanded(
-              child: QuickActionTile(
-                icon: Icons.campaign_outlined,
-                label: 'Create Notice',
-                subtitle: 'Publish alerts',
-                trailingIcon: null,
-                onTap: () => _showComingSoon('Create Notice'),
+              const SizedBox(width: 10),
+              Expanded(
+                child: QuickActionTile(
+                  icon: Icons.campaign_outlined,
+                  label: 'Create Notice',
+                  subtitle: 'Publish alerts',
+                  trailingIcon: null,
+                  onTap: () => _showComingSoon('Create Notice'),
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
         const SizedBox(height: 10),
-        Row(
-          children: [
-            Expanded(
-              child: QuickActionTile(
-                icon: Icons.restaurant_menu_outlined,
-                label: 'Manage Plans',
-                subtitle: 'Edit offers',
-                trailingIcon: null,
-                onTap: () => _showComingSoon('Manage Plans'),
+        IntrinsicHeight(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Expanded(
+                child: QuickActionTile(
+                  icon: Icons.restaurant_menu_outlined,
+                  label: 'Manage Plans',
+                  subtitle: 'Edit offers',
+                  trailingIcon: null,
+                  onTap: () => context.push(AppRoute.planManagement.path),
+                ),
               ),
-            ),
-            const SizedBox(width: 10),
-            Expanded(
-              child: QuickActionTile(
-                icon: Icons.people_outline,
-                label: 'Manage Customers',
-                subtitle: 'Customer list',
-                trailingIcon: null,
-                onTap: () => context.push(AppRoute.customerManagement.path),
+              const SizedBox(width: 10),
+              Expanded(
+                child: QuickActionTile(
+                  icon: Icons.people_outline,
+                  label: 'Manage Customers',
+                  subtitle: 'Customer list',
+                  trailingIcon: null,
+                  onTap: () => context.push(AppRoute.customerManagement.path),
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ],
     );
