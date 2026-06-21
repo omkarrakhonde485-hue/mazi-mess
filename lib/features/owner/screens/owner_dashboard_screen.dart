@@ -478,7 +478,6 @@ class _OwnerDashboardScreenState extends ConsumerState<OwnerDashboardScreen> {
   /// SECTION: Today's Meal Attendance Summary
   Widget _buildAttendanceSummary() {
     final colorScheme = Theme.of(context).colorScheme;
-    final textTheme = Theme.of(context).textTheme;
 
     return Card(
       elevation: 0,
@@ -854,7 +853,7 @@ class _OwnerDashboardScreenState extends ConsumerState<OwnerDashboardScreen> {
         ),
         const SizedBox(height: 8),
         OutlinedButton.icon(
-          onPressed: () => _showComingSoon('View All Expiring Customers'),
+          onPressed: () => context.push(AppRoute.customerManagement.path),
           icon: const Icon(Icons.people_outline, size: 16),
           label: const Text('View All'),
         ),
@@ -906,41 +905,54 @@ class _OwnerDashboardScreenState extends ConsumerState<OwnerDashboardScreen> {
 
   /// SECTION: Quick Actions Grid
   Widget _buildQuickActionsGrid() {
-    return GridView.count(
-      crossAxisCount: 2,
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      mainAxisSpacing: 10,
-      crossAxisSpacing: 10,
-      childAspectRatio: 1.5,
+    return Column(
       children: [
-        QuickActionTile(
-          icon: Icons.qr_code_scanner,
-          label: 'Scan Attendance',
-          subtitle: 'Verify codes',
-          trailingIcon: null,
-          onTap: () => _showComingSoon('Scan Attendance'),
+        Row(
+          children: [
+            Expanded(
+              child: QuickActionTile(
+                icon: Icons.qr_code_scanner,
+                label: 'Scan Attendance',
+                subtitle: 'Verify codes',
+                trailingIcon: null,
+                onTap: () => _showComingSoon('Scan Attendance'),
+              ),
+            ),
+            const SizedBox(width: 10),
+            Expanded(
+              child: QuickActionTile(
+                icon: Icons.campaign_outlined,
+                label: 'Create Notice',
+                subtitle: 'Publish alerts',
+                trailingIcon: null,
+                onTap: () => _showComingSoon('Create Notice'),
+              ),
+            ),
+          ],
         ),
-        QuickActionTile(
-          icon: Icons.campaign_outlined,
-          label: 'Create Notice',
-          subtitle: 'Publish alerts',
-          trailingIcon: null,
-          onTap: () => _showComingSoon('Create Notice'),
-        ),
-        QuickActionTile(
-          icon: Icons.restaurant_menu_outlined,
-          label: 'Manage Plans',
-          subtitle: 'Edit offers',
-          trailingIcon: null,
-          onTap: () => _showComingSoon('Manage Plans'),
-        ),
-        QuickActionTile(
-          icon: Icons.person_add_outlined,
-          label: 'Add Customer',
-          subtitle: 'Manual entry',
-          trailingIcon: null,
-          onTap: () => _showComingSoon('Add Customer'),
+        const SizedBox(height: 10),
+        Row(
+          children: [
+            Expanded(
+              child: QuickActionTile(
+                icon: Icons.restaurant_menu_outlined,
+                label: 'Manage Plans',
+                subtitle: 'Edit offers',
+                trailingIcon: null,
+                onTap: () => _showComingSoon('Manage Plans'),
+              ),
+            ),
+            const SizedBox(width: 10),
+            Expanded(
+              child: QuickActionTile(
+                icon: Icons.people_outline,
+                label: 'Manage Customers',
+                subtitle: 'Customer list',
+                trailingIcon: null,
+                onTap: () => context.push(AppRoute.customerManagement.path),
+              ),
+            ),
+          ],
         ),
       ],
     );

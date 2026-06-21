@@ -16,6 +16,8 @@ import '../../features/leave_management/screens/leave_management_screen.dart';
 import '../../features/notifications/screens/notifications_screen.dart';
 import '../../features/owner/screens/owner_dashboard_screen.dart';
 import '../../features/owner/screens/join_requests_screen.dart';
+import '../../features/owner/screens/customer_management_screen.dart';
+import '../../features/owner/screens/customer_profile_screen.dart';
 
 enum AppRoute {
   splash('/'),
@@ -31,7 +33,9 @@ enum AppRoute {
   leaveManagement('/leave-management'),
   notifications('/notifications'),
   ownerDashboard('/owner-dashboard'),
-  joinRequests('/owner-dashboard/join-requests');
+  joinRequests('/owner-dashboard/join-requests'),
+  customerManagement('/owner-dashboard/customers'),
+  customerProfile('/owner-dashboard/customers/:customerId');
 
   const AppRoute(this.path);
 
@@ -123,6 +127,19 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: AppRoute.joinRequests.path,
         name: AppRoute.joinRequests.name,
         builder: (context, state) => const JoinRequestsScreen(),
+      ),
+      GoRoute(
+        path: AppRoute.customerManagement.path,
+        name: AppRoute.customerManagement.name,
+        builder: (context, state) => const CustomerManagementScreen(),
+      ),
+      GoRoute(
+        path: AppRoute.customerProfile.path,
+        name: AppRoute.customerProfile.name,
+        builder: (context, state) {
+          final customerId = state.pathParameters['customerId'];
+          return CustomerProfileScreen(customerId: customerId);
+        },
       ),
     ],
     errorBuilder: (context, state) => Scaffold(
