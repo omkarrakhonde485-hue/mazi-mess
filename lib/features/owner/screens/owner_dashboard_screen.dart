@@ -921,7 +921,7 @@ class _OwnerDashboardScreenState extends ConsumerState<OwnerDashboardScreen> {
                   label: 'Scan Attendance',
                   subtitle: 'Verify codes',
                   trailingIcon: null,
-                  onTap: () => _showComingSoon('Scan Attendance'),
+                  onTap: () => context.push(AppRoute.attendanceDashboard.path),
                 ),
               ),
               const SizedBox(width: 10),

@@ -20,6 +20,7 @@ import '../../features/owner/screens/customer_management_screen.dart';
 import '../../features/owner/screens/customer_profile_screen.dart';
 import '../../features/owner/screens/plan_management_screen.dart';
 import '../../features/owner/screens/plan_form_screen.dart';
+import '../../features/owner/screens/attendance_dashboard_screen.dart';
 
 enum AppRoute {
   splash('/'),
@@ -39,7 +40,8 @@ enum AppRoute {
   customerManagement('/owner-dashboard/customers'),
   customerProfile('/owner-dashboard/customers/:customerId'),
   planManagement('/owner-dashboard/plans'),
-  planForm('/owner-dashboard/plans/form');
+  planForm('/owner-dashboard/plans/form'),
+  attendanceDashboard('/owner-dashboard/attendance');
 
   const AppRoute(this.path);
 
@@ -157,6 +159,11 @@ final routerProvider = Provider<GoRouter>((ref) {
           final plan = state.extra as Plan?;
           return PlanFormScreen(initialPlan: plan);
         },
+      ),
+      GoRoute(
+        path: AppRoute.attendanceDashboard.path,
+        name: AppRoute.attendanceDashboard.name,
+        builder: (context, state) => const AttendanceDashboardScreen(),
       ),
     ],
     errorBuilder: (context, state) => Scaffold(
