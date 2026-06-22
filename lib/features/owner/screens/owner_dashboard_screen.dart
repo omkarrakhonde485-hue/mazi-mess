@@ -399,7 +399,7 @@ class _OwnerDashboardScreenState extends ConsumerState<OwnerDashboardScreen> {
         actions: [
           IconButton(
             tooltip: 'Notifications',
-            onPressed: () => context.push(AppRoute.notifications.path),
+            onPressed: () => context.push(AppRoute.ownerNotifications.path),
             icon: Badge(
               isLabelVisible: ref.watch(notificationsProvider).any((n) => !n.isRead),
               label: Text(
