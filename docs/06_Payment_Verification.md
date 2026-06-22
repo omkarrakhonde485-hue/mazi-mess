@@ -343,7 +343,12 @@ Compare extracted amount with verification amount
 
 ↓
 
-Verification Result Returned
+Webhook Response Returned
+
+Possible Responses:
+
+Payment recieved
+not recieved
 
 ---
 
@@ -371,9 +376,29 @@ Only recent payment emails are checked.
 
 Backend sends:
 
-* orderId
-* ownerId
-* verificationAmount
+Implementation Note:
+
+The current Make.com integration expects:
+
+{
+  "value": verificationAmount
+}
+
+and returns:
+
+Payment recieved
+
+or
+
+not recieved
+
+(This may change in future versions without affecting business rules.)
+
+Example:
+
+{
+  "value": 3000.03
+}
 
 Make.com searches recent emails.
 
@@ -389,9 +414,11 @@ No other matching is required.
 
 # MATCH SUCCESS
 
-Payment Status:
+Make.com returns:
 
-verified
+Payment recieved
+
+Payment Status == verified
 
 Actions:
 
@@ -404,9 +431,11 @@ Actions:
 
 # MATCH FAILURE
 
-Payment Status:
+Make.com returns:
 
-verification_failed
+not recieved
+
+Payment Status == verification_failed
 
 Customer Message:
 
