@@ -1,24 +1,28 @@
-# 06\_Payment\_Verification.md
+# MAZI MESS - PAYMENT VERIFICATION SYSTEM V2
 
-# MAZI MESS - PAYMENT VERIFICATION SYSTEM V1
-
-Version: 1.0
+Version: 2.0
 
 Status: Approved
 
-\---
+---
 
 # PURPOSE
 
-Mazi Mess does not use a traditional payment gateway in Version 1.
+Mazi Mess does not use a traditional payment gateway.
 
-Customers pay mess owners directly through UPI.
+Customers pay mess owners directly using UPI.
 
-The platform verifies payments using Paytm Business payment notification emails.
+Payments are verified automatically using:
+
+* UPI Deep Links
+* Unique Verification Amounts
+* Paytm Business Notification Emails
+* Make.com Automation
+* Gemini Extraction
 
 Only verified payments activate subscriptions.
 
-\---
+---
 
 # HIGH LEVEL FLOW
 
@@ -26,662 +30,478 @@ Customer
 ↓
 Select Plan
 ↓
-Create Payment Intent
+Create Payment Order
 ↓
-Generate Payment QR
+Assign Unique Verification Amount
 ↓
-Customer Pays Owner
+Generate UPI Deep Link
 ↓
-Paytm Business Sends Email
+Customer Pays Using UPI
 ↓
-Dedicated Gmail Receives Email
+Customer Returns To Mazi Mess
 ↓
-Make.com Trigger
+Customer Taps "I Have Paid"
 ↓
-Gemini Extraction
+Verification Screen
 ↓
-Backend Webhook
+Backend Waits 10 Seconds
 ↓
-Payment Verification
+Backend Calls Owner Webhook
 ↓
-Subscription Activation
+Make.com Verification
+↓
+Payment Verified
+↓
+Subscription Activated
 
-\---
+---
 
 # SYSTEM COMPONENTS
 
-Component 1
+## Component 1
 
 Customer Mobile App
 
 Purpose:
 
-Initiates payment.
+* Display payment page
+* Launch UPI app
+* Allow customer confirmation
+* Display verification status
 
-\---
+---
 
-Component 2
+## Component 2
 
 Paytm Business
 
 Purpose:
 
-Receives payment.
+* Receive customer payment
+* Send payment notification email
 
-Sends notification email.
+---
 
-\---
+## Component 3
 
-Component 3
-
-Dedicated Gmail
+Verification Gmail
 
 Purpose:
 
-Receives payment emails.
+Receive Paytm Business payment notifications.
 
-Requirements:
+Rules:
 
-One dedicated email per owner.
+* Dedicated Gmail account created by Admin.
+* Gmail account configured inside Make.com.
+* Owner must add this Gmail address to Paytm Business notification settings.
+* Owners cannot modify verification Gmail configuration from the app.
 
-Owner must add email in Paytm Business notification settings.
+---
 
-Recommended:
-
-Owner creates email solely for Mazi Mess.
-
-Example:
-
-[saimess.payments@gmail.com](mailto:saimess.payments@gmail.com)
-
-\---
-
-Component 4
+## Component 4
 
 Make.com
 
 Purpose:
 
-Monitor Gmail.
+* Receive webhook request
+* Search recent Paytm emails
+* Send email to Gemini
+* Compare payment amount
+* Return verification result
 
-Parse payment notifications.
+---
 
-Forward extracted data to backend.
-
-\---
-
-Component 5
-
-Gemini
+## Make.com Email Extraction Module
 
 Purpose:
 
-Extract payment details from email.
+Extract payment amount from Paytm email.
 
-Returns structured JSON.
+Returns structured data.
 
-\---
+---
 
-Component 6
+## Component 6
 
 Backend Verification Service
 
 Purpose:
 
-Validate payment.
+* Create payment order
+* Generate verification amount
+* Call Make.com webhook
+* Activate subscription
+* Store audit logs
 
-Match against payment intent.
+---
 
-Activate subscription.
+# OWNER-SPECIFIC VERIFICATION CONFIGURATION
 
-\---
+Every mess owner shall have:
 
-# PAYMENT INTENT CREATION
+* UPI ID
+* Verification Gmail
+* Make.com Webhook
+* Verification Status
 
-Before showing payment QR:
+Rules:
 
-Create payment\_intent.
+* Admin creates Gmail account.
+* Admin imports and configures Make.com scenario.
+* Admin stores webhook URL.
+* Owners cannot view webhook URLs.
+* Owners cannot edit webhook URLs.
+* Owners cannot regenerate webhook URLs.
+
+Owner only sees:
+
+Payment Verification Status
+
+Active / Inactive
+
+---
+
+# UNIQUE VERIFICATION AMOUNT SYSTEM
+
+Each payment order receives a unique verification amount.
+
+Example:
+
+Base Subscription Amount:
+
+₹3000
+
+Generated Verification Amounts:
+
+₹3000.01
+₹3000.02
+₹3000.03
+...
+₹3000.99
+
+The verification amount acts as the payment identifier.
+
+After ₹3000.99:
+
+Allocation continues from:
+
+₹3000.01
+
+Rules:
+
+* Verification amount is stored against the order.
+* Verification amount is embedded into the UPI link.
+* Verification amount is sent to Make.com.
+* Verification amount is used for verification.
+
+System does not depend on:
+
+* UTR Number
+* Transaction ID
+* Screenshots
+* Customer-entered references
+
+---
+
+# PAYMENT ORDER CREATION
+
+Before payment:
+
+Create Order.
 
 Fields:
 
-paymentIntentId
-
-customerId
-
-messId
-
-planId
-
-subscriptionId
-
-amount
-
-status
-
-createdAt
-
-expiresAt
-
-\---
+* orderId
+* customerId
+* messId
+* planId
+* baseAmount
+* verificationAmount
+* paymentStatus
+* createdAt
 
 Status:
 
 pending
 
-\---
+Rules:
+
+* Order must exist before payment.
+* Verification amount assigned during order creation.
+
+---
+
+# UPI PAYMENT LINK
+
+Format:
+
+upi://pay?pa={upiId}&am={verificationAmount}&cu=INR&tn=Verified
+
+Example:
+
+upi://pay?pa=saimess@paytm&am=3000.03&cu=INR&tn=Verified%20Merchant%20Account
+
+Note:
+
+The transaction note uses:
+
+Verified Merchant Account
+
+to maintain consistency with Paytm Business payment links.
+
+The transaction note is not used for payment verification.
+
+Payment verification is performed solely using the unique verification amount assigned to the order.
+
+Paytm Business notification emails do not reliably expose the transaction note field.
 
 Rules:
 
-Payment intent must exist before payment.
+* Generated dynamically.
+* Opens installed UPI application.
+* Amount is prefilled.
+* Customer cannot edit amount.
 
-Only one active payment intent per subscription.
-
-Creating a new intent automatically invalidates older pending intents.
-
-\---
+---
 
 # PAYMENT SCREEN
 
 Displays:
 
-Mess Name
+* Mess Name
+* Plan Name
+* Verification Amount
+* Pay Using UPI Button
+* I Have Paid Button
 
-Plan Name
+Customer Instruction:
 
-Amount
-
-UPI ID
-
-Payment QR
+After completing the payment, return to Mazi Mess and tap the button below to verify your payment.
 
 Buttons:
 
-Open UPI App
+1. Pay Using UPI
+2. I Have Paid
 
-I Have Paid
+---
 
-\---
+# CUSTOMER PAYMENT CONFIRMATION
 
-Customer Action:
+Customer completes payment externally.
 
-Complete payment externally.
-
-\---
-
-After Payment:
+Customer returns to app.
 
 Customer taps:
 
 I Have Paid
 
-\---
+System Status:
 
-Payment Intent Status:
+verification_pending
 
-under\_verification
+Verification begins only after customer confirmation.
 
-\---
+---
 
-# PAYTM EMAIL REQUIREMENTS
+# VERIFICATION FLOW
 
-Email Source:
+Customer presses:
 
-Paytm Business
+I Have Paid
 
-Email Must Contain:
+↓
 
-Amount
+UI shows:
 
-Transaction Time
+Verifying your payment...
 
-UPI Transaction Reference
+↓
 
-Receiver Information
+Backend waits 10 seconds
 
-Payer Information (if available)
+↓
 
-\---
+Backend calls owner's webhook
 
-Only payment received emails are processed.
+↓
 
-Other Paytm emails ignored.
+Make.com scenario starts
 
-\---
+↓
 
-# GMAIL MONITORING
+Search recent Paytm Business emails
 
-Trigger:
+↓
 
-New Email
+Gemini extracts payment amount
 
-Conditions:
+↓
 
-Sender matches Paytm Business
+Compare extracted amount with verification amount
 
-Email category = Payments
+↓
 
-Unread email
+Verification Result Returned
 
-\---
+---
 
-Actions:
+# PAYTM EMAIL PROCESSING
 
-Retrieve email content
+Source:
 
-Forward to Gemini
+Paytm Business Payment Received Email
 
-\---
+Required Data:
 
-After processing:
+* Amount
+* Timestamp
+* Sender Information (if available)
 
-Mark email as processed
+Transaction ID is not required.
 
-Store processing reference
+Order ID from Paytm is ignored.
 
-\---
+Only recent payment emails are checked.
 
-# GEMINI EXTRACTION
-
-Input:
-
-Raw email body
-
-\---
-
-Expected Output:
-
-{
-"amount": 2500,
-"transactionReference": "123456789",
-"paymentTimestamp": "2026-01-01T10:00:00Z",
-"receiver": "Sai Mess",
-"payer": "Customer Name"
-}
-
-\---
-
-Extraction Rules:
-
-Ignore formatting differences.
-
-Handle minor email template changes.
-
-Return structured JSON only.
-
-\---
-
-# MAKE.COM WEBHOOK
-
-Webhook Destination:
-
-Backend Payment Endpoint
-
-Method:
-
-POST
-
-Payload:
-
-{
-"webhookId": "make\_123",
-"amount": 2500,
-"transactionReference": "123456789",
-"paymentTimestamp": "...",
-"receiver": "...",
-"payer": "..."
-}
-
-\---
-
-Webhook Retries:
-
-3 retries
-
-Exponential backoff
-
-\---
+---
 
 # PAYMENT MATCHING LOGIC
 
-Backend receives webhook.
+Backend sends:
 
-Find payment intent where:
+* orderId
+* ownerId
+* verificationAmount
 
-status = under\_verification
+Make.com searches recent emails.
 
-AND
+Gemini extracts amount.
 
-amount matches
+Verification succeeds when:
 
-AND
+Extracted Amount == Verification Amount
 
-mess matches
+No other matching is required.
 
-AND
-
-verification window valid
-
-\---
-
-Verification Window:
-
-10 minutes
-
-Reason:
-
-Allow email delivery time.
-
-Prevent duplicate matches.
-
-\---
+---
 
 # MATCH SUCCESS
-
-If valid match found:
 
 Payment Status:
 
 verified
 
-\---
+Actions:
 
-Create Payment Record
+* Activate Subscription
+* Notify Customer
+* Notify Owner
+* Create Audit Log
 
-\---
-
-Activate Subscription
-
-\---
-
-Send Customer Notification
-
-Subscription Activated
-
-\---
-
-Send Owner Notification
-
-Payment Verified
-
-\---
+---
 
 # MATCH FAILURE
 
-Possible Reasons:
-
-Wrong Amount
-
-Expired Intent
-
-No Matching Intent
-
-Duplicate Payment
-
-Webhook Corruption
-
-\---
-
 Payment Status:
 
-failed
+verification_failed
 
-\---
+Customer Message:
 
-Admin Notification Generated
+Payment could not be verified automatically.
 
-\---
+If payment was completed successfully, please contact the mess owner.
 
-# DUPLICATE PAYMENT HANDLING
+Actions:
 
-Scenario:
+* Owner may manually verify payment.
+* Owner may manually activate customer subscription.
+* Audit log created.
 
-Customer pays twice.
-
-\---
-
-Detection:
-
-Transaction Reference already exists.
-
-\---
-
-Action:
-
-Flag For Review
-
-Notify Admin
-
-Do Not Auto Activate Second Subscription
-
-\---
-
-Admin decides:
-
-Refund
-
-Extend Subscription
-
-Manual Adjustment
-
-\---
+---
 
 # SUBSCRIPTION ACTIVATION
 
 Allowed Only When:
 
-Payment Verified
-
-\---
-
-Activation Steps:
-
-Create Subscription
-
-Set Status = Active
-
-Generate Notifications
-
-Update Analytics
-
-Write Audit Log
-
-\---
-
-Client applications cannot activate subscriptions.
-
-\---
-
-# ADMIN OVERRIDE
-
-Admin Permissions:
-
-Verify Payment
-
-Fail Payment
-
-Refund Status
-
-Activate Subscription
-
-Suspend Subscription
-
-\---
-
-All overrides must create audit logs.
-
-\---
-
-# WEBHOOK FAILURE HANDLING
-
-Possible Failures:
-
-Make.com unavailable
-
-Backend unavailable
-
-Gemini extraction failure
-
-Invalid payload
-
-\---
+* Payment Verified
+  OR
+* Owner Manual Approval
 
 Actions:
 
-Store failure log
+* Create Subscription
+* Set Status = Active
+* Notify Customer
+* Notify Owner
+* Store Audit Log
 
-Retry processing
-
-Notify admin
-
-\---
-
-After 12 hours unresolved:
-
-Critical Alert
-
-\---
-
-# EMAIL PROCESSING RULES
-
-Each email processed once.
-
-Store:
-
-emailMessageId
-
-webhookId
-
-processingTimestamp
-
-processingStatus
-
-\---
-
-Duplicate emails ignored.
-
-\---
+---
 
 # SECURITY RULES
 
-Customers cannot verify payments.
+Customers Cannot:
 
-Owners cannot verify payments.
+* Verify payments
+* Modify payment status
 
-Only backend verifies payments.
+Owners Cannot:
 
-Only admin may override verification.
+* View webhook URLs
+* Modify webhook URLs
+* Modify verification Gmail
 
-All payment actions generate audit logs.
+Only Admin May:
 
-\---
+* Configure Gmail
+* Configure Make.com
+* Configure Webhooks
+* Override verification status
+
+All actions must generate audit logs.
+
+---
 
 # RETENTION
 
-Payment Records:
+Store Forever:
 
-Forever
+* Orders
+* Payment Logs
+* Verification Logs
+* Audit Logs
+* Subscription Activation Logs
 
-Payment Intents:
-
-Forever
-
-Webhook Logs:
-
-Forever
-
-Verification Logs:
-
-Forever
-
-Audit Logs:
-
-Forever
-
-\---
+---
 
 # FUTURE MIGRATION PLAN
 
-Version 2
+Version 2+
 
-Possible Migration To:
+Possible Migration:
 
-Razorpay
-
-Cashfree
-
-PhonePe Payment Gateway
-
-Amazon Pay
-
-\---
-
-Migration Requirement:
+* Razorpay
+* Cashfree
+* PhonePe PG
+* Other Payment Gateways
 
 Existing payment records must remain accessible.
 
 No data loss allowed.
 
-Payment abstraction layer should be maintained to allow gateway replacement without redesigning subscriptions.
-
-\---
+---
 
 # SUCCESS CRITERIA
 
-A payment is considered successful only when:
+A payment is successful when:
 
-1. Payment intent exists.
-2. Matching Paytm email received.
-3. Gemini extraction successful.
-4. Backend verification successful.
-5. Payment marked verified.
-6. Subscription activated.
-7. Audit log created.
-
-Failure of any step prevents activation.
-
-Owner-Specific Payment Verification
-REQ-PAY-07: Owner Verification Configuration
-Each mess owner shall have a dedicated payment verification configuration.
-The configuration shall contain:
-UPI ID
-Make.com Webhook URL
-Verification Status (Active/Inactive)
-REQ-PAY-08: Owner-Specific Webhook Routing
-Every owner shall be mapped to a unique Make.com webhook.
-Payment verification requests shall be routed only to the webhook assigned to the owner receiving the payment.
-Different owners may use different Gmail accounts and Make.com scenarios.
-REQ-PAY-09: Hidden Verification Infrastructure
-Verification webhooks are internal system configuration.
-Owners shall not be able to:
-View webhook URLs
-Edit webhook URLs
-Copy webhook URLs
-Delete webhook URLs
-Only Admin and Super Admin may manage verification webhooks.
-REQ-PAY-10: Automatic Verification Flow
-
-System shall:
-
-Generate UPI payment link:
-upi://pay?pa={upiId}\&am={amount}\&cu=INR\&tn=Verified
-Launch installed UPI application.
-Send verification request to owner's assigned Make.com webhook.
-Receive verification result from Make.com.
-Automatically activate subscription on successful verification.
-REQ-PAY-11: Verification Email Source
-Each owner shall provide a Paytm Business account.
-Admin shall configure a dedicated Gmail address for payment verification.
-Payment notification emails shall be used as the source of truth for payment verification.
-REQ-PAY-12: Payment Audit Trail
-
-System shall store:
-
-Order ID
-Owner ID
-Amount
-UPI ID
-Verification Status
-Verification Timestamp
-Verification Source
-Make.com Response
-
+1. Order exists.
+2. Verification amount assigned.
+3. Customer completes payment.
+4. Customer taps "I Have Paid".
+5. Make.com finds matching amount.
+6. Payment marked verified.
+7. Subscription activated.
+8. Audit log created.

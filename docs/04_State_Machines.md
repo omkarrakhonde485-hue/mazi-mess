@@ -1,6 +1,4 @@
-# 04_State_Machines.md
-
-# MAZI MESS - STATE MACHINES V1
+# MAZI MESS - STATE MACHINES V2
 
 ## Purpose
 
@@ -99,35 +97,56 @@ Rules:
 * Rejected customers receive 5-day cooldown.
 * Customer may cancel before approval.
 * Expired requests require a new request.
+* Approved join requests move to Payment Verification Flow.
 
 ---
 
-# PAYMENT INTENT STATE MACHINE
+# PAYMENT VERIFICATION STATE MACHINE
 
 States:
 
-pending
-under_verification
+payment_initiated
+pending_verification
 verified
-failed
-refunded
+manual_review
+proof_requested
+proof_submitted
+approved
+rejected
+subscription_activated
 
 Transitions:
 
-pending → under_verification
+payment_initiated → pending_verification
 
-under_verification → verified
-under_verification → failed
+pending_verification → verified
+pending_verification → manual_review
 
-verified → refunded
-verified → failed (Admin Override Only)
+verified → subscription_activated
+
+manual_review → approved
+manual_review → rejected
+manual_review → proof_requested
+
+proof_requested → proof_submitted
+
+proof_submitted → approved
+proof_submitted → rejected
+
+approved → subscription_activated
 
 Rules:
 
-* Every payment creates a payment intent.
-* Only backend can mark verified.
-* Verified is considered terminal except admin intervention.
-* Older payment intents are automatically cancelled when a new one is created.
+* Customer pays via UPI.
+* Payment webhook creates pending verification record.
+* Gmail node receives Paytm Business notification email.
+* Gemini extracts amount, UPI ID and timestamp.
+* Matching engine compares webhook and email data.
+* High-confidence matches become verified automatically.
+* Low-confidence matches enter manual_review.
+* Owner may request payment proof.
+* Approved payments activate subscription.
+* Rejected payments do not activate subscription.
 
 ---
 
@@ -158,6 +177,36 @@ Rules:
 * Renewal creates a NEW subscription.
 * Owner may extend end date but cannot reduce it.
 * Admin may suspend subscriptions.
+
+---
+
+# PLAN STATE MACHINE
+
+States:
+
+draft
+active
+inactive
+deleted
+
+Transitions:
+
+draft → active
+
+active → inactive
+
+inactive → active
+
+inactive → deleted
+
+Rules:
+
+* Active plans allow new subscriptions and renewals.
+* Inactive plans allow existing subscribers to continue until expiry.
+* Inactive plans do not allow new subscriptions.
+* Inactive plans do not allow renewals.
+* Plan deletion is allowed only when subscriber_count = 0.
+* Deleted plans are permanently hidden.
 
 ---
 
@@ -259,26 +308,49 @@ Rules:
 
 States:
 
-present
-leave
+not_marked
+qr_attendance
+manual_attendance_requested
+customer_approval_pending
+customer_approved
+customer_rejected
+attendance_marked
+
+Transitions:
+
+not_marked → qr_attendance
+
+not_marked → manual_attendance_requested
+
+manual_attendance_requested → customer_approval_pending
+
+customer_approval_pending → customer_approved
+customer_approval_pending → customer_rejected
+
+customer_approved → attendance_marked
+
+qr_attendance → attendance_marked
 
 Rules:
 
-* Attendance records are immutable.
-* Owner cannot edit attendance.
-* Customer cannot edit attendance.
+* QR attendance remains the primary attendance mechanism.
+* Manual attendance requires owner initiation.
+* Manual attendance requires a reason.
+* Manual attendance requires customer approval.
+* Meal is auto-selected using current time and active plan.
+* Owner may override meal selection for correction scenarios.
+* System validates that selected meal exists in customer's active plan.
+* If meal is not included in plan, request is blocked.
+* Attendance records are immutable after marking.
 * Admin override allowed only for exceptional cases.
-* Absent is calculated and not stored.
 
-Formula:
+Manual Attendance Reasons:
 
-Absent =
-Eligible Meal
--------------
-
-## Present
-
-Leave
+* QR Failed
+* Phone Camera Issue
+* Network Issue
+* Owner Verified In Person
+* Other
 
 ---
 
