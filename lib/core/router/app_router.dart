@@ -22,6 +22,7 @@ import '../../features/owner/screens/plan_management_screen.dart';
 import '../../features/owner/screens/plan_form_screen.dart';
 import '../../features/owner/screens/attendance_dashboard_screen.dart';
 import '../../features/owner/screens/owner_notifications_screen.dart';
+import '../../features/owner/screens/analytics_screen.dart';
 
 enum AppRoute {
   splash('/'),
@@ -43,7 +44,8 @@ enum AppRoute {
   planManagement('/owner-dashboard/plans'),
   planForm('/owner-dashboard/plans/form'),
   attendanceDashboard('/owner-dashboard/attendance'),
-  ownerNotifications('/owner-dashboard/notifications');
+  ownerNotifications('/owner-dashboard/notifications'),
+  ownerAnalytics('/owner-dashboard/analytics');
 
   const AppRoute(this.path);
 
@@ -171,6 +173,11 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: AppRoute.ownerNotifications.path,
         name: AppRoute.ownerNotifications.name,
         builder: (context, state) => const OwnerNotificationsScreen(),
+      ),
+      GoRoute(
+        path: AppRoute.ownerAnalytics.path,
+        name: AppRoute.ownerAnalytics.name,
+        builder: (context, state) => const AnalyticsScreen(),
       ),
     ],
     errorBuilder: (context, state) => Scaffold(

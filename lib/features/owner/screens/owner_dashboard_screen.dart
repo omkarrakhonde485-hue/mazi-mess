@@ -899,7 +899,7 @@ class _OwnerDashboardScreenState extends ConsumerState<OwnerDashboardScreen> {
         ),
         const SizedBox(height: 12),
         OutlinedButton.icon(
-          onPressed: () => _showComingSoon('View Analytics'),
+          onPressed: () => context.push(AppRoute.ownerAnalytics.path),
           icon: const Icon(Icons.analytics_outlined, size: 16),
           label: const Text('View Analytics'),
         ),
