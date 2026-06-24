@@ -23,6 +23,8 @@ import '../../features/owner/screens/plan_form_screen.dart';
 import '../../features/owner/screens/attendance_dashboard_screen.dart';
 import '../../features/owner/screens/owner_notifications_screen.dart';
 import '../../features/owner/screens/analytics_screen.dart';
+import '../../features/admin/screens/admin_dashboard_screen.dart';
+import '../../features/admin/screens/owner_verification_screen.dart';
 
 enum AppRoute {
   splash('/'),
@@ -45,7 +47,9 @@ enum AppRoute {
   planForm('/owner-dashboard/plans/form'),
   attendanceDashboard('/owner-dashboard/attendance'),
   ownerNotifications('/owner-dashboard/notifications'),
-  ownerAnalytics('/owner-dashboard/analytics');
+  ownerAnalytics('/owner-dashboard/analytics'),
+  adminDashboard('/admin-dashboard'),
+  adminOwnerVerification('/admin-dashboard/owner-verification');
 
   const AppRoute(this.path);
 
@@ -178,6 +182,16 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: AppRoute.ownerAnalytics.path,
         name: AppRoute.ownerAnalytics.name,
         builder: (context, state) => const AnalyticsScreen(),
+      ),
+      GoRoute(
+        path: AppRoute.adminDashboard.path,
+        name: AppRoute.adminDashboard.name,
+        builder: (context, state) => const AdminDashboardScreen(),
+      ),
+      GoRoute(
+        path: AppRoute.adminOwnerVerification.path,
+        name: AppRoute.adminOwnerVerification.name,
+        builder: (context, state) => const OwnerVerificationScreen(),
       ),
     ],
     errorBuilder: (context, state) => Scaffold(
