@@ -371,6 +371,13 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
           actions: [
             TextButton(
               onPressed: () {
+                Navigator.pop(context);
+                context.push(AppRoute.adminWebhookManagement.path);
+              },
+              child: const Text('Manage Integrations'),
+            ),
+            TextButton(
+              onPressed: () {
                 setState(() {
                   _webhookFailures = 0;
                 });

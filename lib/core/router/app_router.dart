@@ -26,6 +26,7 @@ import '../../features/owner/screens/analytics_screen.dart';
 import '../../features/admin/screens/admin_dashboard_screen.dart';
 import '../../features/admin/screens/owner_verification_screen.dart';
 import '../../features/admin/screens/mess_approval_screen.dart';
+import '../../features/admin/screens/webhook_management_screen.dart';
 
 enum AppRoute {
   splash('/'),
@@ -51,7 +52,8 @@ enum AppRoute {
   ownerAnalytics('/owner-dashboard/analytics'),
   adminDashboard('/admin-dashboard'),
   adminOwnerVerification('/admin-dashboard/owner-verification'),
-  adminMessApproval('/admin-dashboard/mess-approval');
+  adminMessApproval('/admin-dashboard/mess-approval'),
+  adminWebhookManagement('/admin-dashboard/webhook-management');
 
   const AppRoute(this.path);
 
@@ -199,6 +201,11 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: AppRoute.adminMessApproval.path,
         name: AppRoute.adminMessApproval.name,
         builder: (context, state) => const MessApprovalScreen(),
+      ),
+      GoRoute(
+        path: AppRoute.adminWebhookManagement.path,
+        name: AppRoute.adminWebhookManagement.name,
+        builder: (context, state) => const WebhookManagementScreen(),
       ),
     ],
     errorBuilder: (context, state) => Scaffold(
