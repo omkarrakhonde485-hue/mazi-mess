@@ -25,6 +25,7 @@ import '../../features/owner/screens/owner_notifications_screen.dart';
 import '../../features/owner/screens/analytics_screen.dart';
 import '../../features/admin/screens/admin_dashboard_screen.dart';
 import '../../features/admin/screens/owner_verification_screen.dart';
+import '../../features/admin/screens/mess_approval_screen.dart';
 
 enum AppRoute {
   splash('/'),
@@ -49,7 +50,8 @@ enum AppRoute {
   ownerNotifications('/owner-dashboard/notifications'),
   ownerAnalytics('/owner-dashboard/analytics'),
   adminDashboard('/admin-dashboard'),
-  adminOwnerVerification('/admin-dashboard/owner-verification');
+  adminOwnerVerification('/admin-dashboard/owner-verification'),
+  adminMessApproval('/admin-dashboard/mess-approval');
 
   const AppRoute(this.path);
 
@@ -192,6 +194,11 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: AppRoute.adminOwnerVerification.path,
         name: AppRoute.adminOwnerVerification.name,
         builder: (context, state) => const OwnerVerificationScreen(),
+      ),
+      GoRoute(
+        path: AppRoute.adminMessApproval.path,
+        name: AppRoute.adminMessApproval.name,
+        builder: (context, state) => const MessApprovalScreen(),
       ),
     ],
     errorBuilder: (context, state) => Scaffold(

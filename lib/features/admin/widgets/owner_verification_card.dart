@@ -209,6 +209,7 @@ class OwnerVerificationCard extends StatelessWidget {
                     label: const Text('View Docs'),
                     style: OutlinedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                      minimumSize: const Size(0, 36),
                     ),
                   ),
                 const Spacer(),
@@ -287,6 +288,9 @@ class OwnerVerificationCard extends StatelessWidget {
           onPressed: onApprove,
           icon: const Icon(Icons.refresh, size: 16),
           label: const Text('Re-evaluate'),
+          style: OutlinedButton.styleFrom(
+            minimumSize: const Size(0, 36),
+          ),
         );
       case OwnerVerificationStatus.suspended:
         return FilledButton.icon(
