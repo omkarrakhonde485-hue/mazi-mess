@@ -29,6 +29,7 @@ import '../../features/admin/screens/mess_approval_screen.dart';
 import '../../features/admin/screens/webhook_management_screen.dart';
 import '../../features/admin/screens/payment_monitoring_screen.dart';
 import '../../features/admin/screens/business_analytics_screen.dart';
+import '../../features/admin/screens/global_settings_screen.dart';
 
 enum AppRoute {
   splash('/'),
@@ -57,7 +58,8 @@ enum AppRoute {
   adminMessApproval('/admin-dashboard/mess-approval'),
   adminWebhookManagement('/admin-dashboard/webhook-management'),
   adminPaymentMonitoring('/admin-dashboard/payment-monitoring'),
-  adminBusinessAnalytics('/admin-dashboard/business-analytics');
+  adminBusinessAnalytics('/admin-dashboard/business-analytics'),
+  adminGlobalSettings('/admin-dashboard/global-settings');
 
   const AppRoute(this.path);
 
@@ -220,6 +222,11 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: AppRoute.adminBusinessAnalytics.path,
         name: AppRoute.adminBusinessAnalytics.name,
         builder: (context, state) => const BusinessAnalyticsScreen(),
+      ),
+      GoRoute(
+        path: AppRoute.adminGlobalSettings.path,
+        name: AppRoute.adminGlobalSettings.name,
+        builder: (context, state) => const GlobalSettingsScreen(),
       ),
     ],
     errorBuilder: (context, state) => Scaffold(
