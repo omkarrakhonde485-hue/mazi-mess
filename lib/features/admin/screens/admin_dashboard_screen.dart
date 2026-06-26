@@ -333,77 +333,7 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
 
   // 5. Revenue Dashboard Callback
   void _openRevenueDashboard() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        final colorScheme = Theme.of(context).colorScheme;
-        final textTheme = Theme.of(context).textTheme;
-
-        return AlertDialog(
-          title: Row(
-            children: [
-              Icon(Icons.currency_rupee_rounded, color: Colors.green.shade800),
-              const SizedBox(width: 8),
-              const Text('Revenue Overview'),
-            ],
-          ),
-          content: SizedBox(
-            width: double.maxFinite,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text('Total Collected This Month:'),
-                    Text(
-                      '₹${_formatCurrency(_monthlyRevenue)}',
-                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 12),
-                const Text(
-                  'Revenue Breakdown',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 8),
-                _buildRevenueBar(context, title: 'Owner Subscriptions', amount: '₹1,95,000', percentage: 0.56, color: colorScheme.primary),
-                _buildRevenueBar(context, title: 'Customer Transaction Fees (1.5%)', amount: '₹1,12,200', percentage: 0.32, color: Colors.teal),
-                _buildRevenueBar(context, title: 'Setup & Domain Mapping Add-ons', amount: '₹38,000', percentage: 0.12, color: Colors.indigo),
-                const SizedBox(height: 16),
-                Container(
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: colorScheme.surfaceContainerHighest.withOpacity(0.5),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Row(
-                    children: [
-                      Icon(Icons.trending_up, color: Colors.green.shade700, size: 20),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: Text(
-                          'Platform processing volume grew +18% month-over-month. Stripe pipelines operating optimally.',
-                          style: textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w500),
-                        ),
-                      ),
-                    ],
-                  ),
-                )
-              ],
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('Close'),
-            ),
-          ],
-        );
-      },
-    );
+    context.push(AppRoute.adminBusinessAnalytics.path);
   }
 
   Widget _buildRevenueBar(
