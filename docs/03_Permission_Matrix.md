@@ -1,50 +1,34 @@
-\# 03\_Permission\_Matrix.md
+\# MAZI MESS - PERMISSION MATRIX
 
 
 
-\# MAZI MESS - PERMISSION MATRIX V1
+Version: 2.0
 
 
 
-\## Roles
+Status: Production Ready
 
 
 
-System Roles:
+This document defines every permission available within the Mazi Mess platform.
 
 
 
-\* Customer
-
-\* Owner
-
-\* Admin
+It serves as the single source of truth for:
 
 
 
-\---
+\- Backend authorization
 
+\- Firestore Security Rules
 
+\- API authorization
 
-\# USERS
+\- Admin permissions
 
+\- Owner permissions
 
-
-| Action                  | Customer | Owner                 | Admin |
-
-| ----------------------- | -------- | --------------------- | ----- |
-
-| View Own Profile        | YES      | YES                   | YES   |
-
-| Edit Own Profile        | YES      | YES                   | YES   |
-
-| Change Mobile Number    | YES      | YES                   | YES   |
-
-| View Other User Profile | NO       | Active Customers Only | YES   |
-
-| Suspend User            | NO       | NO                    | YES   |
-
-| Delete User             | NO       | NO                    | YES   |
+\- Customer permissions
 
 
 
@@ -52,27 +36,23 @@ System Roles:
 
 
 
-\# MESS
+\# PERMISSION LEGEND
 
 
 
-| Action          | Customer | Owner         | Admin |
+| Symbol | Meaning |
 
-| --------------- | -------- | ------------- | ----- |
+|---------|---------|
 
-| View Mess       | YES      | YES           | YES   |
+| ✅ | Allowed |
 
-| Create Mess     | NO       | YES           | YES   |
+| ❌ | Not Allowed |
 
-| Edit Own Mess   | NO       | YES           | YES   |
+| 🔒 | Allowed only on own resources |
 
-| Edit Other Mess | NO       | NO            | YES   |
+| ⚠️ | Allowed only when business rules are satisfied |
 
-| Delist Mess     | NO       | YES (Request) | YES   |
-
-| Delete Mess     | NO       | NO            | YES   |
-
-| Approve Mess    | NO       | NO            | YES   |
+| 🤖 | System Only |
 
 
 
@@ -80,21 +60,211 @@ System Roles:
 
 
 
-\# PLANS
+\# SYSTEM ROLES
 
 
 
-| Action      | Customer | Owner | Admin |
+The platform defines four execution roles.
 
-| ----------- | -------- | ----- | ----- |
 
-| View Plans  | YES      | YES   | YES   |
 
-| Create Plan | NO       | YES   | YES   |
+\## Customer
 
-| Edit Plan   | NO       | YES   | YES   |
 
-| Delete Plan | NO       | YES   | YES   |
+
+End user purchasing subscriptions.
+
+
+
+\---
+
+
+
+\## Owner
+
+
+
+Mess owner managing one or more messes.
+
+
+
+\---
+
+
+
+\## Admin
+
+
+
+Platform administrator with unrestricted operational access.
+
+
+
+\---
+
+
+
+\## System
+
+
+
+Backend automation.
+
+
+
+Examples:
+
+
+
+\- Firebase Authentication
+
+\- Firestore Security Rules
+
+\- Payment Verification
+
+\- Make Automation
+
+\- Scheduled Jobs
+
+\- Notification Delivery
+
+
+
+System permissions are never exposed through the client application.
+
+
+
+\---
+
+
+
+\# USER MANAGEMENT
+
+
+
+| Action | Customer | Owner | Admin | System |
+
+|---------|:--------:|:------:|:------:|:------:|
+
+| Register Account | ✅ | ✅ | ✅ | ❌ |
+
+| Login | ✅ | ✅ | ✅ | ❌ |
+
+| Logout | ✅ | ✅ | ✅ | ❌ |
+
+| View Own Profile | 🔒 | 🔒 | 🔒 | ❌ |
+
+| Edit Own Profile | 🔒 | 🔒 | 🔒 | ❌ |
+
+| Change Mobile Number | 🔒 | 🔒 | 🔒 | ❌ |
+
+| Change Profile Photo | 🔒 | 🔒 | 🔒 | ❌ |
+
+| View Other User Profile | ❌ | ⚠️ Active Customers Only | ✅ | ❌ |
+
+| Suspend User | ❌ | ❌ | ✅ | ❌ |
+
+| Reactivate User | ❌ | ❌ | ✅ | ❌ |
+
+| Delete User | ❌ | ❌ | ✅ (Soft Delete) | 🤖 |
+
+
+
+\---
+
+
+
+\# AUTHENTICATION
+
+
+
+| Action | Customer | Owner | Admin | System |
+
+|---------|:--------:|:------:|:------:|:------:|
+
+| Sign Up | ✅ | ✅ | ✅ | ❌ |
+
+| Login | ✅ | ✅ | ✅ | ❌ |
+
+| Logout | ✅ | ✅ | ✅ | ❌ |
+
+| Forgot Password | ✅ | ✅ | ✅ | ❌ |
+
+| Reset Password | ✅ | ✅ | ✅ | 🤖 |
+
+| Verify Mobile Number | ❌ | ❌ | ❌ | 🤖 |
+
+| Verify Email | ❌ | ❌ | ❌ | 🤖 |
+
+| Create Authentication Record | ❌ | ❌ | ❌ | 🤖 |
+
+| Delete Authentication Record | ❌ | ❌ | ✅ | 🤖 |
+
+
+
+\---
+
+
+
+\# MESS MANAGEMENT
+
+
+
+| Action | Customer | Owner | Admin | System |
+
+|---------|:--------:|:------:|:------:|:------:|
+
+| View Mess | ✅ | ✅ | ✅ | ❌ |
+
+| Search Mess | ✅ | ✅ | ✅ | ❌ |
+
+| View Featured Messes | ✅ | ✅ | ✅ | ❌ |
+
+| Create Mess | ❌ | ✅ | ✅ | ❌ |
+
+| Edit Own Mess | ❌ | 🔒 | ✅ | ❌ |
+
+| Edit Other Mess | ❌ | ❌ | ✅ | ❌ |
+
+| Submit Mess For Approval | ❌ | 🔒 | ✅ | ❌ |
+
+| Approve Mess | ❌ | ❌ | ✅ | ❌ |
+
+| Reject Mess | ❌ | ❌ | ✅ | ❌ |
+
+| Suspend Mess | ❌ | ❌ | ✅ | ❌ |
+
+| Reactivate Mess | ❌ | ❌ | ✅ | ❌ |
+
+| Delete Mess | ❌ | ❌ | ✅ (Soft Delete) | 🤖 |
+
+
+
+\---
+
+
+
+\# PLAN MANAGEMENT
+
+
+
+| Action | Customer | Owner | Admin | System |
+
+|---------|:--------:|:------:|:------:|:------:|
+
+| View Plans | ✅ | ✅ | ✅ | ❌ |
+
+| Create Plan | ❌ | 🔒 | ✅ | ❌ |
+
+| Edit Plan | ❌ | 🔒 | ✅ | ❌ |
+
+| Activate Plan | ❌ | 🔒 | ✅ | ❌ |
+
+| Deactivate Plan | ❌ | 🔒 | ✅ | ❌ |
+
+| Delete Plan | ❌ | ⚠️ No Active Subscribers | ✅ | ❌ |
+
+| View Subscriber Count | ❌ | 🔒 | ✅ | ❌ |
 
 
 
@@ -106,21 +276,23 @@ System Roles:
 
 
 
-| Action             | Customer | Owner | Admin |
+| Action | Customer | Owner | Admin | System |
 
-| ------------------ | -------- | ----- | ----- |
+|---------|:--------:|:------:|:------:|:------:|
 
-| Create Request     | YES      | NO    | YES   |
+| Create Join Request | ✅ | ❌ | ✅ | ❌ |
 
-| Cancel Request     | YES      | NO    | YES   |
+| Cancel Join Request | ⚠️ Pending Only | ❌ | ✅ | ❌ |
 
-| Approve Request    | NO       | YES   | YES   |
+| View Own Requests | 🔒 | ❌ | ✅ | ❌ |
 
-| Reject Request     | NO       | YES   | YES   |
+| View Mess Requests | ❌ | 🔒 | ✅ | ❌ |
 
-| View Own Requests  | YES      | NO    | YES   |
+| Approve Join Request | ❌ | 🔒 | ✅ | ❌ |
 
-| View Mess Requests | NO       | YES   | YES   |
+| Reject Join Request | ❌ | 🔒 | ✅ | ❌ |
+
+| Expire Old Requests | ❌ | ❌ | ❌ | 🤖 |
 
 
 
@@ -132,23 +304,27 @@ System Roles:
 
 
 
-| Action                  | Customer | Owner | Admin |
+| Action | Customer | Owner | Admin | System |
 
-| ----------------------- | -------- | ----- | ----- |
+|---------|:--------:|:------:|:------:|:------:|
 
-| View Own Subscription   | YES      | NO    | YES   |
+| View Own Subscription | 🔒 | ❌ | ✅ | ❌ |
 
-| View Mess Subscriptions | NO       | YES   | YES   |
+| View Mess Subscriptions | ❌ | 🔒 | ✅ | ❌ |
 
-| Renew Subscription      | YES      | NO    | YES   |
+| Purchase Subscription | ✅ | ❌ | ❌ | ❌ |
 
-| Extend Subscription     | NO       | YES   | YES   |
+| Renew Subscription | ✅ | ❌ | ✅ | ❌ |
 
-| Suspend Subscription    | NO       | NO    | YES   |
+| Extend Subscription | ❌ | 🔒 | ✅ | ❌ |
 
-| Activate Subscription   | NO       | NO    | YES   |
+| Suspend Subscription | ❌ | ❌ | ✅ | ❌ |
 
-| Cancel Subscription     | NO       | NO    | YES   |
+| Cancel Subscription | ❌ | ❌ | ✅ | ❌ |
+
+| Activate Subscription | ❌ | ❌ | ❌ | 🤖 |
+
+| Expire Subscription | ❌ | ❌ | ❌ | 🤖 |
 
 
 
@@ -160,31 +336,49 @@ System Roles:
 
 
 
-| Action             | Customer | Owner | Admin |
+| Action | Customer | Owner | Admin | System |
 
-| ------------------ | -------- | ----- | ----- |
+|---------|:--------:|:------:|:------:|:------:|
 
-| View Own Payments  | YES      | NO    | YES   |
+| View Own Payments | 🔒 | ❌ | ✅ | ❌ |
 
-| View Mess Payments | NO       | YES   | YES   |
+| View Mess Payments | ❌ | 🔒 | ✅ | ❌ |
 
-| Verify Payment     | NO       | NO    | YES   |
+| Initiate Payment | ✅ | ❌ | ❌ | ❌ |
 
-| Modify Payment     | NO       | NO    | YES   |
+| Verify Payment | ❌ | ❌ | ✅ | 🤖 |
 
-| View All Payments  | NO       | YES   | YES   |
+| Retry Verification | ❌ | ❌ | ✅ | 🤖 |
+
+| Manual Override | ❌ | ❌ | ✅ | ❌ |
+
+| Mark Payment Failed | ❌ | ❌ | ✅ | ❌ |
+
+| Activate Subscription After Verification | ❌ | ❌ | ❌ | 🤖 |
+
+| View Payment Audit Trail | ❌ | ❌ | ✅ | ❌ |
+
+---
 
 
 
-Notes:
+\# ATTENDANCE MANAGEMENT
 
 
 
-Owners may view payment records related to their own messes only.
+Attendance is immutable.
 
 
 
-Admins may view all payment records.
+Historical attendance cannot be edited by Owners.
+
+
+
+Manual attendance always requires customer approval.
+
+
+
+Attendance is recorded per subscription.
 
 
 
@@ -192,41 +386,79 @@ Admins may view all payment records.
 
 
 
-\# ATTENDANCE
+\## Attendance Permissions
 
 
 
-| Action               | Customer | Owner | Admin |
+| Action | Customer | Owner | Admin | System |
 
-| -------------------- | -------- | ----- | ----- |
+|---------|:--------:|:------:|:------:|:------:|
 
-| Generate QR          | YES      | NO    | YES   |
+| Generate QR | ⚠️ Active Subscription | ❌ | ✅ | ❌ |
 
-| Scan QR              | NO       | YES   | YES   |
+| Scan QR | ❌ | 🔒 | ✅ | ❌ |
 
-| View Own Attendance  | YES      | NO    | YES   |
+| View Own Attendance | 🔒 | ❌ | ✅ | ❌ |
 
-| View Mess Attendance | NO       | YES   | YES   |
+| View Mess Attendance | ❌ | 🔒 | ✅ | ❌ |
 
-| Edit Attendance      | NO       | NO    | YES   |
+| Request Manual Attendance | ❌ | 🔒 | ✅ | ❌ |
 
-| Delete Attendance    | NO       | NO    | YES   |
+| Receive Attendance Approval Request | 🔒 | ❌ | ❌ | 🤖 |
 
+| Approve Manual Attendance | 🔒 | ❌ | ✅ | ❌ |
 
+| Reject Manual Attendance | 🔒 | ❌ | ✅ | ❌ |
 
-Notes:
+| Record Attendance | ❌ | ❌ | ❌ | 🤖 |
 
+| Override Attendance | ❌ | ❌ | ✅ | ❌ |
 
-
-Attendance cannot be edited by customers.
-
-
-
-Attendance cannot be edited by owners.
+| Delete Attendance Record | ❌ | ❌ | ❌ | ❌ |
 
 
 
-Admin override allowed only for exceptional situations.
+\---
+
+
+
+\## Manual Attendance Business Rules
+
+
+
+The Owner may initiate a manual attendance request only when:
+
+
+
+\- QR attendance cannot be completed.
+
+\- Customer has an active subscription.
+
+\- Customer is eligible for the current meal.
+
+\- Customer has not already been marked present.
+
+\- Current meal window is still open.
+
+
+
+The system automatically determines:
+
+
+
+\- Current meal
+
+\- Eligible subscription
+
+\- Attendance window
+
+
+
+The Owner may manually change the detected meal only when necessary.
+
+
+
+Attendance is recorded only after customer approval.
 
 
 
@@ -238,19 +470,73 @@ Admin override allowed only for exceptional situations.
 
 
 
-| Action              | Customer          | Owner | Admin |
+Leave records belong to individual subscriptions.
 
-| ------------------- | ----------------- | ----- | ----- |
 
-| Create Leave        | YES               | NO    | YES   |
 
-| Edit Leave          | YES (Before Lock) | NO    | YES   |
+Leave affects only the selected subscription and meal.
 
-| Cancel Leave        | YES (Before Lock) | NO    | YES   |
 
-| View Own Leave      | YES               | NO    | YES   |
 
-| View Customer Leave | NO                | YES   | YES   |
+\---
+
+
+
+\## Leave Permissions
+
+
+
+| Action | Customer | Owner | Admin | System |
+
+|---------|:--------:|:------:|:------:|:------:|
+
+| Create Leave | ⚠️ Before Lock Time | ❌ | ✅ | ❌ |
+
+| Edit Leave | ⚠️ Before Lock Time | ❌ | ✅ | ❌ |
+
+| Cancel Leave | ⚠️ Before Lock Time | ❌ | ✅ | ❌ |
+
+| View Own Leave | 🔒 | ❌ | ✅ | ❌ |
+
+| View Customer Leave | ❌ | 🔒 | ✅ | ❌ |
+
+| Lock Leave | ❌ | ❌ | ❌ | 🤖 |
+
+
+
+\---
+
+
+
+\## Leave Business Rules
+
+
+
+Customers may:
+
+
+
+\- Submit leave.
+
+\- Edit leave.
+
+\- Cancel leave.
+
+
+
+Only until the configured lock period.
+
+
+
+Once locked:
+
+
+
+\- Customer cannot modify leave.
+
+\- Owner cannot modify leave.
+
+\- Only Admin may override.
 
 
 
@@ -262,23 +548,11 @@ Admin override allowed only for exceptional situations.
 
 
 
-| Action          | Customer        | Owner           | Admin |
+Reviews are publicly visible.
 
-| --------------- | --------------- | --------------- | ----- |
 
-| Create Review   | YES             | NO              | YES   |
 
-| Edit Review     | YES (2 Minutes) | NO              | YES   |
-
-| Delete Review   | YES (2 Minutes) | NO              | YES   |
-
-| Reply To Review | NO              | YES             | YES   |
-
-| Edit Reply      | NO              | YES (2 Minutes) | YES   |
-
-| Report Review   | YES             | YES             | YES   |
-
-| Remove Review   | NO              | NO              | YES   |
+Each customer may submit only one review per mess.
 
 
 
@@ -286,35 +560,103 @@ Admin override allowed only for exceptional situations.
 
 
 
-\# FEEDBACK
+\## Review Permissions
 
 
 
-| Action            | Customer | Owner | Admin |
+| Action | Customer | Owner | Admin | System |
 
-| ----------------- | -------- | ----- | ----- |
+|---------|:--------:|:------:|:------:|:------:|
 
-| Create Feedback   | YES      | NO    | YES   |
+| Create Review | ⚠️ Eligible Customer | ❌ | ✅ | ❌ |
 
-| View Feedback     | NO       | YES   | YES   |
+| Edit Review | ⚠️ Within Edit Window | ❌ | ✅ | ❌ |
 
-| Reply To Feedback | NO       | YES   | YES   |
+| Delete Review | ⚠️ Within Edit Window | ❌ | ✅ | ❌ |
 
-| Report Feedback   | NO       | YES   | YES   |
+| View Reviews | ✅ | ✅ | ✅ | ❌ |
 
-| Remove Feedback   | NO       | NO    | YES   |
+| Reply To Review | ❌ | 🔒 | ✅ | ❌ |
 
+| Edit Reply | ❌ | ⚠️ Within Edit Window | ✅ | ❌ |
 
+| Remove Review | ❌ | ❌ | ✅ | ❌ |
 
-Notes:
-
-
-
-Feedback is private.
+| Report Review | ✅ | ✅ | ✅ | ❌ |
 
 
 
-Customers cannot view feedback submitted by others.
+\---
+
+
+
+\## Review Eligibility
+
+
+
+Customers must satisfy platform rules.
+
+
+
+Example:
+
+
+
+\- Minimum subscription duration.
+
+\- Minimum attendance requirement.
+
+
+
+These values are configurable through Global Settings.
+
+
+
+\---
+
+
+
+\# PRIVATE FEEDBACK
+
+
+
+Private feedback is visible only to:
+
+
+
+\- Customer
+
+\- Mess Owner
+
+\- Admin
+
+
+
+It never appears publicly.
+
+
+
+\---
+
+
+
+\## Feedback Permissions
+
+
+
+| Action | Customer | Owner | Admin | System |
+
+|---------|:--------:|:------:|:------:|:------:|
+
+| Submit Feedback | ✅ | ❌ | ✅ | ❌ |
+
+| View Own Feedback | 🔒 | ❌ | ✅ | ❌ |
+
+| View Mess Feedback | ❌ | 🔒 | ✅ | ❌ |
+
+| Reply To Feedback | ❌ | 🔒 | ✅ | ❌ |
+
+| Remove Feedback | ❌ | ❌ | ✅ | ❌ |
 
 
 
@@ -326,17 +668,31 @@ Customers cannot view feedback submitted by others.
 
 
 
-| Action        | Customer              | Owner | Admin |
+Only Owners may publish notices for their own messes.
 
-| ------------- | --------------------- | ----- | ----- |
 
-| View Notice   | Active Customers Only | YES   | YES   |
 
-| Create Notice | NO                    | YES   | YES   |
+\---
 
-| Edit Notice   | NO                    | YES   | YES   |
 
-| Delete Notice | NO                    | YES   | YES   |
+
+\## Notice Permissions
+
+
+
+| Action | Customer | Owner | Admin | System |
+
+|---------|:--------:|:------:|:------:|:------:|
+
+| View Notice | ⚠️ Active Customer | 🔒 | ✅ | ❌ |
+
+| Create Notice | ❌ | 🔒 | ✅ | ❌ |
+
+| Edit Notice | ❌ | 🔒 | ✅ | ❌ |
+
+| Delete Notice | ❌ | 🔒 | ✅ | ❌ |
+
+| Deliver Notice | ❌ | ❌ | ❌ | 🤖 |
 
 
 
@@ -348,15 +704,7 @@ Customers cannot view feedback submitted by others.
 
 
 
-| Action                 | Customer | Owner | Admin |
-
-| ---------------------- | -------- | ----- | ----- |
-
-| View Own Notifications | YES      | YES   | YES   |
-
-| Mark Read              | YES      | YES   | YES   |
-
-| Delete Notification    | NO       | NO    | YES   |
+Notifications are automatically generated by the platform.
 
 
 
@@ -364,31 +712,23 @@ Customers cannot view feedback submitted by others.
 
 
 
-\# BLACKLIST
+\## Notification Permissions
 
 
 
-| Action                | Customer | Owner    | Admin |
+| Action | Customer | Owner | Admin | System |
 
-| --------------------- | -------- | -------- | ----- |
+|---------|:--------:|:------:|:------:|:------:|
 
-| View Blacklist        | NO       | Own Only | YES   |
+| View Own Notifications | 🔒 | 🔒 | 🔒 | ❌ |
 
-| Add To Blacklist      | NO       | YES      | YES   |
+| Mark Notification Read | 🔒 | 🔒 | 🔒 | ❌ |
 
-| Remove From Blacklist | NO       | YES      | YES   |
+| Delete Notification | ❌ | ❌ | ✅ | ❌ |
 
+| Generate Notification | ❌ | ❌ | ❌ | 🤖 |
 
-
-Notes:
-
-
-
-Blacklists apply to all messes owned by that owner.
-
-
-
-Blacklisted customers should not see blocked messes.
+| Broadcast Notification | ❌ | ❌ | ✅ | 🤖 |
 
 
 
@@ -396,21 +736,87 @@ Blacklisted customers should not see blocked messes.
 
 
 
-\# OWNER NOTES
+\## Notification Types
 
 
 
-| Action       | Customer | Owner    | Admin |
+Customer Notifications
 
-| ------------ | -------- | -------- | ----- |
 
-| View Notes   | NO       | Own Only | YES   |
 
-| Create Notes | NO       | YES      | YES   |
+\- Join Request Approved
 
-| Edit Notes   | NO       | YES      | YES   |
+\- Join Request Rejected
 
-| Delete Notes | NO       | YES      | YES   |
+\- Payment Verified
+
+\- Payment Failed
+
+\- Subscription Activated
+
+\- Subscription Expired
+
+\- Attendance Approval Request
+
+\- Attendance Approved
+
+\- Attendance Rejected
+
+\- New Notice
+
+
+
+Owner Notifications
+
+
+
+\- Join Request Received
+
+\- Payment Verification Completed
+
+\- Payment Verification Failed
+
+\- Attendance Approval Response
+
+\- Customer Leave Submitted
+
+\- New Review
+
+\- New Feedback
+
+\- Owner Subscription Expiry
+
+
+
+Admin Notifications
+
+
+
+\- New Owner Registration
+
+\- New Mess Registration
+
+\- Webhook Failure
+
+\- Payment Verification Failure
+
+\- Platform Alerts
+
+\- Maintenance Alerts
+
+---
+
+
+
+\# BLACKLIST MANAGEMENT
+
+
+
+Blacklist allows Owners to prevent problematic customers from rejoining any mess they own.
+
+
+
+Blacklist records are shared across all messes owned by the same Owner.
 
 
 
@@ -418,21 +824,413 @@ Blacklisted customers should not see blocked messes.
 
 
 
-\# CUSTOMER REPUTATION
+\## Blacklist Permissions
 
 
 
-| Action            | Customer | Owner | Admin |
+| Action | Customer | Owner | Admin | System |
 
-| ----------------- | -------- | ----- | ----- |
+|---------|:--------:|:------:|:------:|:------:|
 
-| View Reputation   | NO       | NO    | YES   |
+| View Blacklist | ❌ | 🔒 | ✅ | ❌ |
 
-| Modify Reputation | NO       | NO    | YES   |
+| Add Customer To Blacklist | ❌ | 🔒 | ✅ | ❌ |
+
+| Remove Customer From Blacklist | ❌ | 🔒 | ✅ | ❌ |
+
+| Check Blacklist During Join Request | ❌ | ❌ | ❌ | 🤖 |
 
 
 
 \---
+
+
+
+\## Blacklist Rules
+
+
+
+Owners may only manage blacklists for customers associated with their own messes.
+
+
+
+A blacklisted customer:
+
+
+
+\- Cannot submit new join requests to any mess owned by that Owner.
+
+\- May continue existing subscriptions until expiry unless manually suspended by Admin.
+
+\- Can be removed from the blacklist by the Owner or Admin.
+
+
+
+\---
+
+
+
+\# OWNER PRIVATE NOTES
+
+
+
+Private Notes help Owners maintain internal records.
+
+
+
+Notes are never visible to customers.
+
+
+
+\---
+
+
+
+\## Owner Notes Permissions
+
+
+
+| Action | Customer | Owner | Admin | System |
+
+|---------|:--------:|:------:|:------:|:------:|
+
+| View Notes | ❌ | 🔒 | ✅ | ❌ |
+
+| Create Notes | ❌ | 🔒 | ✅ | ❌ |
+
+| Edit Notes | ❌ | 🔒 | ✅ | ❌ |
+
+| Delete Notes | ❌ | 🔒 | ✅ | ❌ |
+
+
+
+\---
+
+
+
+\# WEBHOOK MANAGEMENT
+
+
+
+Webhook Management controls the payment verification infrastructure.
+
+
+
+This module is Admin-only.
+
+
+
+Owners never access this information.
+
+
+
+\---
+
+
+
+\## Webhook Management Permissions
+
+
+
+| Action | Customer | Owner | Admin | System |
+
+|---------|:--------:|:------:|:------:|:------:|
+
+| View Webhook Configuration | ❌ | ❌ | ✅ | ❌ |
+
+| Configure Webhook URL | ❌ | ❌ | ✅ | ❌ |
+
+| Configure Verification Gmail | ❌ | ❌ | ✅ | ❌ |
+
+| Configure Make Account Email | ❌ | ❌ | ✅ | ❌ |
+
+| Configure Make Account Password | ❌ | ❌ | ✅ | ❌ |
+
+| Activate Integration | ❌ | ❌ | ✅ | ❌ |
+
+| Disable Integration | ❌ | ❌ | ✅ | ❌ |
+
+| Execute Webhook | ❌ | ❌ | ❌ | 🤖 |
+
+| Receive Webhook Payload | ❌ | ❌ | ❌ | 🤖 |
+
+
+
+\---
+
+
+
+\## Webhook Rules
+
+
+
+Each approved mess has:
+
+
+
+\- One dedicated Gmail account
+
+\- One dedicated Make account
+
+\- One dedicated Make Scenario
+
+\- One dedicated Webhook URL
+
+
+
+These credentials are confidential and accessible only to Administrators.
+
+
+
+\---
+
+
+
+\# PAYMENT MONITORING
+
+
+
+Payment Monitoring allows Admins to supervise automated payment verification.
+
+
+
+\---
+
+
+
+\## Payment Monitoring Permissions
+
+
+
+| Action | Customer | Owner | Admin | System |
+
+|---------|:--------:|:------:|:------:|:------:|
+
+| View Monitoring Dashboard | ❌ | ❌ | ✅ | ❌ |
+
+| View Failed Payments | ❌ | ❌ | ✅ | ❌ |
+
+| Retry Verification | ❌ | ❌ | ✅ | 🤖 |
+
+| Manual Payment Override | ❌ | ❌ | ✅ | ❌ |
+
+| Mark Payment Verified | ❌ | ❌ | ✅ | ❌ |
+
+| Mark Payment Failed | ❌ | ❌ | ✅ | ❌ |
+
+| View Verification Audit | ❌ | ❌ | ✅ | ❌ |
+
+
+
+\---
+
+
+
+\## Payment Monitoring Rules
+
+
+
+Automatic verification remains the default.
+
+
+
+Manual override should only be used when:
+
+
+
+\- Customer submits valid payment proof.
+
+\- Automatic verification fails.
+
+\- Administrator completes manual verification.
+
+
+
+Every override generates an audit log.
+
+
+
+\---
+
+
+
+\# BUSINESS ANALYTICS
+
+
+
+Business Analytics displays platform revenue information.
+
+
+
+This module belongs exclusively to Administrators.
+
+
+
+\---
+
+
+
+\## Business Analytics Permissions
+
+
+
+| Action | Customer | Owner | Admin | System |
+
+|---------|:--------:|:------:|:------:|:------:|
+
+| View Business Analytics | ❌ | ❌ | ✅ | ❌ |
+
+| View Revenue Metrics | ❌ | ❌ | ✅ | ❌ |
+
+| View MRR | ❌ | ❌ | ✅ | ❌ |
+
+| View ARR | ❌ | ❌ | ✅ | ❌ |
+
+| View ARPO | ❌ | ❌ | ✅ | ❌ |
+
+| View Revenue Trend | ❌ | ❌ | ✅ | ❌ |
+
+| View Owner Subscription List | ❌ | ❌ | ✅ | ❌ |
+
+
+
+\---
+
+
+
+\# OWNER SUBSCRIPTIONS
+
+
+
+Owner subscriptions control access to the Mazi Mess platform.
+
+
+
+They are separate from customer subscriptions.
+
+
+
+\---
+
+
+
+\## Owner Subscription Permissions
+
+
+
+| Action | Customer | Owner | Admin | System |
+
+|---------|:--------:|:------:|:------:|:------:|
+
+| View Own Subscription | ❌ | 🔒 | ✅ | ❌ |
+
+| Renew Subscription | ❌ | 🔒 | ✅ | ❌ |
+
+| View Payment History | ❌ | 🔒 | ✅ | ❌ |
+
+| Mark Subscription Renewed | ❌ | ❌ | ✅ | ❌ |
+
+| Activate Subscription | ❌ | ❌ | ❌ | 🤖 |
+
+| Expire Subscription | ❌ | ❌ | ❌ | 🤖 |
+
+
+
+\---
+
+
+
+\## Owner Subscription Rules
+
+
+
+Platform access depends on Owner subscription status.
+
+
+
+Possible statuses:
+
+
+
+\- Active
+
+\- Expiring Soon
+
+\- Expired
+
+
+
+Grace Period behavior is controlled through Global Settings.
+
+
+
+\---
+
+
+
+\# GLOBAL SETTINGS
+
+
+
+Global Settings affect the entire platform.
+
+
+
+This module is Admin-only.
+
+
+
+\---
+
+
+
+\## Global Settings Permissions
+
+
+
+| Action | Customer | Owner | Admin | System |
+
+|---------|:--------:|:------:|:------:|:------:|
+
+| View Global Settings | ❌ | ❌ | ✅ | ❌ |
+
+| Edit Platform Settings | ❌ | ❌ | ✅ | ❌ |
+
+| Edit Registration Controls | ❌ | ❌ | ✅ | ❌ |
+
+| Edit Subscription Settings | ❌ | ❌ | ✅ | ❌ |
+
+| Edit Customer Rules | ❌ | ❌ | ✅ | ❌ |
+
+| Edit Payment Verification Rules | ❌ | ❌ | ✅ | ❌ |
+
+| Edit Notification Settings | ❌ | ❌ | ✅ | ❌ |
+
+| Edit Security Settings | ❌ | ❌ | ✅ | ❌ |
+
+| Toggle Maintenance Mode | ❌ | ❌ | ✅ | ❌ |
+
+
+
+\---
+
+
+
+\## Global Settings Rules
+
+
+
+Changes made in this module affect the entire platform.
+
+
+
+Every change must create an audit log entry.
+
+
+
+No Owner or Customer can view or modify these settings.
+
+---
 
 
 
@@ -440,17 +1238,11 @@ Blacklisted customers should not see blocked messes.
 
 
 
-| Action      | Customer    | Owner       | Admin       |
+Audit Logs provide a permanent record of critical platform actions.
 
-| ----------- | ----------- | ----------- | ----------- |
 
-| View Logs   | NO          | NO          | YES         |
 
-| Create Logs | System Only | System Only | System Only |
-
-| Edit Logs   | NO          | NO          | NO          |
-
-| Delete Logs | NO          | NO          | NO          |
+Audit logs cannot be modified after creation.
 
 
 
@@ -458,19 +1250,23 @@ Blacklisted customers should not see blocked messes.
 
 
 
-\# SETTINGS
+\## Audit Log Permissions
 
 
 
-| Action               | Customer | Owner | Admin |
+| Action | Customer | Owner | Admin | System |
 
-| -------------------- | -------- | ----- | ----- |
+|---------|:--------:|:------:|:------:|:------:|
 
-| View Settings        | YES      | YES   | YES   |
+| View Audit Logs | ❌ | ❌ | ✅ | ❌ |
 
-| Edit Own Settings    | YES      | YES   | YES   |
+| Generate Audit Log | ❌ | ❌ | ❌ | 🤖 |
 
-| Edit Global Settings | NO       | NO    | YES   |
+| Export Audit Logs | ❌ | ❌ | ✅ | ❌ |
+
+| Delete Audit Logs | ❌ | ❌ | ❌ | ❌ |
+
+| Modify Audit Logs | ❌ | ❌ | ❌ | ❌ |
 
 
 
@@ -478,27 +1274,537 @@ Blacklisted customers should not see blocked messes.
 
 
 
-\# SECURITY PRINCIPLES
+\## Audit Log Triggers
 
 
 
-1\. Client applications never activate subscriptions.
-
-2\. Client applications never verify payments.
-
-3\. Client applications never modify audit logs.
-
-4\. Owners cannot modify attendance records.
-
-5\. Customers cannot access other customers' data.
-
-6\. Payments are validated server-side only.
-
-7\. Sensitive operations must generate audit logs.
-
-8\. Soft delete only.
-
-9\. All role validation must be enforced by backend security rules.
+The following actions must automatically generate audit entries:
 
 
+
+\### User Management
+
+
+
+\- Owner Approval
+
+\- Owner Rejection
+
+\- Owner Suspension
+
+\- Owner Reactivation
+
+
+
+\### Mess Management
+
+
+
+\- Mess Approval
+
+\- Mess Rejection
+
+\- Mess Suspension
+
+\- Mess Reactivation
+
+
+
+\### Payments
+
+
+
+\- Manual Payment Override
+
+\- Payment Retry
+
+\- Payment Marked Failed
+
+\- Payment Marked Verified
+
+
+
+\### Attendance
+
+
+
+\- Attendance Override
+
+
+
+\### Platform
+
+
+
+\- Global Settings Change
+
+\- Maintenance Mode Toggle
+
+\- Registration Control Change
+
+
+
+\### Infrastructure
+
+
+
+\- Webhook URL Change
+
+\- Gmail Configuration Change
+
+\- Make Account Configuration Change
+
+
+
+\---
+
+
+
+\# REGISTRATION CONTROL
+
+
+
+Registration Control is managed globally by Administrators.
+
+
+
+\---
+
+
+
+\## Registration Permissions
+
+
+
+| Action | Customer | Owner | Admin | System |
+
+|---------|:--------:|:------:|:------:|:------:|
+
+| Register New Customer | ⚠️ Registration Enabled | ❌ | ✅ | ❌ |
+
+| Register New Owner | ❌ | ⚠️ Registration Enabled | ✅ | ❌ |
+
+| Enable Customer Registration | ❌ | ❌ | ✅ | ❌ |
+
+| Disable Customer Registration | ❌ | ❌ | ✅ | ❌ |
+
+| Enable Owner Registration | ❌ | ❌ | ✅ | ❌ |
+
+| Disable Owner Registration | ❌ | ❌ | ✅ | ❌ |
+
+
+
+\---
+
+
+
+\## Registration Rules
+
+
+
+Disabling registration affects only new users.
+
+
+
+Existing Customers continue using the platform.
+
+
+
+Existing Owners continue using the platform.
+
+
+
+\---
+
+
+
+\# MAINTENANCE MODE
+
+
+
+Maintenance Mode is controlled globally.
+
+
+
+\---
+
+
+
+\## Maintenance Permissions
+
+
+
+| Action | Customer | Owner | Admin | System |
+
+|---------|:--------:|:------:|:------:|:------:|
+
+| Access Platform During Maintenance | ❌ | ✅ | ✅ | 🤖 |
+
+| Toggle Maintenance Mode | ❌ | ❌ | ✅ | ❌ |
+
+| Display Maintenance Screen | ❌ | ❌ | ❌ | 🤖 |
+
+
+
+\---
+
+
+
+\## Maintenance Rules
+
+
+
+When Maintenance Mode is enabled:
+
+
+
+Customer
+
+
+
+\- Login blocked
+
+\- Registration blocked
+
+\- Browse blocked
+
+\- Payments blocked
+
+\- Attendance blocked
+
+
+
+Owner
+
+
+
+\- Full operational access
+
+
+
+Admin
+
+
+
+\- Full platform access
+
+
+
+System
+
+
+
+\- Continues running background jobs
+
+\- Continues payment verification
+
+\- Continues notifications
+
+\- Continues scheduled tasks
+
+
+
+\---
+
+
+
+\# FIREBASE SECURITY RESPONSIBILITIES
+
+
+
+The backend is responsible for enforcing all permissions.
+
+
+
+The client application must never be trusted.
+
+
+
+The backend validates:
+
+
+
+\- User Role
+
+\- Resource Ownership
+
+\- Subscription Status
+
+\- Mess Ownership
+
+\- Attendance Eligibility
+
+\- Leave Rules
+
+\- Review Eligibility
+
+\- Payment Status
+
+\- Platform Settings
+
+
+
+Firestore Security Rules must reject unauthorized operations.
+
+
+
+\---
+
+
+
+\# SYSTEM RESPONSIBILITIES
+
+
+
+Only backend services may perform these operations.
+
+
+
+| Operation | System |
+
+|-----------|:------:|
+
+| Activate Customer Subscription | 🤖 |
+
+| Expire Customer Subscription | 🤖 |
+
+| Verify Payment | 🤖 |
+
+| Execute Payment Retry | 🤖 |
+
+| Deliver Notifications | 🤖 |
+
+| Lock Leave Requests | 🤖 |
+
+| Generate Audit Logs | 🤖 |
+
+| Send Scheduled Notifications | 🤖 |
+
+| Execute Webhooks | 🤖 |
+
+| Process Make Automation Payload | 🤖 |
+
+| Generate Payment Status Updates | 🤖 |
+
+
+
+These operations must never be executable directly from the client application.
+
+
+
+\---
+
+
+
+\# PERMISSION INHERITANCE
+
+
+
+Permissions follow the hierarchy below.
+
+
+
+Customer
+
+
+
+↓
+
+
+
+Owner
+
+
+
+↓
+
+
+
+Admin
+
+
+
+↓
+
+
+
+System
+
+
+
+Higher roles inherit operational visibility where appropriate, but business rules and resource ownership still apply.
+
+
+
+Example:
+
+
+
+Owner may edit only their own mess.
+
+
+
+Admin may edit any mess.
+
+
+
+System may update internal platform records automatically.
+
+
+
+\---
+
+
+
+\# BACKEND ENFORCEMENT PRINCIPLES
+
+
+
+The backend must enforce the following principles:
+
+
+
+1\. Never trust client-side role validation.
+
+
+
+2\. Every request must validate authentication.
+
+
+
+3\. Every request must validate authorization.
+
+
+
+4\. Every request affecting a mess must validate ownership.
+
+
+
+5\. Customer data must remain isolated between different messes.
+
+
+
+6\. Owners must never access another Owner's operational data.
+
+
+
+7\. Sensitive platform infrastructure must remain Admin-only.
+
+
+
+8\. Every payment action must be auditable.
+
+
+
+9\. Attendance records must remain immutable except through Admin override.
+
+
+
+10\. Soft Delete should be preferred over permanent deletion.
+
+
+
+11\. Every important administrative action should generate an audit log.
+
+
+
+12\. Business rules configured through Global Settings must always take precedence over hardcoded values.
+
+
+
+\---
+
+
+
+\# VERSION HISTORY
+
+
+
+| Version | Status | Description |
+
+|----------|--------|-------------|
+
+| 1.0 | Draft | Initial permission matrix |
+
+| 2.0 | Production Ready | Redesigned after Frontend MVP completion with backend-ready authorization model, system role, webhook infrastructure, payment monitoring, owner SaaS subscriptions, maintenance mode, audit logging, and Global Settings permissions |
+
+
+
+\---
+
+
+
+\# RELATED DOCUMENTS
+
+
+
+This Permission Matrix should be read together with:
+
+
+
+\- 01\_Firestore\_Schema.md
+
+\- 02\_Product\_Spec.md
+
+\- 04\_State\_Machines.md
+
+\- 05\_Screen\_Specification.md
+
+\- 06\_Payment\_Verification.md
+
+
+
+Together these documents define the complete authorization model for the Mazi Mess platform.
+
+
+
+\---
+
+
+
+\# DOCUMENT STATUS
+
+
+
+Document Name:
+
+
+
+Permission Matrix
+
+
+
+Version:
+
+
+
+2.0
+
+
+
+Status:
+
+
+
+Production Ready
+
+
+
+Maintained By:
+
+
+
+Mazi Mess Development Team
+
+
+
+This document is the authoritative reference for platform authorization and must be updated whenever new features introduce new permissions or modify existing authorization rules.
+
+
+
+\---
+
+
+
+END OF DOCUMENT
 

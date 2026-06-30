@@ -1,10 +1,8 @@
-# 02_Product_Spec.md
+# MAZI MESS - PRODUCT SPECIFICATION
 
-# MAZI MESS - PRODUCT SPECIFICATION V1
+Version: 1.1
 
-Version: 1.0
-
-Status: Draft Approved
+Status: Production Ready
 
 Launch Region:
 Chhatrapati Sambhajinagar, Maharashtra, India
@@ -12,95 +10,119 @@ Chhatrapati Sambhajinagar, Maharashtra, India
 Platform:
 Android
 
-Languages:
-English
-Marathi
-Hindi
+Supported Languages:
+- English
+- Marathi
+- Hindi
 
 ---
 
 # 1. PRODUCT OVERVIEW
 
-Mazi Mess is a mess discovery and management platform designed to connect customers looking for mess services with mess owners who want better customer management and customer acquisition.
+Mazi Mess is a mess discovery and management platform designed to connect customers searching for reliable mess services with mess owners who require a modern customer management system.
 
-The platform solves two major problems:
+The platform solves two major problems.
 
-For Customers:
+## For Customers
 
-* Difficulty finding nearby messes.
-* Lack of reliable reviews.
-* No standardized way to compare plans.
-* Difficulty discovering verified messes.
+- Discover nearby verified messes.
+- Compare subscription plans.
+- View authentic customer reviews.
+- Join messes digitally.
+- Manage subscriptions.
+- Track attendance.
+- Receive important notices.
+- Mark planned leaves.
+- Pay mess owners directly.
 
-For Mess Owners:
+## For Mess Owners
 
-* Difficulty acquiring new customers.
-* Poor customer record management.
-* Manual attendance tracking.
-* Manual subscription tracking.
-* No centralized customer management system.
+- Acquire new customers.
+- Manage multiple messes from one account.
+- Digitally manage customers.
+- Create subscription plans.
+- Track attendance.
+- Manage notices.
+- View business analytics.
+- Reduce manual record keeping.
 
-Mazi Mess acts as a platform between customers and mess owners.
+Mazi Mess acts only as a technology platform connecting customers and mess owners.
 
-Customer payments go directly to the mess owner's account.
+Customer payments are made directly to the respective mess owner's account.
 
-Mazi Mess does not hold customer funds.
+Mazi Mess never holds customer funds.
 
 ---
 
 # 2. PRODUCT VISION
 
-Create the largest mess discovery and management platform in Maharashtra.
+To become Maharashtra's largest and most trusted mess discovery and management platform.
 
-Initial focus:
+Initial Launch City:
 
-* Chhatrapati Sambhajinagar
+- Chhatrapati Sambhajinagar
 
-Future expansion:
+Future Expansion:
 
-* Nagpur
-* Pune
-* Nashik
-* Mumbai
-* Entire Maharashtra
+- Nagpur
+- Pune
+- Nashik
+- Mumbai
+- Entire Maharashtra
 
 ---
 
-# 3. USER TYPES
+# 3. USER ROLES
 
-The platform supports three user roles.
+The platform supports three primary user roles.
 
 ## Customer
 
-A person looking for mess services.
+A customer searching for mess services.
 
-Can:
+Customers can:
 
-* Discover messes
-* Compare plans
-* Join messes
-* Manage subscriptions
-* Mark leave dates
-* Generate attendance QR
-* Review messes
-* Submit feedback
+- Discover nearby messes
+- Search by Mess ID
+- Join messes
+- Compare subscription plans
+- Manage active subscriptions
+- Generate attendance QR codes
+- Mark leave dates
+- Review messes
+- Submit private feedback
+- Receive notices
+- Track payment status
+- View attendance history
 
 ---
 
 ## Owner
 
-A person operating one or more messes.
+A mess owner operating one or more messes.
 
-Can:
+Owners can:
 
-* Register messes
-* Create plans
-* Approve customers
-* Manage subscriptions
-* Track attendance
-* Create notices
-* Manage customer records
-* View analytics
+- Register new messes
+- Create subscription plans
+- Approve join requests
+- Manage customers
+- Track attendance
+- Manage leave requests
+- Create notices
+- View analytics
+- Manage subscriptions
+- Blacklist customers
+- Maintain private customer notes
+
+Owners cannot:
+
+- View webhook URLs
+- View Make.com credentials
+- View verification Gmail accounts
+- Change payment verification infrastructure
+- Override payment verification
+- Modify historical attendance records
 
 ---
 
@@ -108,390 +130,1273 @@ Can:
 
 Platform administrator.
 
-Can:
+Admins have complete platform access.
 
-* Approve owners
-* Approve messes
-* Suspend users
-* Moderate reviews
-* Monitor payments
-* Manage platform settings
+Admins can:
+
+- Approve owners
+- Approve messes
+- Suspend owners
+- Suspend messes
+- Monitor payment verification
+- Configure webhook integrations
+- Configure platform settings
+- Manage business analytics
+- Override payment verification
+- Retry payment verification
+- Access audit logs
+- Moderate reviews
+- Remove feedback
+- Manage featured listings
+- Configure maintenance mode
 
 ---
 
 # 4. CORE FEATURES
 
-## Mess Discovery
+## 4.1 Mess Discovery
 
-Customers can:
+Customers can discover messes through:
 
-* Search messes
-* View ratings
-* Compare plans
-* View location
-* View reviews
-* View photos
+- Search
+- Filters
+- Nearby listings
+- Featured listings
+- Mess ID
+- Join QR
 
-Default sorting:
+Each listing displays:
+
+- Mess Name
+- Rating
+- Distance
+- Location
+- Meal Type
+- Photos
+- Capacity
+- Available Plans
+
+Supported Filters:
+
+- Veg
+- Non-Veg
+- Both
+- Rating
+
+Default Sorting:
 
 Distance
 
-Supported filters:
+---
 
-* Veg
-* Non-Veg
-* Both
-* Rating
+## 4.2 Join Requests
+
+Customers may join a mess using:
+
+- Search
+- Mess ID
+- Join QR
+
+Every join request requires owner approval.
+
+Possible request states:
+
+- Pending
+- Approved
+- Rejected
+
+Only approved customers may purchase subscriptions.
 
 ---
 
-## Join Requests
-
-Customers may join a mess by:
-
-* Searching the mess
-* Entering Mess ID
-* Scanning Join QR
-
-Join requests require owner approval.
-
----
-
-## Subscription Management
+## 4.3 Subscription Management
 
 Owners create subscription plans.
 
 Customers subscribe to plans.
 
-Each subscription is independent.
+Each subscription is completely independent.
 
-A customer may hold multiple subscriptions simultaneously.
+A customer may hold multiple active subscriptions simultaneously.
 
 Example:
+
+Breakfast Plan
 
 Lunch Plan
 
 Dinner Plan
 
-Subscriptions can be renewed.
+or
 
-Renewals create new subscriptions.
+Full-Day Plan
 
----
+Renewals create new subscription periods.
 
-## Attendance Tracking
+Subscription activation occurs only after successful payment verification.
 
-Attendance is meal-based.
+Subscriptions maintain independent:
 
-Supported meals:
-
-* Breakfast
-* Lunch
-* Dinner
-
-Attendance uses QR verification.
-
-Customer generates QR.
-
-Owner scans QR.
-
-Single-use QR only.
-
-QR refreshes every minute.
+- Attendance
+- Leave records
+- Expiry dates
+- Payment history
 
 ---
 
-## Leave Management
+## 4.4 Plan Management
 
-Customers may mark future leave dates.
+Every mess may create multiple subscription plans.
 
-Rules:
+Each plan contains:
 
-* Must be submitted at least 2 days in advance.
-* Locked 2 days before leave date.
-* Stored per subscription.
-* Leave disables attendance QR generation.
+- Plan Name
+- Price
+- Duration
+- Included Meals
+- Custom Notes
+- Status
 
-Purpose:
+Plan Status:
 
-Improve expected meal calculations.
+- Active
+- Inactive
 
-Reduce food waste.
+Inactive plans:
 
----
+- Cannot accept new subscribers.
+- Existing subscribers continue until expiry.
+- Cannot be renewed by existing customers.
 
-## Reviews & Feedback
+Meal combinations are fully configurable.
 
-Public Reviews:
+Examples:
 
-* Rating
-* Public Comment
+- Breakfast Only
+- Lunch Only
+- Dinner Only
+- Breakfast + Lunch
+- Lunch + Dinner
+- Breakfast + Dinner
+- Full Day
 
-Private Feedback:
+Owners may configure any valid meal combination.
 
-* Visible only to owner and admin
-
-Review eligibility:
-
-* Minimum 30 subscription days
-* Minimum 20 attendance records
-
-Owners may reply.
-
----
-
-## Notices
-
-Owners may create notices.
-
-Categories:
-
-* General
-* Holiday
-* Menu Change
-* Payment Reminder
-* Emergency
-
-Only active customers receive notices.
+Subscriber count is shown only for active plans.
 
 ---
 
 # 5. MULTI-MESS OWNERSHIP
 
-Owners may manage multiple messes using a single account.
+A single Owner account may manage one or more messes.
 
 Example:
 
 Owner Account
 
-* Sai Mess
-* Annapurna Mess
-* Shree Mess
+├── Annapurna Mess
+├── Sai Mess
+└── Shree Mess
 
-Each mess maintains independent:
+Each mess operates independently.
 
-* Customers
-* Plans
-* Reviews
-* Attendance
-* Analytics
+Each mess maintains its own:
+
+- Customers
+- Subscription Plans
+- Attendance Records
+- Leave Records
+- Reviews
+- Notices
+- Analytics
+- Payment Verification Infrastructure
+
+Customers subscribe to a specific mess.
+
+Customer data is never shared between different messes.
+
+This architecture enables owners to expand their business while maintaining complete separation between individual mess operations.
 
 ---
 
 # 6. PAYMENT MODEL
 
-Customer payments go directly to the owner.
+## Customer Payments
 
-Supported method:
+Customers pay subscription fees directly to the respective Mess Owner.
 
-UPI
+Supported payment method in Version 1:
 
-No payment gateway in V1.
+- UPI
 
-Payment verification is performed through:
+Mazi Mess does not collect, hold, process or settle customer payments.
 
-Paytm Business Email
-→ Gmail
-→ Make.com
-→ Webhook
-→ Backend Verification
+There is no payment gateway in Version 1.
 
-Subscription activation occurs only after payment verification.
+---
+
+## Payment Verification Architecture
+
+Payment verification is automated.
+
+Every approved mess receives its own dedicated payment verification infrastructure.
+
+Per Mess:
+
+Dedicated Paytm Business Account
+
+↓
+
+Dedicated Gmail Account
+
+↓
+
+Dedicated Make.com Account
+
+↓
+
+Dedicated Make Scenario
+
+↓
+
+Dedicated Webhook
+
+↓
+
+Backend Verification
+
+↓
+
+Subscription Activation
+
+Each mess has:
+
+- One dedicated verification Gmail
+- One dedicated Make account
+- One dedicated Make scenario
+- One dedicated Webhook URL
+
+This infrastructure is completely isolated from every other mess.
+
+---
+
+## Administration
+
+Only Admins may:
+
+- Configure verification Gmail
+- Configure Make account
+- Configure Make password
+- Configure Webhook URL
+- Activate integrations
+- Deactivate integrations
+- Retry failed verification
+- Perform manual payment verification
+- Override payment verification status
+
+Owners never have access to:
+
+- Verification Gmail credentials
+- Make account credentials
+- Webhook URLs
+
+Owners only see the final payment verification result.
+
+---
+
+## Subscription Activation
+
+Subscription activation occurs only after successful payment verification.
+
+Possible verification states:
+
+- Pending
+- Verified
+- Failed
+- Manual Override
+- Retry Required
+
+Failed verification never activates a subscription automatically.
 
 ---
 
 # 7. ATTENDANCE MODEL
 
-Attendance is recorded per subscription.
+Attendance is recorded separately for every subscription.
 
-Attendance statuses:
+Attendance is meal-based.
 
-* Present
-* Leave
+Supported meals:
 
-Absent is calculated.
-
-It is not stored.
+- Breakfast
+- Lunch
+- Dinner
 
 Attendance records are immutable.
 
-Only admins may perform corrections.
+Historical attendance cannot be edited by owners.
+
+Only Admins may perform attendance corrections.
 
 ---
 
-# 8. REVIEW MODEL
+## QR Attendance
 
-One review per customer per mess.
+Primary attendance flow:
 
-Reviews display:
+Customer
 
-* Rating
-* Review Text
-* Owner Reply
+↓
 
-Reviewer Identity:
+Generate Dynamic QR
 
-First Name + Initial
+↓
+
+Owner Scans QR
+
+↓
+
+Attendance Recorded
+
+QR Rules:
+
+- Single-use QR
+- Automatically expires
+- Refreshes every minute
+- Valid only for active subscriptions
+- Valid only for the current meal
+- Cannot be reused
+
+---
+
+## Manual Attendance
+
+If QR attendance cannot be completed:
+
+Owner
+
+↓
+
+Manual Attendance Request
+
+↓
+
+Customer Approval Request
+
+↓
+
+Customer Approves
+
+↓
+
+Attendance Recorded
+
+Manual attendance requires customer approval.
+
+This prevents attendance from being marked without the customer actually being served.
+
+---
+
+## Automatic Meal Detection
+
+During manual attendance:
+
+The system automatically detects the current meal based on:
+
+- Current time
+- Customer's active subscription
+- Meals included in the subscribed plan
+
+Example:
+
+Customer has:
+
+Breakfast + Dinner Plan
+
+Current time:
+
+8:15 PM
+
+Automatically selected meal:
+
+Dinner
+
+The Owner may change the selected meal only when required.
+
+---
+
+## Attendance States
+
+Attendance may be:
+
+- Present
+- Leave
+
+Absent is never stored.
+
+Absence is calculated automatically.
+
+---
+
+# 8. LEAVE MANAGEMENT
+
+Customers may mark future leave dates.
+
+Rules:
+
+- Leave must be submitted at least 2 days in advance.
+- Leave becomes locked 2 days before the selected date.
+- Leave is recorded separately for each subscription.
+- Leave disables QR generation for the selected meal.
+- Leave is considered during expected meal calculation.
+
+Example:
+
+Customer has:
+
+Lunch Plan
+
+Dinner Plan
+
+Customer may mark leave only for Lunch while continuing Dinner attendance.
+
+Purpose:
+
+- Improve meal forecasting
+- Reduce food waste
+- Improve owner planning
+
+---
+
+# 9. REVIEWS & FEEDBACK
+
+Every customer may submit one public review per mess.
+
+Review contains:
+
+- Rating
+- Public Review
+- Owner Reply
+
+Reviewer identity is partially hidden.
 
 Example:
 
 Omkar R.
 
-Private feedback remains hidden from other customers.
+---
+
+## Review Eligibility
+
+Customer must satisfy all conditions:
+
+- Minimum 30 subscription days
+- Minimum 20 attendance records
+
+Only eligible customers may submit reviews.
 
 ---
 
-# 9. OWNER OPERATIONS
+## Private Feedback
+
+Customers may submit private feedback.
+
+Private feedback is visible only to:
+
+- Owner
+- Admin
+
+Private feedback never appears publicly.
+
+Owners may respond privately.
+
+---
+
+# 10. NOTICES
+
+Owners may publish notices.
+
+Categories:
+
+- General
+- Holiday
+- Menu Change
+- Payment Reminder
+- Emergency
+
+Only active customers receive notices.
+
+Expired customers do not receive new notices.
+
+Notice delivery generates customer notifications.
+
+Future versions may support scheduled notices.
+
+---
+
+# 11. OWNER OPERATIONS
+
+Owners manage the day-to-day operations of their mess.
 
 Owners can:
 
-* Manage plans
-* Approve customers
-* Reject customers
-* Extend subscriptions
-* Blacklist customers
-* Add private notes
-* Manage notices
-* View analytics
+- Register new messes
+- Edit mess information
+- Create subscription plans
+- Activate or deactivate plans
+- Approve join requests
+- Reject join requests
+- Manage customers
+- Extend subscriptions
+- Record attendance
+- Initiate manual attendance requests
+- Manage leave records
+- Create notices
+- Reply to reviews
+- Reply to private feedback
+- Blacklist customers
+- Add private customer notes
+- View payment verification status
+- View business analytics
+- Manage their own owner profile
+
+---
+
+## Owner Restrictions
 
 Owners cannot:
 
-* Modify attendance
-* Verify payments
-* Delete audit logs
+- Access webhook URLs
+- Access verification Gmail accounts
+- Access Make account credentials
+- Modify payment verification settings
+- Manually verify payments
+- Override failed payments
+- Modify historical attendance
+- Delete audit logs
+- Access platform settings
+- Approve owners
+- Approve messes
+- Moderate platform-wide reviews
 
 ---
 
-# 10. ADMIN OPERATIONS
+# 12. ADMIN OPERATIONS
+
+Admins manage the complete Mazi Mess platform.
 
 Admins can:
 
-* Approve owners
-* Approve messes
-* Suspend users
-* Override attendance
-* Verify payments
-* Remove reviews
-* Remove feedback
-* Manage featured listings
-* Access audit logs
+- Approve owners
+- Reject owners
+- Suspend owners
+- Reactivate owners
+
+- Approve messes
+- Reject messes
+- Suspend messes
+- Reactivate messes
+
+- Configure webhook integrations
+
+- Configure verification Gmail accounts
+
+- Configure Make accounts
+
+- Configure Make account passwords
+
+- Configure Webhook URLs
+
+- Activate integrations
+
+- Deactivate integrations
+
+- Monitor payment verification
+
+- Retry payment verification
+
+- Perform manual payment verification
+
+- Override payment status
+
+- Access payment audit logs
+
+- View Business Analytics
+
+- Configure Global Settings
+
+- Manage featured listings
+
+- Moderate public reviews
+
+- Remove reviews
+
+- Remove private feedback
+
+- Override attendance
+
+- Access audit logs
+
+- Enable Maintenance Mode
+
+Admins have unrestricted platform access.
 
 ---
 
-# 11. NOTIFICATIONS
+# 13. NOTIFICATIONS
 
-Customers receive:
-
-* Join Approval
-* Join Rejection
-* Subscription Expiry Reminder
-* Subscription Activation
-* Payment Verification
-* New Notice
-* Review Reply
-* Feedback Reply
-
-Owners receive:
-
-* New Join Request
-* New Review
-* New Feedback
-* New Leave Request
-* Owner Subscription Expiry
+Notifications are role-based.
 
 ---
 
-# 12. LOCALIZATION
+## Customer Notifications
+
+Customers receive notifications for:
+
+- Join Request Approved
+- Join Request Rejected
+- Subscription Activated
+- Subscription Expiring Soon
+- Subscription Expired
+- Payment Verified
+- Payment Failed
+- Manual Attendance Approval Request
+- Attendance Approved
+- Attendance Rejected
+- New Notice
+- Review Reply
+- Feedback Reply
+- Platform Announcements
+
+---
+
+## Owner Notifications
+
+Owners receive notifications for:
+
+- New Join Request
+- New Subscription
+- Payment Verification Completed
+- Payment Verification Failed
+- Customer Leave Submitted
+- Attendance Approval Response
+- New Review
+- New Private Feedback
+- Owner Subscription Expiry Reminder
+- Owner Subscription Expired
+- Platform Announcements
+
+---
+
+## Admin Notifications
+
+Admins receive notifications for:
+
+- New Owner Registration
+- New Mess Registration
+- Payment Verification Failure
+- Webhook Failure
+- Integration Error
+- Owner Subscription Expiry
+- Platform Alerts
+- Maintenance Alerts
+
+---
+
+# 14. LOCALIZATION
 
 Supported Languages:
 
-* English
-* Marathi
-* Hindi
+- English
+- Marathi
+- Hindi
 
-Language preference stored per user.
+Language preference is stored per user.
+
+All user-facing text should support localization.
+
+Future language additions should not require application redesign.
 
 ---
 
-# 13. THEME
+# 15. THEME
 
 Supported Themes:
 
-* Light
-* Dark
-* System
+- Light
+- Dark
+- System
 
-Design Style:
+Design Principles:
 
-* Material 3
-* Utility Focused
-* Simple Navigation
-* No Glassmorphism
-* No Heavy Animations
+- Material 3
+- Utility-focused
+- Clean interface
+- Simple navigation
+- Responsive layouts
+- Minimal animations
+- Accessibility-first
+
+The application must provide a consistent experience across:
+
+- Android Phones
+- Android Tablets
+- Flutter Web (Admin)
 
 ---
 
-# 14. OFFLINE SUPPORT
+# 16. OFFLINE SUPPORT
 
-Cached:
+The application supports limited offline functionality.
 
-* Mess Listings
-* Notices
-* User Profile
+Cached Data:
+
+- Mess Listings
+- User Profile
+- Notices
+- Subscription Details
+- Previously Loaded Reviews
 
 Not Cached:
 
-* Payments
-* QR Codes
-* Attendance Actions
+- Payment Verification
+- Attendance Submission
+- Attendance Approval
+- QR Codes
+- Join Requests
+- Plan Changes
+- Global Settings
+- Webhook Management
+
+Whenever network connectivity is restored, cached information should synchronize automatically where applicable.
+
+Critical operations always require an active internet connection.
 
 ---
 
-# 15. NON-GOALS (V1)
+# 17. AUDIT LOGGING
 
-The following are intentionally excluded from Version 1:
+The platform maintains audit logs for important administrative actions.
 
-* Payment Gateway Integration
-* Wallet System
-* Refund System
-* Customer-to-Customer Messaging
-* Meal Ordering Marketplace
-* Staff Accounts
-* Web Application
-* AI Recommendations
-* Automated Owner Verification
+Examples include:
+
+- Owner Approval
+- Owner Suspension
+- Mess Approval
+- Mess Suspension
+- Payment Override
+- Payment Retry
+- Attendance Override
+- Webhook Configuration
+- Global Settings Changes
+
+Audit entries should record:
+
+- Action
+- Timestamp
+- Administrator
+- Previous Value (where applicable)
+- New Value (where applicable)
+
+Audit logs cannot be modified by Owners.
+
+Only Admins may access audit history.
 
 ---
 
-# 16. LAUNCH TARGET
+# 18. PLATFORM REVENUE MODEL
 
-Phase 1 Pilot:
+Mazi Mess follows a Software-as-a-Service (SaaS) business model.
 
-5 Mess Owners
+The platform generates revenue through subscriptions purchased by Mess Owners.
 
-100 Existing Customers
+Customers never pay Mazi Mess.
 
-Launch City:
+Customers always pay Mess Owners directly.
+
+---
+
+## Customer Payments
+
+Customers pay:
+
+↓
+
+Mess Owner
+
+No customer funds pass through Mazi Mess.
+
+Version 1 does not include:
+
+- Payment Gateway
+- Wallet
+- Escrow
+- Settlement System
+
+---
+
+## Owner Subscription
+
+Mess Owners purchase subscriptions to continue using the platform.
+
+Subscription plans may include:
+
+- Monthly
+- Yearly
+
+Owner subscriptions are completely independent from customer subscriptions.
+
+---
+
+## Owner Subscription Status
+
+Possible states:
+
+- Active
+- Expiring Soon
+- Expired
+
+Only active owner subscriptions have full platform access.
+
+Platform rules such as grace periods and automatic suspension are configurable through Global Settings.
+
+---
+
+## Business Analytics
+
+Platform administrators can monitor:
+
+- Monthly Revenue
+- Yearly Revenue
+- Monthly Recurring Revenue (MRR)
+- Annual Recurring Revenue (ARR)
+- Average Revenue Per Owner (ARPO)
+- Active Owner Subscriptions
+- Expiring Subscriptions
+- Expired Subscriptions
+
+Business Analytics provides operational insights only.
+
+It does not affect subscription logic.
+
+---
+
+# 19. PLATFORM SETTINGS
+
+Platform-wide configuration is managed only by Admins.
+
+Global Settings include:
+
+Platform
+
+- Platform Name
+- Support Email
+- Support Phone
+- Current Version
+
+Registration
+
+- Allow New Owner Registrations
+- Allow New Customer Registrations
+
+Owner Subscription
+
+- Default Monthly Price
+- Default Yearly Price
+- Grace Period
+- Reminder Before Expiry
+- Auto Suspend Expired Owners
+
+Customer Rules
+
+- Review Eligibility
+- Attendance Approval Window
+- Maximum Leave Days
+- Review Edit Window
+
+Payment Verification
+
+- Unique Amount Offset
+- Verification Timeout
+- Retry Attempts
+- Allowed Verification Window
+
+Notifications
+
+- Push Notifications
+- Email Notifications
+- Owner Alerts
+- Admin Alerts
+- Maintenance Broadcast
+
+Security
+
+- Session Timeout
+- Minimum Supported Version
+- Force Logout
+- Emergency Platform Lock
+
+Platform Policies
+
+- Privacy Policy
+- Terms & Conditions
+- Refund Policy
+- About Mazi Mess
+
+---
+
+# 20. MAINTENANCE MODE
+
+Maintenance Mode is controlled only by Admins.
+
+When Maintenance Mode is enabled:
+
+Customers
+
+- Cannot log in
+- Cannot browse messes
+- Cannot make payments
+- Cannot generate attendance QR
+- Cannot access subscriptions
+
+Customers are shown a maintenance screen containing:
+
+- Maintenance message
+- Support Email
+- Support Phone
+
+---
+
+Owners
+
+Owners continue normal operations.
+
+Owners may continue:
+
+- Attendance
+- Customer Management
+- Payment Monitoring
+- Plan Management
+- Notifications
+- Dashboard Operations
+
+Mess operations are intentionally not interrupted.
+
+---
+
+Admins
+
+Admins retain unrestricted platform access.
+
+This allows maintenance while continuing operational monitoring.
+
+---
+
+# 21. NON-GOALS (VERSION 1)
+
+The following features are intentionally excluded from Version 1.
+
+Payments
+
+- Payment Gateway Integration
+- Wallet
+- Escrow
+- Refund Processing
+
+Communication
+
+- Customer-to-Customer Messaging
+- Owner Chat
+- Voice Calling
+
+Business
+
+- Staff Accounts
+- Franchise Management
+- Multi-Branch Reporting
+
+Technology
+
+- Web Application
+- iOS Application
+- AI Recommendations
+- Automated Owner Verification
+- Dynamic Pricing
+
+Marketplace
+
+- Meal Ordering
+- Grocery Marketplace
+- Food Delivery
+
+These features remain future roadmap items.
+
+---
+
+# 22. LAUNCH TARGET
+
+Pilot Launch
+
+City:
 
 Chhatrapati Sambhajinagar
 
-Success Criteria:
+Pilot Scale
 
-* Working discovery system
-* Working subscriptions
-* Working attendance
-* Working payment verification
-* Successful pilot onboarding
+- 5 Mess Owners
+- 100 Existing Customers
+
+Objectives
+
+- Validate discovery experience
+- Validate owner onboarding
+- Validate subscription management
+- Validate attendance workflow
+- Validate payment verification
+- Validate owner SaaS subscriptions
+
+Success Criteria
+
+- Stable owner onboarding
+- Successful mess approvals
+- Successful customer onboarding
+- Reliable payment verification
+- Stable attendance tracking
+- Successful pilot deployment
+- Positive customer feedback
+- Positive owner feedback
+
+The pilot will be used to validate operational workflows before expanding to additional cities.
 
 ---
 
-# 17. PRODUCT PRINCIPLES
+# 23. FUTURE SCALABILITY
 
-1. Simplicity over complexity.
-2. Utility over visual effects.
-3. Owners are primary paying customers.
-4. Customer trust is critical.
-5. Payments must be verifiable.
-6. Attendance must be reliable.
-7. Every important action must be auditable.
-8. The platform must remain scalable across Maharashtra.
+The platform architecture is designed for long-term scalability.
+
+Future expansion should support:
+
+- Multiple cities
+- Thousands of messes
+- Hundreds of thousands of customers
+- Multiple administrators
+- Multi-region deployment
+- Additional payment providers
+- Automated analytics
+- AI-assisted moderation
+
+The architecture intentionally separates:
+
+- Customer data
+- Owner data
+- Mess data
+- Platform configuration
+- Payment verification
+- Business analytics
+
+This separation enables future growth without requiring major architectural changes.
+
+---
+
+# 24. PRODUCT PRINCIPLES
+
+The following principles guide every product and engineering decision made for Mazi Mess.
+
+## 1. Simplicity First
+
+The application should remain easy to understand for both customers and mess owners.
+
+Complex workflows should always be hidden behind simple user interfaces.
+
+---
+
+## 2. Utility Over Decoration
+
+Every screen must provide clear value.
+
+Visual effects should never reduce usability or performance.
+
+Material 3 should remain the primary design language.
+
+---
+
+## 3. Owners Are Primary Customers
+
+Mess Owners are the paying customers of the platform.
+
+Product decisions should prioritize helping owners efficiently manage and grow their businesses while maintaining an excellent customer experience.
+
+---
+
+## 4. Customer Trust Is Critical
+
+Customers should always know:
+
+- What they are paying for.
+- Which mess they are subscribed to.
+- Their attendance history.
+- Their payment status.
+
+Platform transparency is essential.
+
+---
+
+## 5. Payment Verification Must Be Reliable
+
+Customer subscriptions should never activate without successful verification.
+
+Verification should remain:
+
+- Auditable
+- Reliable
+- Recoverable
+
+Manual override exists only for exceptional situations.
+
+---
+
+## 6. Attendance Must Be Accurate
+
+Attendance should always represent meals actually served.
+
+Whenever QR attendance is unavailable, customer approval is required before manual attendance is recorded.
+
+Attendance records should remain trustworthy.
+
+---
+
+## 7. Security Before Convenience
+
+Sensitive platform infrastructure such as:
+
+- Verification Gmail Accounts
+- Make Account Credentials
+- Webhook URLs
+
+must remain accessible only to Administrators.
+
+Owners never require direct access to these systems.
+
+---
+
+## 8. Every Important Action Must Be Auditable
+
+Critical operations should always leave an audit trail.
+
+Examples:
+
+- Payment Override
+- Attendance Override
+- Owner Approval
+- Mess Approval
+- Webhook Changes
+- Global Settings Changes
+
+Audit history improves accountability and simplifies troubleshooting.
+
+---
+
+## 9. Platform Scalability
+
+Every new feature should support future expansion across Maharashtra without requiring major architectural redesign.
+
+Scalability should always be considered before implementation.
+
+---
+
+## 10. Configurability
+
+Business rules that may change over time should be configurable through Global Settings whenever practical.
+
+Examples include:
+
+- Review eligibility
+- Verification timeout
+- Reminder periods
+- Grace periods
+- Registration controls
+
+---
+
+# 25. TECHNICAL PRINCIPLES
+
+The platform follows these engineering principles.
+
+- Modular architecture
+- Feature-based folder structure
+- Material 3 design system
+- Responsive layouts
+- Mobile-first development
+- Production-ready code
+- Reusable widgets
+- Mock-first development followed by backend integration
+- Separation of UI, business logic, and data layers
+
+The system should remain maintainable as the codebase grows.
+
+---
+
+# 26. SECURITY PRINCIPLES
+
+The platform must protect sensitive information.
+
+Rules include:
+
+- Customer payments are never stored by Mazi Mess.
+- Verification credentials are Admin-only.
+- Passwords should never be stored in plain text in production.
+- Platform settings are accessible only to Administrators.
+- Audit logs cannot be modified by Owners.
+- Customer data must remain isolated between messes.
+- Every mess maintains independent payment verification infrastructure.
+
+Future backend implementations should enforce these rules through authentication, authorization, and database security rules.
+
+---
+
+# 27. VERSION HISTORY
+
+| Version | Status | Description |
+|----------|--------|-------------|
+| 1.0 | Draft Approved | Initial product specification |
+| 1.1 | Production Ready | Updated after Frontend MVP completion with finalized business rules, payment architecture, admin modules, SaaS model, maintenance mode, and platform configuration |
+
+---
+
+# 28. RELATED DOCUMENTS
+
+This Product Specification should be read together with:
+
+- 01_Firestore_Schema.md
+- 03_Permission_Matrix.md
+- 04_State_Machines.md
+- 05_Screen_Specification.md
+- 06_Payment_Verification.md
+
+Together these documents define the complete Mazi Mess platform.
+
+---
+
+# 29. DOCUMENT STATUS
+
+Document Name:
+
+Product Specification
+
+Version:
+
+1.1
+
+Status:
+
+Production Ready
+
+Maintained By:
+
+Mazi Mess Development Team
+
+This document serves as the primary functional specification for the platform and should be updated whenever significant business rules or platform capabilities change.
+
+---
+
+END OF DOCUMENT

@@ -1,8066 +1,5940 @@
-# \# 05\_Screen\_Specification.md
+\# MAZI MESS - SCREEN SPECIFICATION
 
-# 
 
-# \# PART 1 - CUSTOMER APPLICATION
 
-# 
+Version: 2.0
 
-# \---
 
-# 
 
-# \# CUSTOMER NAVIGATION STRUCTURE
+Status: Production Ready
 
-# 
 
-# Bottom Navigation:
 
-# 
+Platform
 
-# 1\. Home
 
-# 2\. Explore
 
-# 3\. My Subscription
+Flutter
 
-# 4\. Profile
 
-# 
 
-# Global Access:
+Design System
 
-# 
 
-# \* Notifications
 
-# \* Reviews
+Material Design 3
 
-# \* Payment History
 
-# \* Attendance History
 
-# \* Leave Management
+Supported Roles
 
-# 
 
-# \---
 
-# 
+\- Customer
 
-# \# SPLASH SCREEN
+\- Owner
 
-# 
+\- Administrator
 
-# Purpose:
 
-# 
 
-# Application startup and initialization.
+\---
 
-# 
 
-# Functions:
 
-# 
+\# PURPOSE
 
-# \* Load app settings
 
-# \* Load language preference
 
-# \* Load theme preference
+This document defines every screen, navigation flow, reusable component, and user interaction within the Mazi Mess platform.
 
-# \* Check authentication state
 
-# \* Check account status
 
-# 
+This specification should be used together with:
 
-# Loading Indicator:
 
-# 
 
-# Centered Mazi Mess logo with loading spinner.
+\- Firestore Schema
 
-# 
+\- Product Specification
 
-# Navigation:
+\- Permission Matrix
 
-# 
+\- State Machines
 
-# Authenticated User
+\- Payment Verification
 
-# → Role Router
+\- Backend Architecture
 
-# 
 
-# Unauthenticated User
 
-# → Login Screen
+\---
 
-# 
 
-# Suspended User
 
-# → Account Suspended Screen
+\# DESIGN PRINCIPLES
 
-# 
 
-# \---
 
-# 
+The application follows these UI principles.
 
-# \# LOGIN SCREEN
 
-# 
 
-# Purpose:
+• Clean
 
-# 
 
-# User authentication using mobile number.
 
-# 
+• Fast
 
-# Components:
 
-# 
 
-# App Logo
+• Consistent
 
-# 
 
-# Title:
 
-# "Mazi Mess"
+• Accessible
 
-# 
 
-# Subtitle:
 
-# "Find and Manage Your Mess Easily"
+• Mobile First
 
-# 
 
-# Input:
 
-# 
+• Material Design 3
 
-# Mobile Number
 
-# 
 
-# Buttons:
+Every screen should provide:
 
-# 
 
-# Send OTP
 
-# 
+\- Loading State
 
-# Links:
+\- Empty State
 
-# 
+\- Error State
 
-# Register New Account
+\- Success State
 
-# 
 
-# Validation:
 
-# 
+Every action requiring backend communication should display progress feedback.
 
-# \* Indian mobile number only
 
-# \* 10 digits required
 
-# 
+\---
 
-# Actions:
 
-# 
 
-# Send OTP
+\# ROLE-BASED APPLICATION FLOW
 
-# 
 
-# Navigation:
 
-# 
+Customer
 
-# OTP Verification Screen
 
-# 
 
-# \---
+↓
 
-# 
 
-# \# OTP VERIFICATION SCREEN
 
-# 
+Customer Dashboard
 
-# Purpose:
 
-# 
 
-# Verify phone ownership.
+Owner
 
-# 
 
-# Components:
 
-# 
+↓
 
-# OTP Input
 
-# 
 
-# Countdown Timer
+Owner Dashboard
 
-# 
 
-# Buttons:
 
-# 
+Administrator
 
-# Verify OTP
 
-# 
 
-# Resend OTP
+↓
 
-# 
 
-# States:
 
-# 
+Admin Dashboard
 
-# Loading
 
-# 
 
-# Success
+Navigation and permissions are controlled by backend role validation.
 
-# 
 
-# Invalid OTP
 
-# 
+\---
 
-# Expired OTP
 
-# 
 
-# Navigation:
+\##################################################
 
-# 
+\# CUSTOMER APPLICATION
 
-# Successful Login
+\##################################################
 
-# → Role Router
 
-# 
 
-# \---
+\---
 
-# 
 
-# \# REGISTRATION SCREEN
 
-# 
+\# SPLASH SCREEN
 
-# Purpose:
 
-# 
 
-# Create customer account.
+Purpose
 
-# 
 
-# Fields:
 
-# 
+Initialize application.
 
-# Full Name
 
-# 
 
-# Date of Birth
+Responsibilities
 
-# 
 
-# Gender
 
-# 
+\- Load local preferences
 
-# Mobile Number
+\- Restore authentication session
 
-# 
+\- Check app version
 
-# Email Address
+\- Navigate to appropriate dashboard
 
-# 
 
-# Present Address
 
-# 
+Possible Destinations
 
-# Profile Photo (Optional)
 
-# 
 
-# Buttons:
+Login
 
-# 
 
-# Register
 
-# 
+Customer Dashboard
 
-# Validation:
 
-# 
 
-# Required:
+Owner Dashboard
 
-# 
 
-# \* Name
 
-# \* DOB
+Admin Dashboard
 
-# \* Gender
 
-# \* Mobile
 
-# \* Email
+Maintenance Screen
 
-# \* Address
 
-# 
 
-# Optional:
+\---
 
-# 
 
-# \* Profile Photo
 
-# 
+\# LOGIN SCREEN
 
-# Navigation:
 
-# 
 
-# Successful Registration
+Purpose
 
-# → Customer Home
 
-# 
 
-# \---
+Authenticate existing users.
 
-# 
 
-# \##################################################
 
-# 
+Fields
 
-# \# CUSTOMER HOME SCREEN
 
-# 
 
-# \##################################################
+Phone Number
 
-# 
 
-# Purpose:
 
-# 
+Password
 
-# Customer dashboard.
 
-# 
 
-# App Bar:
+Buttons
 
-# 
 
-# Greeting
 
-# 
+Login
 
-# Example:
 
-# 
 
-# "Good Morning, Omkar"
+Forgot Password
 
-# 
 
-# Notification Bell
 
-# 
+Create Account
 
-# Body Sections:
 
-# 
 
-# 1\. Current Subscription Card
+Validation
 
-# 
 
-# Displays:
 
-# 
+• Required fields
 
-# Mess Name
 
-# 
 
-# Plan Name
+• Invalid credentials
 
-# 
 
-# Days Remaining
 
-# 
+• Suspended account
 
-# Subscription Status
 
-# 
 
-# Buttons:
+Success
 
-# 
 
-# Renew
 
-# 
+Navigate based on user role.
 
-# View Details
 
-# 
 
-# States:
+\---
 
-# 
 
-# Active
 
-# 
+\# REGISTER SCREEN
 
-# Expiring Soon
 
-# 
 
-# Expired
+Purpose
 
-# 
 
-# No Subscription
 
-# 
+Create customer account.
 
-# \---
 
-# 
 
-# 2\. Today's QR Status Card
+Fields
 
-# 
 
-# Displays:
 
-# 
+Full Name
 
-# Meal Type
 
-# 
 
-# QR Availability
+Phone Number
 
-# 
 
-# Attendance Status
 
-# 
+Email
 
-# States:
 
-# 
 
-# QR Available
+Password
 
-# 
 
-# Already Used
 
-# 
+Confirm Password
 
-# Leave Day
 
-# 
 
-# No Active Subscription
+Address
 
-# 
 
-# Button:
 
-# 
+Buttons
 
-# Generate QR
 
-# 
 
-# \---
+Register
 
-# 
 
-# 3\. Latest Notices
 
-# 
+Already Have Account
 
-# Displays:
 
-# 
 
-# Title
+Validation
 
-# 
 
-# Category
 
-# 
+Phone uniqueness
 
-# Date
 
-# 
 
-# Maximum:
+Email uniqueness
 
-# Latest 5 Notices
 
-# 
 
-# Button:
+Password strength
 
-# 
 
-# View All
 
-# 
+Success
 
-# \---
 
-# 
 
-# 4\. Quick Actions
+Customer Dashboard
 
-# 
 
-# Buttons:
 
-# 
+\---
 
-# Leave Calendar
 
-# 
 
-# Attendance History
+\# CUSTOMER HOME
 
-# 
 
-# Payment History
 
-# 
+Purpose
 
-# Reviews
 
-# 
 
-# \---
+Primary dashboard.
 
-# 
 
-# \##################################################
 
-# 
+Displays
 
-# \# EXPLORE SCREEN
 
-# 
 
-# \##################################################
+Greeting
 
-# 
 
-# Purpose:
 
-# 
+Current Subscription
 
-# Discover messes.
 
-# 
 
-# Components:
+Today's Meal
 
-# 
 
-# Search Bar
 
-# 
+Attendance QR
 
-# Search By:
 
-# 
 
-# Mess Name
+Unread Notifications
 
-# 
 
-# Mess ID
 
-# 
+Latest Notices
 
-# Filters:
 
-# 
 
-# Veg
+Quick Actions
 
-# 
 
-# Non-Veg
 
-# 
+Quick Actions
 
-# Both
 
-# 
 
-# Rating
+Explore Messes
 
-# 
 
-# Sort:
 
-# 
+Attendance
 
-# Distance (Default)
 
-# 
 
-# Sponsored Section
+Subscriptions
 
-# 
 
-# Verified Mess Section
 
-# 
+Leave
 
-# Mess List
 
-# 
 
-# \---
+Notifications
 
-# 
 
-# Mess Card
 
-# 
+Profile
 
-# Displays:
 
-# 
 
-# Cover Image
+Widgets
 
-# 
 
-# Mess Name
 
-# 
+Today's Attendance
 
-# Distance
 
-# 
 
-# Rating
+Subscription Status
 
-# 
 
-# Food Type
 
-# 
+Upcoming Expiry
 
-# Starting Price
 
-# 
 
-# Verified Badge
+Manual Attendance Status
 
-# 
 
-# New Badge (First 15 Customers)
 
-# 
+Loading
 
-# Buttons:
 
-# 
 
-# View Details
+Skeleton Cards
 
-# 
 
-# \---
 
-# 
+Empty State
 
-# Empty State:
 
-# 
 
-# "No Messes Found"
+No Active Subscription
 
-# 
 
-# \---
 
-# 
+\---
 
-# \##################################################
 
-# 
 
-# \# MESS DETAILS SCREEN
+\# EXPLORE MESSES
 
-# 
 
-# \##################################################
 
-# 
+Purpose
 
-# Purpose:
 
-# 
 
-# View complete mess information.
+Browse approved messes.
 
-# 
 
-# Sections:
 
-# 
+Displays
 
-# 1\. Image Gallery
 
-# 
 
-# Cover Image
+Search
 
-# 
 
-# Gallery Images
 
-# 
+Filters
 
-# Swipe Enabled
 
-# 
 
-# \---
+Sort
 
-# 
 
-# 2\. Basic Information
 
-# 
+Mess Cards
 
-# Mess Name
 
-# 
 
-# Rating
+Filters
 
-# 
 
-# Address
 
-# 
+City
 
-# Distance
 
-# 
 
-# Food Type
+Rating
 
-# 
 
-# Description
 
-# 
+Price
 
-# Verified Badge
 
-# 
 
-# \---
+Meal Availability
 
-# 
 
-# 3\. Available Plans
 
-# 
+Distance (Future)
 
-# Plan Card Displays:
 
-# 
 
-# Plan Name
+Card Information
 
-# 
 
-# Price
 
-# 
+Cover Image
 
-# Duration
 
-# 
 
-# Meals Included
+Mess Name
 
-# 
 
-# Buttons:
 
-# 
+Rating
 
-# Select Plan
 
-# 
 
-# \---
+Starting Price
 
-# 
 
-# 4\. Reviews
 
-# 
+Capacity
 
-# Average Rating
 
-# 
 
-# Review Count
+Buttons
 
-# 
 
-# Review List
 
-# 
+View Details
 
-# Owner Replies
 
-# 
 
-# Button:
+Join
 
-# 
 
-# View All Reviews
 
-# 
+Empty State
 
-# \---
 
-# 
 
-# 5\. Location
+No messes found.
 
-# 
 
-# Google Map Preview
 
-# 
+\---
 
-# Buttons:
 
-# 
 
-# Directions
+\# MESS DETAILS
 
-# 
 
-# Call Owner
 
-# 
+Purpose
 
-# \---
 
-# 
 
-# Primary Button:
+View complete mess information.
 
-# 
 
-# Join Mess
 
-# 
+Sections
 
-# \---
 
-# 
 
-# \##################################################
+Gallery
 
-# 
 
-# \# JOIN REQUEST SCREEN
 
-# 
+Description
 
-# \##################################################
 
-# 
 
-# Purpose:
+Facilities
 
-# 
 
-# Submit join request.
 
-# 
+Meal Plans
 
-# Displays:
 
-# 
 
-# Selected Mess
+Ratings
 
-# 
 
-# Selected Plan
 
-# 
+Reviews
 
-# Price
 
-# 
 
-# Duration
+Location
 
-# 
 
-# Meals
 
-# 
+Owner Reply
 
-# Terms Reminder
 
-# 
 
-# Buttons:
+Actions
 
-# 
 
-# Submit Join Request
 
-# 
+Join Mess
 
-# Cancel
 
-# 
 
-# States:
+View Reviews
 
-# 
 
-# Submitting
 
-# 
+Share
 
-# Submitted
 
-# 
 
-# Failed
+Rules
 
-# 
 
-# Navigation:
 
-# 
+Only active messes are visible.
 
-# Join Request Status Screen
 
-# 
 
-# \---
+\---
 
-# 
 
-# \##################################################
 
-# 
+\# JOIN REQUEST SCREEN
 
-# \# JOIN REQUEST STATUS SCREEN
 
-# 
 
-# \##################################################
+Purpose
 
-# 
 
-# Purpose:
 
-# 
+Submit join request.
 
-# Track approval status.
 
-# 
 
-# States:
+Displays
 
-# 
 
-# Pending
 
-# 
+Selected Plan
 
-# Approved
 
-# 
 
-# Rejected
+Plan Price
 
-# 
 
-# Expired
 
-# 
+Duration
 
-# Displays:
 
-# 
 
-# Status Badge
+Meal Details
 
-# 
 
-# Request Date
 
-# 
+Customer Details
 
-# Owner Response
 
-# 
 
-# Payment Deadline
+Actions
 
-# 
 
-# Actions:
 
-# 
+Submit Request
 
-# Pay Now (Approved)
 
-# 
 
-# Submit New Request (Rejected)
+Cancel
 
-# 
 
-# \---
 
-# 
+Validation
 
-# \##################################################
 
-# 
 
-# \# PAYMENT SCREEN
+Customer cannot create duplicate pending requests.
 
-# 
 
-# \##################################################
 
-# 
+Success
 
-# Purpose:
 
-# 
 
-# Subscription payment.
+Join Request Submitted
 
-# 
 
-# Displays:
 
-# 
+↓
 
-# Mess Name
 
-# 
 
-# Plan Name
+Waiting For Owner Approval
 
-# 
 
-# Amount
 
-# 
+\---
 
-# UPI ID
 
-# 
 
-# Payment QR
+\# JOIN REQUEST STATUS
 
-# 
 
-# Payment Instructions
 
-# 
+Displays
 
-# Buttons:
 
-# 
 
-# Open UPI App
+Pending
 
-# 
 
-# I Have Paid
 
-# 
+Approved
 
-# States:
 
-# 
 
-# Pending
+Rejected
 
-# 
 
-# Under Verification
 
-# 
+Expired
 
-# Verified
 
-# 
 
-# Failed
+Cancelled
 
-# 
 
-# \---
 
-# 
+Actions
 
-# Warnings:
 
-# 
 
-# Subscription activates only after verification.
+Refresh
 
-# 
 
-# \---
 
-# 
+Cancel Request
 
-# \##################################################
 
-# 
 
-# \# MY SUBSCRIPTIONS SCREEN
+Continue Payment (Approved)
 
-# 
 
-# \##################################################
 
-# 
+\---
 
-# Purpose:
 
-# 
 
-# Manage subscriptions.
+\# PAYMENT SCREEN
 
-# 
 
-# Displays:
 
-# 
+Purpose
 
-# Active Subscriptions
 
-# 
 
-# Expired Subscriptions
+Begin subscription payment.
 
-# 
 
-# Each Card Shows:
 
-# 
+Displays
 
-# Mess Name
 
-# 
 
-# Plan Name
+Mess Name
 
-# 
 
-# Start Date
 
-# 
+Plan Name
 
-# End Date
 
-# 
 
-# Days Remaining
+Subscription Price
 
-# 
 
-# Status
 
-# 
+Verification Amount
 
-# Actions:
 
-# 
 
-# Renew
+Payment Instructions
 
-# 
 
-# View Attendance
 
-# 
+Buttons
 
-# Manage Leave
 
-# 
 
-# View Payments
+Open UPI App
 
-# 
 
-# \---
 
-# 
+I Have Paid
 
-# \##################################################
 
-# 
 
-# \# ATTENDANCE SCREEN
+Cancel
 
-# 
 
-# \##################################################
 
-# 
+Rules
 
-# Purpose:
 
-# 
 
-# Attendance records.
+Customer cannot modify verification amount.
 
-# 
 
-# Summary Cards:
 
-# 
+UPI Deep Link launches installed UPI application.
 
-# Present
 
-# 
 
-# Leave
+\---
 
-# 
 
-# Calculated Absent
 
-# 
+\# PAYMENT VERIFICATION
 
-# History List
 
-# 
 
-# Fields:
+Purpose
 
-# 
 
-# Date
 
-# 
+Track verification progress.
 
-# Meal
 
-# 
 
-# Status
+Displays
 
-# 
 
-# Filters:
 
-# 
+Verification Timeline
 
-# Today
 
-# 
 
-# This Week
+Verification Status
 
-# 
 
-# This Month
 
-# 
+Payment Amount
 
-# \---
 
-# 
 
-# \##################################################
+Verification Amount
 
-# 
 
-# \# QR SCREEN
 
-# 
+Verification Time
 
-# \##################################################
 
-# 
 
-# Purpose:
+Status
 
-# 
 
-# Generate attendance QR.
 
-# 
+Pending
 
-# Displays:
 
-# 
 
-# Customer Name
+Verifying
 
-# 
 
-# Mess Name
 
-# 
+Verified
 
-# Meal Type
 
-# 
 
-# Timestamp
+Manual Review
 
-# 
 
-# Live QR
 
-# 
+Failed
 
-# Rules:
 
-# 
 
-# QR Refresh Every Minute
+Actions
 
-# 
 
-# Single Use
 
-# 
+Refresh Status
 
-# Screenshot Disabled
 
-# 
 
-# States:
+Contact Mess
 
-# 
 
-# Available
 
-# 
+Return Home
 
-# Used
 
-# 
 
-# Expired
+Success
 
-# 
 
-# Leave Day
 
-# 
+Subscription Activated
 
-# \---
 
-# 
 
-# \##################################################
+\---
 
-# 
 
-# \# LEAVE MANAGEMENT SCREEN
 
-# 
+\# SUBSCRIPTIONS
 
-# \##################################################
 
-# 
 
-# Purpose:
+Purpose
 
-# 
 
-# Manage future leave dates.
 
-# 
+Display subscription history.
 
-# Calendar View
 
-# 
 
-# Highlighted States:
+Sections
 
-# 
 
-# Leave Marked
 
-# 
+Active
 
-# Locked
 
-# 
 
-# Today
+Expired
 
-# 
 
-# Selectable
 
-# 
+Cancelled
 
-# Actions:
 
-# 
 
-# Add Leave Date
+Card Displays
 
-# 
 
-# Cancel Leave Date
 
-# 
+Mess
 
-# Rules:
 
-# 
 
-# Must be submitted at least 2 days before.
+Plan
 
-# 
 
-# Locked dates cannot be edited.
 
-# 
+Start Date
 
-# \---
 
-# 
 
-# \##################################################
+End Date
 
-# 
 
-# \# PAYMENT HISTORY SCREEN
 
-# 
+Days Remaining
 
-# \##################################################
 
-# 
 
-# Purpose:
+Status
 
-# 
 
-# View payments.
 
-# 
+Actions
 
-# Displays:
 
-# 
 
-# Date
+View Details
 
-# 
 
-# Amount
 
-# 
+Renew
 
-# Mess Name
 
-# 
 
-# Status
+\---
 
-# 
 
-# Transaction Reference
 
-# 
+\# SUBSCRIPTION DETAILS
 
-# Filters:
 
-# 
 
-# All
+Displays
 
-# 
 
-# Verified
 
-# 
+Plan Information
 
-# Failed
 
-# 
 
-# \---
+Attendance Summary
 
-# 
 
-# \##################################################
 
-# 
+Leave Summary
 
-# \# REVIEWS SCREEN
 
-# 
 
-# \##################################################
+Payment History
 
-# 
 
-# Purpose:
 
-# 
+Subscription Timeline
 
-# Review management.
 
-# 
 
-# Eligibility Banner
+Actions
 
-# 
 
-# Displays:
 
-# 
+Renew Subscription
 
-# Rating
 
-# 
 
-# Review
+Download Receipt (Future)
 
-# 
 
-# Owner Reply
 
-# 
+\---
 
-# Actions:
 
-# 
 
-# Write Review
+\# ATTENDANCE QR
 
-# 
 
-# Edit Review
 
-# 
+Purpose
 
-# Delete Review
 
-# 
 
-# Rules:
+Generate meal attendance QR.
 
-# 
 
-# Editable for 2 minutes only.
 
-# 
+Displays
 
-# One review per mess.
 
-# 
 
-# \---
+Animated QR
 
-# 
 
-# \##################################################
 
-# 
+Countdown Timer
 
-# \# PROFILE SCREEN
 
-# 
 
-# \##################################################
+Meal
 
-# 
 
-# Purpose:
 
-# 
+Current Date
 
-# Manage account.
 
-# 
 
-# Displays:
+Subscription
 
-# 
 
-# Profile Photo
 
-# 
+States
 
-# Name
 
-# 
 
-# Phone
+Generating
 
-# 
 
-# Email
 
-# 
+Ready
 
-# Address
 
-# 
 
-# Language
+Validating
 
-# 
 
-# Theme
 
-# 
+Used
 
-# Notification Preference
 
-# 
 
-# Actions:
+Expired
 
-# 
 
-# Change Mobile Number
 
-# 
+Rules
 
-# Edit Profile
 
-# 
 
-# Logout
+QR refreshes automatically.
 
-# 
 
-# Delete Account Request
 
-# 
+Single use only.
 
-# \---
 
-# 
 
-# \##################################################
+\---
 
-# 
 
-# \# NOTIFICATION CENTER
 
-# 
+\# MANUAL ATTENDANCE APPROVAL
 
-# \##################################################
 
-# 
 
-# Purpose:
+Purpose
 
-# 
 
-# View notifications.
 
-# 
+Approve owner's attendance request.
 
-# Displays:
 
-# 
 
-# Notification List
+Displays
 
-# 
 
-# Unread Indicator
 
-# 
+Mess
 
-# Timestamp
 
-# 
 
-# Actions:
+Owner
 
-# 
 
-# Open Related Screen
 
-# 
+Meal
 
-# Mark As Read
 
-# 
 
-# Filters:
+Reason
 
-# 
 
-# All
 
-# 
+Time
 
-# Unread
 
-# 
 
-# Read
+Buttons
 
-# 
 
-# Empty State:
 
-# 
+Approve
 
-# "No Notifications"
 
-# 
 
-# 
+Reject
 
-# 
 
-# 
 
-# \# PART 2 - OWNER APPLICATION
+States
 
-# 
 
-# \---
 
-# 
+Pending
 
-# \# OWNER NAVIGATION STRUCTURE
 
-# 
 
-# Bottom Navigation:
+Approved
 
-# 
 
-# 1\. Dashboard
 
-# 2\. Customers
+Rejected
 
-# 3\. Analytics
 
-# 4\. Settings
 
-# 
+Expired
 
-# Global Access:
 
-# 
 
-# \* Mess Switcher
+Success
 
-# \* Join Requests
 
-# \* Attendance Scanner
 
-# \* Plan Management
+Attendance Recorded
 
-# \* Notice Management
 
-# \* Notifications
 
-# 
+\---
 
-# \---
 
-# 
 
-# \# OWNER DASHBOARD
+\# ATTENDANCE HISTORY
 
-# 
 
-# Purpose:
 
-# 
+Displays
 
-# Primary operational screen.
 
-# 
 
-# App Bar:
+Date
 
-# 
 
-# Current Mess Name
 
-# 
+Meal
 
-# Mess Switcher Button
 
-# 
 
-# Notification Bell
+Attendance Method
 
-# 
 
-# Body Sections:
 
-# 
+QR
 
-# \---
 
-# 
 
-# 1\. Today's Meal Attendance Summary
+Manual
 
-# 
 
-# Displays:
 
-# 
+Status
 
-# Breakfast Attendance
 
-# Lunch Attendance
 
-# Dinner Attendance
+Present
 
-# 
 
-# Format:
 
-# 
+Leave
 
-# Actual / Expected
 
-# 
 
-# Examples:
+Filters
 
-# 
 
-# 44 / 48
 
-# 42 / 46
+Week
 
-# 31 / 45
 
-# 
 
-# Rules:
+Month
 
-# 
 
-# Future meals:
 
-# Expected count only
+Custom Range
 
-# 
 
-# Completed meals:
 
-# Actual / Expected
+Actions
 
-# 
 
-# Current active meal:
 
-# Live Actual / Expected
+View Details
 
-# 
 
-# Expected Count Calculation:
 
-# 
+\---
 
-# Active Customers - Leave Customers
 
-# &#x20; = Expected Meals
 
-# 
+\# LEAVE MANAGEMENT
 
-# \---
 
-# 
 
-# 2\. Pending Join Requests
+Purpose
 
-# 
 
-# Displays:
 
-# 
+Manage planned leave.
 
-# Pending Count
 
-# 
 
-# Recent Requests
+Displays
 
-# 
 
-# Button:
 
-# 
+Calendar
 
-# View All Requests
 
-# 
 
-# \---
+Selected Dates
 
-# 
 
-# 3\. Expiring Customers
 
-# 
+Meal
 
-# Displays:
 
-# 
 
-# Customers expiring within 2 days
+Leave Status
 
-# 
 
-# Count
 
-# 
+Actions
 
-# Button:
 
-# 
 
-# View All
+Add Leave
 
-# 
 
-# \---
 
-# 
+Edit
 
-# 4\. Revenue Summary
 
-# 
 
-# Displays:
+Cancel
 
-# 
 
-# Current Month Revenue
 
-# 
+Rules
 
-# Verified Payments Only
 
-# 
 
-# Button:
+Leave follows configured lock period.
 
-# 
 
-# View Analytics
 
-# 
+\---
 
-# \---
 
-# 
 
-# 5\. Quick Actions
+\# NOTIFICATION CENTER
 
-# 
 
-# Buttons:
 
-# 
+Displays
 
-# Scan Attendance
 
-# 
 
-# Create Notice
+Customer Notifications
 
-# 
 
-# Manage Plans
 
-# 
+Categories
 
-# Add Customer
 
-# 
 
-# \---
+Subscription
 
-# 
 
-# \##################################################
 
-# 
+Payment
 
-# \# MESS SWITCHER SCREEN
 
-# 
 
-# \##################################################
+Attendance
 
-# 
 
-# Purpose:
 
-# 
+Manual Attendance
 
-# Switch between owned messes.
 
-# 
 
-# Displays:
+Leave
 
-# 
 
-# Mess Name
 
-# 
+Notice
 
-# Status
 
-# 
 
-# Customer Count
+Review
 
-# 
 
-# Rating
 
-# 
+Announcements
 
-# Actions:
 
-# 
 
-# Switch
+States
 
-# 
 
-# View Details
 
-# 
+Unread
 
-# Create New Mess
 
-# 
 
-# States:
+Read
 
-# 
 
-# Active
 
-# 
+Archived
 
-# Frozen
 
-# 
 
-# Pending Approval
+Actions
 
-# 
 
-# Delisted
 
-# 
+Open
 
-# \---
 
-# 
 
-# \##################################################
+Mark Read
 
-# 
 
-# \# JOIN REQUESTS SCREEN
 
-# 
+Archive
 
-# \##################################################
 
-# 
 
-# Purpose:
+\---
 
-# 
 
-# Approve or reject new customers.
 
-# 
+\# PROFILE
 
-# Displays:
 
-# 
 
-# Customer Photo
+Displays
 
-# 
 
-# Customer Name
 
-# 
+Photo
 
-# Age
 
-# 
 
-# Gender
+Name
 
-# 
 
-# Requested Plan
 
-# 
+Phone
 
-# Request Date
 
-# 
 
-# Status
+Email
 
-# 
 
-# Actions:
 
-# 
+Address
 
-# Approve
 
-# 
 
-# Reject
+Language
 
-# 
 
-# View Profile
 
-# 
+Theme
 
-# \---
 
-# 
 
-# Reject Flow:
+Buttons
 
-# 
 
-# Reason Required
 
-# 
+Edit Profile
 
-# Confirm Rejection
 
-# 
 
-# \---
+Change Password
 
-# 
 
-# Approve Flow:
 
-# 
+Logout
 
-# Approve
 
-# 
 
-# Notification Sent To Customer
+\---
 
-# 
 
-# \---
 
-# 
+\# SETTINGS
 
-# \##################################################
 
-# 
 
-# \# CUSTOMER MANAGEMENT SCREEN
+Displays
 
-# 
 
-# \##################################################
 
-# 
+Language
 
-# Purpose:
 
-# 
 
-# Manage all customers.
+Theme
 
-# 
 
-# Search:
 
-# 
+Notification Preferences
 
-# Name
 
-# 
 
-# Mobile Number
+Privacy Policy
 
-# 
 
-# Filters:
 
-# 
+Terms \& Conditions
 
-# Active
 
-# 
 
-# Expired
+App Version
 
-# 
 
-# Due In 2 Days
 
-# 
+About
 
-# Blacklisted
 
-# 
 
-# Sorting:
+Buttons
 
-# 
 
-# Expiry Date
 
-# 
+Logout
 
-# Newest First
+---
 
-# 
 
-# Name
 
-# 
+\##################################################
 
-# \---
+\# OWNER APPLICATION
 
-# 
+\##################################################
 
-# Customer Card
 
-# 
 
-# Displays:
+\---
 
-# 
 
-# Photo
 
-# 
+\# OWNER DASHBOARD
 
-# Name
 
-# 
 
-# Plan
+Purpose
 
-# 
 
-# Days Remaining
 
-# 
+Primary operational dashboard for mess owners.
 
-# Status
 
-# 
 
-# Actions:
+Displays
 
-# 
 
-# View Profile
 
-# 
+Mess Summary
 
-# Extend Subscription
 
-# 
 
-# Blacklist
+Today's Attendance
 
-# 
 
-# Add Note
 
-# 
+Today's Leave Requests
 
-# Remove Customer
 
-# 
 
-# \---
+Pending Join Requests
 
-# 
 
-# Empty State:
 
-# 
+Active Customers
 
-# No Customers Found
 
-# 
 
-# \---
+Pending Payments
 
-# 
 
-# \##################################################
 
-# 
+Monthly Revenue
 
-# \# CUSTOMER PROFILE SCREEN
 
-# 
 
-# \##################################################
+Unread Notifications
 
-# 
 
-# Purpose:
 
-# 
+Quick Actions
 
-# View customer details.
 
-# 
 
-# Displays:
+Customers
 
-# 
 
-# Profile Photo
 
-# 
+Plans
 
-# Name
 
-# 
 
-# Age
+Attendance
 
-# 
 
-# Gender
 
-# 
+Revenue
 
-# Phone
 
-# 
 
-# Address
+Notices
 
-# 
 
-# Current Subscription
 
-# 
+Reviews
 
-# Attendance Summary
 
-# 
 
-# Payment History
+Profile
 
-# 
 
-# Private Notes
 
-# 
+Widgets
 
-# \---
 
-# 
 
-# Actions:
+Today's Attendance
 
-# 
 
-# Add Note
 
-# 
+Revenue Summary
 
-# Edit Note
 
-# 
 
-# Extend Subscription
+Pending Actions
 
-# 
 
-# Blacklist Customer
 
-# 
+Subscription Status
 
-# Remove Customer
 
-# 
 
-# \---
+Loading
 
-# 
 
-# Restrictions:
 
-# 
+Skeleton Cards
 
-# Profile hidden after subscription expires.
 
-# 
 
-# Only historical subscription data remains visible.
+Empty State
 
-# 
 
-# \---
 
-# 
+No customers yet.
 
-# \##################################################
 
-# 
 
-# \# PLAN MANAGEMENT SCREEN
+\---
 
-# 
 
-# \##################################################
 
-# 
+\# CUSTOMER MANAGEMENT
 
-# Purpose:
 
-# 
 
-# Create and manage plans.
+Purpose
 
-# 
 
-# Displays:
 
-# 
+Manage customers of the selected mess.
 
-# All Active Plans
 
-# 
 
-# Inactive Plans
+Displays
 
-# 
 
-# \---
 
-# 
+Search
 
-# Plan Card
 
-# 
 
-# Displays:
+Filters
 
-# 
 
-# Plan Name
 
-# 
+Customer List
 
-# Price
 
-# 
 
-# Duration
+Filters
 
-# 
 
-# Meals Included
 
-# 
+Active
 
-# Status
 
-# 
 
-# Actions:
+Expired
 
-# 
 
-# Edit
 
-# 
+Pending Payment
 
-# Deactivate
 
-# 
 
-# Duplicate
+Suspended
 
-# 
 
-# \---
 
-# 
+Card Displays
 
-# Create Plan
 
-# 
 
-# Fields:
+Customer Photo
 
-# 
 
-# Plan Name
 
-# 
+Customer Name
 
-# Price
 
-# 
 
-# Duration
+Phone Number
 
-# 
 
-# Meals Included
 
-# 
+Plan
 
-# Meal Timings
 
-# 
 
-# Description
+Subscription Status
 
-# 
 
-# \---
 
-# 
+Actions
 
-# Validation:
 
-# 
 
-# Price > 0
+View Details
 
-# 
 
-# Duration > 0
 
-# 
+Call
 
-# At least one meal selected
 
-# 
 
-# \---
+Search
 
-# 
 
-# \##################################################
 
-# 
+\---
 
-# \# ATTENDANCE SCANNER SCREEN
 
-# 
 
-# \##################################################
+\# CUSTOMER DETAILS
 
-# 
 
-# Purpose:
 
-# 
+Displays
 
-# Attendance verification.
 
-# 
 
-# Uses:
+Profile
 
-# 
 
-# Device Camera
 
-# 
+Subscription
 
-# \---
 
-# 
 
-# Scanner View
+Attendance Summary
 
-# 
 
-# Displays:
 
-# 
+Leave Summary
 
-# Camera Preview
 
-# 
 
-# Scanning Area
+Payment History
 
-# 
 
-# Torch Toggle
 
-# 
+Private Notes
 
-# \---
 
-# 
 
-# Success Screen
+Actions
 
-# 
 
-# Displays:
 
-# 
+Add Note
 
-# Customer Name
 
-# 
 
-# Meal Type
+View Attendance
 
-# 
 
-# Time
 
-# 
+View Payments
 
-# Status:
 
-# 
 
-# Attendance Marked
+Renew Subscription
 
-# 
 
-# \---
 
-# 
+Rules
 
-# Failure States:
 
-# 
 
-# QR Expired
+Owner can access only customers belonging to their own mess.
 
-# 
 
-# QR Already Used
 
-# 
+\---
 
-# Invalid QR
 
-# 
 
-# Wrong Meal Window
+\# PLANS
 
-# 
 
-# No Active Subscription
 
-# 
+Purpose
 
-# \---
 
-# 
 
-# Actions:
+Manage subscription plans.
 
-# 
 
-# Scan Again
 
-# 
+Displays
 
-# \---
 
-# 
 
-# \##################################################
+Plan Cards
 
-# 
 
-# \# ATTENDANCE HISTORY SCREEN
 
-# 
+Plan Name
 
-# \##################################################
 
-# 
 
-# Purpose:
+Price
 
-# 
 
-# Attendance overview.
 
-# 
+Duration
 
-# Displays:
 
-# 
 
-# Date
+Meals Included
 
-# 
 
-# Customer Name
 
-# 
+Subscriber Count
 
-# Meal
 
-# 
 
-# Status
+Status
 
-# 
 
-# Time
 
-# 
+Actions
 
-# Filters:
 
-# 
 
-# Today
+Create Plan
 
-# 
 
-# This Week
 
-# 
+Edit
 
-# This Month
 
-# 
 
-# Customer
+Activate
 
-# 
 
-# Meal Type
 
-# 
+Deactivate
 
-# \---
 
-# 
 
-# \##################################################
+Delete
 
-# 
 
-# \# NOTICE MANAGEMENT SCREEN
 
-# 
+Rules
 
-# \##################################################
 
-# 
 
-# Purpose:
+Plans with active subscribers cannot be deleted.
 
-# 
 
-# Create and manage notices.
 
-# 
+\---
 
-# Displays:
 
-# 
 
-# Active Notices
+\# CREATE / EDIT PLAN
 
-# 
 
-# Expired Notices
 
-# 
+Fields
 
-# \---
 
-# 
 
-# Notice Card
+Plan Name
 
-# 
 
-# Displays:
 
-# 
+Description
 
-# Title
 
-# 
 
-# Category
+Price
 
-# 
 
-# Expiry Date
 
-# 
+Duration
 
-# Created Date
 
-# 
 
-# Actions:
+Meals Included
 
-# 
 
-# Edit
 
-# 
+Meal Timings
 
-# Delete
 
-# 
 
-# \---
+Buttons
 
-# 
 
-# Create Notice
 
-# 
+Save
 
-# Fields:
 
-# 
 
-# Title
+Cancel
 
-# 
 
-# Description
 
-# 
+Validation
 
-# Category
 
-# 
 
-# Expiry Date
+Price must be greater than zero.
 
-# 
 
-# \---
 
-# 
+At least one meal must be selected.
 
-# Categories:
 
-# 
 
-# General
+\---
 
-# 
 
-# Holiday
 
-# 
+\# JOIN REQUESTS
 
-# Menu Change
 
-# 
 
-# Payment Reminder
+Displays
 
-# 
 
-# Emergency
 
-# 
+Pending Requests
 
-# \---
 
-# 
 
-# \##################################################
+Approved Requests
 
-# 
 
-# \# ANALYTICS SCREEN
 
-# 
+Rejected Requests
 
-# \##################################################
 
-# 
 
-# Purpose:
+Expired Requests
 
-# 
 
-# Business insights.
 
-# 
+Card Displays
 
-# Summary Cards:
 
-# 
 
-# Active Customers
+Customer
 
-# 
 
-# Total Customers
 
-# 
+Plan
 
-# Revenue
 
-# 
 
-# New Admissions
+Requested Date
 
-# 
 
-# Attendance Percentage
 
-# 
+Status
 
-# \---
 
-# 
 
-# Charts:
+Actions
 
-# 
 
-# Customer Growth
 
-# 
+Approve
 
-# Revenue Trend
 
-# 
 
-# Attendance Trend
+Reject
 
-# 
 
-# \---
 
-# 
+View Details
 
-# Filters:
 
-# 
 
-# Today
+Rules
 
-# 
 
-# This Week
 
-# 
+Approval enables payment.
 
-# This Month
 
-# 
 
-# Custom Range
+Rejection requires a reason.
 
-# 
 
-# \---
 
-# 
+\---
 
-# \##################################################
 
-# 
 
-# \# PAYMENT RECORDS SCREEN
+\# ATTENDANCE SCANNER
 
-# 
 
-# \##################################################
 
-# 
+Purpose
 
-# Purpose:
 
-# 
 
-# View customer payment records.
+Record customer attendance.
 
-# 
 
-# Displays:
 
-# 
+Displays
 
-# Customer Name
 
-# 
 
-# Plan
+QR Scanner
 
-# 
 
-# Amount
 
-# 
+Current Meal
 
-# Status
 
-# 
 
-# Verification Date
+Today's Date
 
-# 
 
-# Transaction Reference
 
-# 
+Quick Actions
 
-# Filters:
 
-# 
 
-# Verified
+Manual Attendance
 
-# 
 
-# Failed
 
-# 
+Attendance History
 
-# Date Range
 
-# 
 
-# \---
+Rules
 
-# 
 
-# Restriction:
 
-# 
+QR attendance is the primary attendance method.
 
-# Only payments related to current owner's messes.
 
-# 
 
-# \---
+\---
 
-# 
 
-# \##################################################
 
-# 
+\# MANUAL ATTENDANCE REQUEST
 
-# \# BLACKLIST MANAGEMENT SCREEN
 
-# 
 
-# \##################################################
+Purpose
 
-# 
 
-# Purpose:
 
-# 
+Request customer approval for manual attendance.
 
-# Manage blocked customers.
 
-# 
 
-# Displays:
+Displays
 
-# 
 
-# Customer Name
 
-# 
+Customer Search
 
-# Reason
 
-# 
 
-# Blacklist Date
+Selected Customer
 
-# 
 
-# Actions:
 
-# 
+Meal
 
-# Remove From Blacklist
 
-# 
 
-# View Profile
+Reason
 
-# 
 
-# \---
 
-# 
+Optional Remarks
 
-# Rules:
 
-# 
 
-# Blacklist affects all messes owned by same owner.
+Reasons
 
-# 
 
-# Customer cannot submit join requests while blacklisted.
 
-# 
+QR Failed
 
-# \---
 
-# 
 
-# \##################################################
+Camera Issue
 
-# 
 
-# \# OWNER NOTES SCREEN
 
-# 
+Network Issue
 
-# \##################################################
 
-# 
 
-# Purpose:
+Owner Verified
 
-# 
 
-# Private customer notes.
 
-# 
+Other
 
-# Displays:
 
-# 
 
-# Customer Name
+Actions
 
-# 
 
-# Note
 
-# 
+Send Request
 
-# Created Date
 
-# 
 
-# Last Updated
+Cancel
 
-# 
 
-# Actions:
 
-# 
+Validation
 
-# Add Note
 
-# 
 
-# Edit Note
+Customer must have an active subscription.
 
-# 
 
-# Delete Note
 
-# 
+Attendance must not already exist.
 
-# \---
 
-# 
 
-# Visibility:
+Request allowed only during the attendance window.
 
-# 
 
-# Owner Only
 
-# 
+Success
 
-# Admin Visible
 
-# 
 
-# Customer Never Visible
+Customer receives approval request.
 
-# 
 
-# \---
 
-# 
+\---
 
-# \##################################################
 
-# 
 
-# \# OWNER SETTINGS SCREEN
+\# ATTENDANCE HISTORY
 
-# 
 
-# \##################################################
 
-# 
+Displays
 
-# Purpose:
 
-# 
 
-# Manage mess settings.
+Date
 
-# 
 
-# Sections:
 
-# 
+Customer
 
-# \---
 
-# 
 
-# 1\. Basic Information
+Meal
 
-# 
 
-# Mess Name
 
-# 
+Attendance Method
 
-# Description
 
-# 
 
-# Contact Number
+QR
 
-# 
 
-# Address
 
-# 
+Manual
 
-# \---
 
-# 
 
-# 2\. Capacity
+Status
 
-# 
 
-# Current Capacity
 
-# 
+Present
 
-# Current Customers
 
-# 
 
-# Update Capacity
+Leave
 
-# 
 
-# \---
 
-# 
+Filters
 
-# 3\. Gallery
 
-# 
 
-# Cover Image
+Today
 
-# 
 
-# Gallery Images
 
-# 
+Week
 
-# Actions:
 
-# 
 
-# Add
+Month
 
-# 
 
-# Remove
 
-# 
+Custom Range
 
-# Reorder
 
-# 
 
-# Replace
+Actions
 
-# 
 
-# \---
 
-# 
+View Details
 
-# 4\. UPI Information
 
-# 
 
-# Display Only
+Export (Future)
 
-# 
 
-# Paytm Business UPI ID
 
-# 
+\---
 
-# Editable:
 
-# 
 
-# No
+\# NOTICES
 
-# 
 
-# Admin Approval Required For Changes
 
-# 
+Purpose
 
-# \---
 
-# 
 
-# 5\. App Preferences
+Publish announcements.
 
-# 
 
-# Language
 
-# 
+Displays
 
-# Theme
 
-# 
 
-# Notifications
+Notice List
 
-# 
 
-# \---
 
-# 
+Title
 
-# 6\. Account Actions
 
-# 
 
-# Logout
+Category
 
-# 
 
-# Request Delisting
 
-# 
+Expiry
 
-# Delete Mess Request
 
-# 
 
-# \---
+Pinned Status
 
-# 
 
-# Rules:
 
-# 
+Categories
 
-# Delete request allowed only when customer count is below platform threshold.
 
-# 
 
-# Delisting requires admin approval.
+General
 
-# 
 
-# \---
 
-# 
+Holiday
 
-# \##################################################
 
-# 
 
-# \# OWNER NOTIFICATION CENTER
+Menu Change
 
-# 
 
-# \##################################################
 
-# 
+Payment Reminder
 
-# Purpose:
 
-# 
 
-# Owner notifications.
+Emergency
 
-# 
 
-# Types:
 
-# 
+Actions
 
-# New Join Request
 
-# 
 
-# Review Received
+Create
 
-# 
 
-# Feedback Received
 
-# 
+Edit
 
-# Leave Added
 
-# 
 
-# Owner Subscription Expiring
+Delete
 
-# 
 
-# Notice Expired
 
-# 
+Pin
 
-# Payment Verified
 
-# 
 
-# Actions:
+Unpin
 
-# 
 
-# Open Related Screen
 
-# 
+\---
 
-# Mark As Read
 
-# 
 
-# Filters:
+\# REVIEWS
 
-# 
 
-# All
 
-# 
+Displays
 
-# Unread
 
-# 
 
-# Read
+Average Rating
 
-# 
 
-# 
 
-# 
+Review Cards
 
-# \# PART 3 - ADMIN APPLICATION
 
-# 
 
-# \---
+Customer
 
-# 
 
-# \# ADMIN NAVIGATION STRUCTURE
 
-# 
+Rating
 
-# Bottom Navigation:
 
-# 
 
-# 1\. Dashboard
+Review
 
-# 2\. Moderation
 
-# 3\. Payments
 
-# 4\. Settings
+Owner Reply
 
-# 
 
-# Global Access:
 
-# 
+Report Count
 
-# \* Owner Approvals
 
-# \* Mess Approvals
 
-# \* User Management
+Actions
 
-# \* Review Moderation
 
-# \* Feedback Moderation
 
-# \* Audit Logs
+Reply
 
-# \* Payment Monitoring
 
-# 
 
-# \---
+Edit Reply
 
-# 
 
-# \##################################################
 
-# 
+Report
 
-# \# ADMIN DASHBOARD
 
-# 
 
-# \##################################################
+Rules
 
-# 
 
-# Purpose:
 
-# 
+Owners cannot delete reviews.
 
-# Platform overview and monitoring.
 
-# 
 
-# Summary Cards:
+\---
 
-# 
 
-# Pending Owner Approvals
 
-# 
+\# PRIVATE FEEDBACK
 
-# Pending Mess Approvals
 
-# 
 
-# Reported Reviews
+Displays
 
-# 
 
-# Reported Feedback
 
-# 
+Feedback List
 
-# Active Owners
 
-# 
 
-# Active Customers
+Customer
 
-# 
 
-# Active Messes
 
-# 
+Feedback
 
-# Platform Revenue
 
-# 
 
-# \---
+Owner Reply
 
-# 
 
-# Quick Actions:
 
-# 
+Status
 
-# Review Approvals
 
-# 
 
-# Review Reports
+Actions
 
-# 
 
-# Payment Monitoring
 
-# 
+Reply
 
-# Audit Logs
 
-# 
 
-# Global Settings
+View History
 
-# 
 
-# \---
 
-# 
+\---
 
-# Recent Activity Feed:
 
-# 
 
-# Displays:
+\# REVENUE
 
-# 
 
-# User
 
-# 
+Purpose
 
-# Action
 
-# 
 
-# Timestamp
+Display financial summary.
 
-# 
 
-# Example:
 
-# 
+Displays
 
-# Owner Approved
 
-# 
 
-# Mess Delisted
+Today's Revenue
 
-# 
 
-# Review Removed
 
-# 
+Monthly Revenue
 
-# Payment Overridden
 
-# 
 
-# \---
+Expected Revenue
 
-# 
 
-# \##################################################
 
-# 
+Collected Revenue
 
-# \# OWNER APPROVAL SCREEN
 
-# 
 
-# \##################################################
+Pending Verification
 
-# 
 
-# Purpose:
 
-# 
+Failed Verification
 
-# Verify new owner registrations.
 
-# 
 
-# Displays:
+Charts
 
-# 
 
-# Owner Name
 
-# 
+Revenue Trend
 
-# Phone Number
 
-# 
 
-# Email
+Payment Status
 
-# 
 
-# Address
 
-# 
+Filters
 
-# Owner Photo
 
-# 
 
-# Aadhaar Number
+Today
 
-# 
 
-# Verification Status
 
-# 
+Week
 
-# Registration Date
 
-# 
 
-# \---
+Month
 
-# 
 
-# Actions:
 
-# 
+Custom Range
 
-# Approve
 
-# 
 
-# Reject
+Actions
 
-# 
 
-# Suspend
 
-# 
+Export Report (Future)
 
-# Request Additional Documents
 
-# 
 
-# \---
+\---
 
-# 
 
-# Approval Flow:
 
-# 
+\# OWNER SUBSCRIPTION
 
-# Approve
 
-# ↓
 
-# Owner Account Activated
+Purpose
 
-# ↓
 
-# Owner Notified
 
-# 
+Manage owner's Mazi Mess subscription.
 
-# \---
 
-# 
 
-# Rejection Flow:
+Displays
 
-# 
 
-# Reason Required
 
-# 
+Current Plan
 
-# Owner Notified
 
-# 
 
-# Status:
+Billing Cycle
 
-# Rejected
 
-# 
 
-# \---
+Start Date
 
-# 
 
-# \##################################################
 
-# 
+Expiry Date
 
-# \# MESS APPROVAL SCREEN
 
-# 
 
-# \##################################################
+Days Remaining
 
-# 
 
-# Purpose:
 
-# 
+Renewal Due
 
-# Review newly registered messes.
 
-# 
 
-# Displays:
+Grace Period Status
 
-# 
 
-# Mess Name
 
-# 
+Payment History
 
-# Owner Name
 
-# 
 
-# Address
+Actions
 
-# 
 
-# Location Map
 
-# 
+Renew Subscription
 
-# Contact Number
 
-# 
 
-# Capacity
+View Payment History
 
-# 
 
-# Gallery Images
 
-# 
+Contact Support
 
-# Verification Documents
 
-# 
 
-# \---
+Rules
 
-# 
 
-# Actions:
 
-# 
+Expired subscriptions display renewal instructions.
 
-# Approve
 
-# 
 
-# Reject
+\---
 
-# 
 
-# Freeze
 
-# 
+\# PAYMENT CONFIGURATION
 
-# Delist
 
-# 
 
-# Delete
+Purpose
 
-# 
 
-# \---
 
-# 
+Display payment integration status.
 
-# Status Filters:
 
-# 
 
-# Pending
+Displays
 
-# 
 
-# Active
 
-# 
+Configuration Status
 
-# Frozen
 
-# 
 
-# Delisted
+Integration Status
 
-# 
 
-# Deleted
 
-# 
+Status
 
-# \---
 
-# 
 
-# \##################################################
+Configured
 
-# 
 
-# \# USER MANAGEMENT SCREEN
 
-# 
+Not Configured
 
-# \##################################################
 
-# 
 
-# Purpose:
+Disabled
 
-# 
 
-# Manage platform users.
 
-# 
+Message
 
-# Tabs:
 
-# 
 
-# Customers
+"Payment verification infrastructure is managed by the Platform Administrator."
 
-# 
 
-# Owners
 
-# 
+Rules
 
-# Admins
 
-# 
 
-# \---
+Owner cannot view:
 
-# 
 
-# Search:
 
-# 
+\- Verification Gmail
 
-# Name
+\- Make Account
 
-# 
+\- Make Password
 
-# Phone Number
+\- Scenario ID
 
-# 
+\- Webhook URL
 
-# User ID
 
-# 
 
-# \---
+Owner cannot modify payment infrastructure.
 
-# 
 
-# User Card Displays:
 
-# 
+\---
 
-# Name
 
-# 
 
-# Role
+\# OWNER NOTIFICATIONS
 
-# 
 
-# Status
 
-# 
+Categories
 
-# Registration Date
 
-# 
 
-# \---
+Join Requests
 
-# 
 
-# Actions:
 
-# 
+Payments
 
-# View Profile
 
-# 
 
-# Suspend
+Payment Verified
 
-# 
 
-# Reactivate
 
-# 
+Payment Failed
 
-# Soft Delete
 
-# 
 
-# View History
+Attendance
 
-# 
 
-# \---
 
-# 
+Manual Attendance
 
-# \##################################################
 
-# 
 
-# \# USER PROFILE SCREEN
+Reviews
 
-# 
 
-# \##################################################
 
-# 
+Private Feedback
 
-# Purpose:
 
-# 
 
-# Detailed user inspection.
+Subscription
 
-# 
 
-# Displays:
 
-# 
+Platform Announcements
 
-# Profile Photo
 
-# 
 
-# Name
+States
 
-# 
 
-# Phone Number
 
-# 
+Unread
 
-# Email
 
-# 
 
-# Address
+Read
 
-# 
 
-# Role
 
-# 
+Archived
 
-# Status
 
-# 
 
-# Created Date
+Actions
 
-# 
 
-# \---
 
-# 
+Open
 
-# Customer View Includes:
 
-# 
 
-# Subscription History
+Mark Read
 
-# 
 
-# Payment History
 
-# 
+Archive
 
-# Review History
 
-# 
 
-# Blacklist Count
+\---
 
-# 
 
-# Attendance Summary
 
-# 
+\# OWNER PROFILE
 
-# \---
 
-# 
 
-# Owner View Includes:
+Displays
 
-# 
 
-# Owned Messes
 
-# 
+Profile Photo
 
-# Customer Counts
 
-# 
 
-# Revenue Summary
+Business Name
 
-# 
 
-# Owner Subscription Status
 
-# 
+Name
 
-# Verification Status
 
-# 
 
-# \---
+Phone
 
-# 
 
-# Actions:
 
-# 
+Email
 
-# Suspend
 
-# 
 
-# Reactivate
+Address
 
-# 
 
-# View Audit Logs
 
-# 
+Language
 
-# \---
 
-# 
 
-# \##################################################
+Theme
 
-# 
 
-# \# REVIEW MODERATION SCREEN
 
-# 
+Buttons
 
-# \##################################################
 
-# 
 
-# Purpose:
+Edit Profile
 
-# 
 
-# Moderate public reviews.
 
-# 
+Change Password
 
-# Displays:
 
-# 
 
-# Review
+Logout
 
-# 
 
-# Rating
 
-# 
+Rules
 
-# Reviewer
 
-# 
 
-# Mess
+Business verification information is read-only.
 
-# 
 
-# Owner Reply
 
-# 
+Verification status is displayed.
 
-# Report Count
 
-# 
 
-# Created Date
+\---
 
-# 
 
-# \---
 
-# 
+\# OWNER SETTINGS
 
-# Actions:
 
-# 
 
-# Keep Review
+Displays
 
-# 
 
-# Remove Review
 
-# 
+Language
 
-# Suspend Reviewer
 
-# 
 
-# Suspend Owner
+Theme
 
-# 
 
-# \---
 
-# 
+Notification Preferences
 
-# Filters:
 
-# 
 
-# Reported
+Support
 
-# 
 
-# Newest
 
-# 
+Privacy Policy
 
-# Oldest
 
-# 
 
-# Rating
+Terms \& Conditions
 
-# 
 
-# \---
 
-# 
+App Version
 
-# \##################################################
 
-# 
 
-# \# FEEDBACK MODERATION SCREEN
+Buttons
 
-# 
 
-# \##################################################
 
-# 
+Logout
 
-# Purpose:
 
-# 
 
-# Moderate reported private feedback.
+---
 
-# 
 
-# Displays:
 
-# 
+\##################################################
 
-# Feedback Text
+\# ADMIN APPLICATION
 
-# 
+\##################################################
 
-# Customer
 
-# 
 
-# Mess
+\---
 
-# 
 
-# Owner
 
-# 
+\# ADMIN DASHBOARD
 
-# Report Reason
 
-# 
 
-# Created Date
+Purpose
 
-# 
 
-# \---
 
-# 
+Central control panel for the entire platform.
 
-# Actions:
 
-# 
 
-# Keep Feedback
+Displays
 
-# 
 
-# Remove Feedback
 
-# 
+Platform Statistics
 
-# Suspend Customer
 
-# 
 
-# \---
+Owner Statistics
 
-# 
 
-# Filters:
 
-# 
+Mess Statistics
 
-# Reported
 
-# 
 
-# Newest
+Customer Statistics
 
-# 
 
-# Oldest
 
-# 
+Revenue Summary
 
-# \---
 
-# 
 
-# \##################################################
+Pending Verifications
 
-# 
 
-# \# PAYMENT MONITORING SCREEN
 
-# 
+Pending Approvals
 
-# \##################################################
 
-# 
 
-# Purpose:
+System Alerts
 
-# 
 
-# Monitor custom payment verification system.
 
-# 
+Quick Actions
 
-# Summary Cards:
 
-# 
 
-# Pending Verification
+Owner Verification
 
-# 
 
-# Verified Today
 
-# 
+Mess Approval
 
-# Failed Today
 
-# 
 
-# Manual Overrides
+Payment Monitoring
 
-# 
 
-# \---
 
-# 
+Business Analytics
 
-# Payment Intent Table
 
-# 
 
-# Displays:
+Global Settings
 
-# 
 
-# Payment Intent ID
 
-# 
+Maintenance
 
-# Customer
 
-# 
 
-# Mess
+Widgets
 
-# 
 
-# Amount
 
-# 
+Platform Revenue
 
-# Status
 
-# 
 
-# Created Time
+Monthly Revenue
 
-# 
 
-# \---
 
-# 
+Active Owner Subscriptions
 
-# Actions:
 
-# 
 
-# Open Details
+Pending Owner Verifications
 
-# 
 
-# Verify Manually
 
-# 
+Pending Mess Approvals
 
-# Mark Failed
 
-# 
 
-# Issue Refund Status
+Pending Payment Verifications
 
-# 
 
-# Admin Override
 
-# 
+Integration Failures
 
-# \---
 
-# 
 
-# Payment Detail View
+Loading
 
-# 
 
-# Displays:
 
-# 
+Skeleton Cards
 
-# Customer
 
-# 
 
-# Mess
+Empty State
 
-# 
 
-# Subscription
 
-# 
+No pending administrative actions.
 
-# Amount
 
-# 
 
-# Transaction Reference
+\---
 
-# 
 
-# Webhook ID
 
-# 
+\# OWNER VERIFICATION
 
-# Webhook Status
 
-# 
 
-# Verification Timestamp
+Purpose
 
-# 
 
-# Verification Logs
 
-# 
+Approve or reject owner registrations.
 
-# \---
 
-# 
 
-# \##################################################
+Displays
 
-# 
 
-# \# WEBHOOK MONITORING SCREEN
 
-# 
+Owner Photo
 
-# \##################################################
 
-# 
 
-# Purpose:
+Business Name
 
-# 
 
-# Track Make.com integration.
 
-# 
+Owner Name
 
-# Displays:
 
-# 
 
-# Webhook ID
+Phone
 
-# 
 
-# Received Time
 
-# 
+Email
 
-# Payload Status
 
-# 
 
-# Processing Result
+Verification Status
 
-# 
 
-# Related Payment Intent
 
-# 
+Submitted Documents
 
-# \---
 
-# 
 
-# Status Types:
+Admin Notes
 
-# 
 
-# Success
 
-# 
+Actions
 
-# Pending
 
-# 
 
-# Failed
+Approve
 
-# 
 
-# Duplicate
 
-# 
+Reject
 
-# \---
 
-# 
 
-# Actions:
+Request Documents
 
-# 
 
-# Retry Processing
 
-# 
+Suspend
 
-# View Payload
 
-# 
 
-# View Logs
+Filters
 
-# 
 
-# \---
 
-# 
+Pending
 
-# \##################################################
 
-# 
 
-# \# AUDIT LOG SCREEN
+Approved
 
-# 
 
-# \##################################################
 
-# 
+Rejected
 
-# Purpose:
 
-# 
 
-# Immutable system audit trail.
+Suspended
 
-# 
 
-# Displays:
 
-# 
+Rules
 
-# Actor
 
-# 
 
-# Role
+Only Administrators may approve owners.
 
-# 
 
-# Action
 
-# 
+Every action creates an Audit Log.
 
-# Target Type
 
-# 
 
-# Target ID
+\---
 
-# 
 
-# Timestamp
 
-# 
+\# OWNER DETAILS
 
-# Metadata
 
-# 
 
-# \---
+Displays
 
-# 
 
-# Filters:
 
-# 
+Owner Information
 
-# Date Range
 
-# 
 
-# Role
+Business Information
 
-# 
 
-# Action Type
 
-# 
+Verification History
 
-# User
 
-# 
 
-# Mess
+Owned Messes
 
-# 
 
-# \---
 
-# 
+Owner Subscription
 
-# Rules:
 
-# 
 
-# Read Only
+Activity Timeline
 
-# 
 
-# Never Editable
 
-# 
+Audit History
 
-# Never Deletable
 
-# 
 
-# \---
+Actions
 
-# 
 
-# \##################################################
 
-# 
+Approve
 
-# \# CUSTOMER REPUTATION SCREEN
 
-# 
 
-# \##################################################
+Suspend
 
-# 
 
-# Purpose:
 
-# 
+Reactivate
 
-# Internal moderation records.
 
-# 
 
-# Displays:
+View Messes
 
-# 
 
-# Customer Name
 
-# 
+\---
 
-# Blacklist Count
 
-# 
 
-# Total Reports
+\# MESS APPROVAL
 
-# 
 
-# Last Report Date
 
-# 
+Purpose
 
-# \---
 
-# 
 
-# Actions:
+Review newly registered messes.
 
-# 
 
-# View Details
 
-# 
+Displays
 
-# Reset Reputation
 
-# 
 
-# Add Internal Note
+Mess Photo
 
-# 
 
-# \---
 
-# 
+Mess Name
 
-# Visibility:
 
-# 
 
-# Admin Only
+Owner
 
-# 
 
-# \---
 
-# 
+Address
 
-# \##################################################
 
-# 
 
-# \# OWNER SUBSCRIPTIONS SCREEN
+Capacity
 
-# 
 
-# \##################################################
 
-# 
+Verification Documents
 
-# Purpose:
 
-# 
 
-# Manage Mazi Mess owner subscriptions.
+Current Status
 
-# 
 
-# Displays:
 
-# 
+Actions
 
-# Owner
 
-# 
 
-# Plan
+Approve
 
-# 
 
-# Start Date
 
-# 
+Reject
 
-# End Date
 
-# 
 
-# Status
+Request Changes
 
-# 
 
-# Days Remaining
 
-# 
+View Documents
 
-# \---
 
-# 
 
-# Statuses:
+Filters
 
-# 
 
-# Trial
 
-# 
+Pending
 
-# Active
 
-# 
 
-# Grace Period
+Approved
 
-# 
 
-# Expired
 
-# 
+Rejected
 
-# Suspended
 
-# 
 
-# \---
+Frozen
 
-# 
 
-# Actions:
 
-# 
+Rules
 
-# Activate
 
-# 
 
-# Extend
+Approved messes become visible in Explore.
 
-# 
 
-# Suspend
 
-# 
+Rejected messes require resubmission.
 
-# Reactivate
 
-# 
 
-# \---
+\---
 
-# 
 
-# \##################################################
 
-# 
+\# MESS DETAILS
 
-# \# FEATURED LISTINGS MANAGEMENT
 
-# 
 
-# \##################################################
+Displays
 
-# 
 
-# Purpose:
 
-# 
+Complete Mess Information
 
-# Manage promoted messes.
 
-# 
 
-# Displays:
+Gallery
 
-# 
 
-# Mess Name
 
-# 
+Owner Information
 
-# Owner
 
-# 
 
-# Current Position
+Plans
 
-# 
 
-# Promotion Status
 
-# 
+Customers
 
-# Start Date
 
-# 
 
-# End Date
+Reviews
 
-# 
 
-# \---
 
-# 
+Payment Infrastructure Status
 
-# Actions:
 
-# 
 
-# Feature
+Verification Timeline
 
-# 
 
-# Unfeature
 
-# 
+Actions
 
-# Change Position
 
-# 
 
-# Extend Promotion
+Freeze
 
-# 
 
-# \---
 
-# 
+Delist
 
-# \##################################################
 
-# 
 
-# \# GLOBAL SETTINGS SCREEN
+Activate
 
-# 
 
-# \##################################################
 
-# 
+Delete
 
-# Purpose:
 
-# 
 
-# Platform-wide controls.
+\---
 
-# 
 
-# Sections:
 
-# 
+\# PAYMENT MONITORING
 
-# \---
 
-# 
 
-# Registration Controls
+Purpose
 
-# 
 
-# Customer Registration Enabled
 
-# 
+Monitor all customer payment verification.
 
-# Owner Registration Enabled
 
-# 
 
-# \---
+Displays
 
-# 
 
-# Payment Controls
 
-# 
+Customer
 
-# Payment Verification Enabled
 
-# 
 
-# Manual Verification Enabled
+Mess
 
-# 
 
-# Webhook Processing Enabled
 
-# 
+Plan
 
-# \---
 
-# 
 
-# Platform Controls
+Verification Amount
 
-# 
 
-# Maintenance Mode
 
-# 
+Payment Status
 
-# Force Update Version
 
-# 
 
-# Default Language
+Verification Method
 
-# 
 
-# \---
 
-# 
+Verification Time
 
-# Content Controls
 
-# 
 
-# Review System Enabled
+Retry Count
 
-# 
 
-# Feedback System Enabled
 
-# 
+Filters
 
-# Attendance System Enabled
 
-# 
 
-# \---
+Pending
 
-# 
 
-# Actions:
 
-# 
+Verified
 
-# Save Changes
 
-# 
 
-# Publish Changes
+Manual Review
 
-# 
 
-# \---
 
-# 
+Failed
 
-# \##################################################
 
-# 
 
-# \# ADMIN NOTIFICATION CENTER
+Date Range
 
-# 
 
-# \##################################################
 
-# 
+Mess
 
-# Purpose:
 
-# 
 
-# Admin alerts and operational notifications.
+Actions
 
-# 
 
-# Types:
 
-# 
+View Details
 
-# New Owner Registration
 
-# 
 
-# New Mess Registration
+Retry Verification
 
-# 
 
-# Payment Verification Failure
 
-# 
+Manual Override
 
-# Webhook Failure
 
-# 
 
-# Reported Review
+\---
 
-# 
 
-# Reported Feedback
 
-# 
+\# PAYMENT VERIFICATION DETAILS
 
-# System Warning
 
-# 
 
-# \---
+Displays
 
-# 
 
-# Actions:
 
-# 
+Payment Intent
 
-# Open Related Screen
 
-# 
 
-# Mark Read
+Customer
 
-# 
 
-# Archive
 
-# 
+Mess
 
-# \---
 
-# 
 
-# Filters:
+Plan
 
-# 
 
-# Unread
 
-# 
+Verification Amount
 
-# Read
 
-# 
 
-# Critical
+Webhook Status
 
-# 
 
-# All
 
-# 
+Gmail Status
 
-# \---
 
-# 
 
-# \##################################################
+Gemini Extraction
 
-# 
 
-# \# ADMIN ANALYTICS SCREEN
 
-# 
+Confidence Score
 
-# \##################################################
 
-# 
 
-# Purpose:
+Retry History
 
-# 
 
-# Platform-wide analytics.
 
-# 
+Verification Timeline
 
-# Displays:
 
-# 
 
-# Total Customers
+Failure Reason
 
-# 
 
-# Total Owners
 
-# 
+Actions
 
-# Total Messes
 
-# 
 
-# Monthly Revenue
+Retry
 
-# 
 
-# Active Subscriptions
 
-# 
+Approve
 
-# Attendance Statistics
 
-# 
 
-# Review Statistics
+Reject
 
-# 
 
-# Growth Charts
 
-# 
+Close
 
-# \---
 
-# 
 
-# Filters:
+Rules
 
-# 
 
-# Today
 
-# 
+Only Administrators may override payment verification.
 
-# This Week
 
-# 
 
-# This Month
+Every override generates an Audit Log.
 
-# 
 
-# Custom Range
 
-# 
+\---
 
-# \---
 
-# 
 
-# Exports:
+\# INTEGRATION CONFIGURATION
 
-# 
 
-# CSV
 
-# 
+Purpose
 
-# Excel
 
-# 
 
-# PDF
+Configure payment infrastructure for each approved mess.
 
-# 
 
-# 
 
-# 
+Displays
 
-# \# PART 4 - GLOBAL SCREENS \& SHARED FLOWS
 
-# 
 
-# \---
+Mess Name
 
-# 
 
-# \# ROLE ROUTER SCREEN
 
-# 
+Verification Gmail
 
-# Purpose:
 
-# 
 
-# Determine destination after login.
+Make Account Email
 
-# 
 
-# Logic:
 
-# 
+Make Account Password
 
-# If role = customer
 
-# → Customer Home
 
-# 
+Scenario ID
 
-# If role = owner
 
-# → Owner Dashboard
 
-# 
+Webhook URL
 
-# If role = admin
 
-# → Admin Dashboard
 
-# 
+Integration Status
 
-# States:
 
-# 
 
-# Loading
+Status
 
-# 
 
-# Role Not Found
 
-# 
+Not Configured
 
-# Account Suspended
 
-# 
 
-# \---
+Configured
 
-# 
 
-# \##################################################
 
-# 
+Active
 
-# \# ACCOUNT SUSPENDED SCREEN
 
-# 
 
-# \##################################################
+Failed
 
-# 
 
-# Purpose:
 
-# 
+Disabled
 
-# Display account suspension information.
 
-# 
 
-# Displays:
+Actions
 
-# 
 
-# Account Status
 
-# 
+Create
 
-# Reason
 
-# 
 
-# Support Contact Information
+Edit
 
-# 
 
-# Actions:
 
-# 
+Test Connection
 
-# Contact Support
 
-# 
 
-# Logout
+Activate
 
-# 
 
-# Restrictions:
 
-# 
+Disable
 
-# No app access while suspended.
 
-# 
 
-# \---
+Rules
 
-# 
 
-# \##################################################
 
-# 
+Only Administrators have access.
 
-# \# EDIT PROFILE SCREEN
 
-# 
 
-# \##################################################
+Owners never see this screen.
 
-# 
 
-# Purpose:
 
-# 
+\---
 
-# Update personal profile information.
 
-# 
 
-# Displays:
+\# INTEGRATION MONITORING
 
-# 
 
-# Profile Photo
 
-# 
+Purpose
 
-# Name
 
-# 
 
-# Email
+Monitor infrastructure health.
 
-# 
 
-# Address
 
-# 
+Displays
 
-# Actions:
 
-# 
 
-# Update Profile
+Mess
 
-# 
 
-# Change Profile Photo
 
-# 
+Webhook Status
 
-# Save Changes
 
-# 
 
-# Restrictions:
+Make Status
 
-# 
 
-# Cannot edit:
 
-# 
+Gmail Status
 
-# \* Date Of Birth
 
-# \* Mobile Number
 
-# 
+Last Successful Verification
 
-# Mobile Number Change handled separately.
 
-# 
 
-# \---
+Last Failure
 
-# 
 
-# \##################################################
 
-# 
+Failure Reason
 
-# \# CHANGE MOBILE NUMBER SCREEN
 
-# 
 
-# \##################################################
+Overall Health
 
-# 
 
-# Purpose:
 
-# 
+Filters
 
-# Secure mobile number replacement.
 
-# 
 
-# Flow:
+Healthy
 
-# 
 
-# Step 1
 
-# 
+Failed
 
-# Verify Existing Number
 
-# 
 
-# OTP Verification
+Disabled
 
-# 
 
-# ↓
 
-# 
+Actions
 
-# Step 2
 
-# 
 
-# Enter New Number
+Refresh
 
-# 
 
-# OTP Verification
 
-# 
+View Configuration
 
-# ↓
 
-# 
 
-# Replace Number
+View Logs
 
-# 
 
-# Success
 
-# 
+\---
 
-# Rules:
 
-# 
 
-# Both OTP verifications mandatory.
+\# BUSINESS ANALYTICS
 
-# 
 
-# \---
 
-# 
+Purpose
 
-# \##################################################
 
-# 
 
-# \# LANGUAGE SELECTION SCREEN
+Display business intelligence.
 
-# 
 
-# \##################################################
 
-# 
+Displays
 
-# Purpose:
 
-# 
 
-# Choose application language.
+Platform Revenue
 
-# 
 
-# Options:
 
-# 
+Monthly Revenue
 
-# English
 
-# 
 
-# Marathi
+Annual Revenue
 
-# 
 
-# Hindi
 
-# 
+MRR
 
-# Actions:
 
-# 
 
-# Save
+ARR
 
-# 
 
-# Preview Language
 
-# 
+ARPO
 
-# Applies To:
 
-# 
 
-# Entire Application
+Owner Growth
 
-# 
 
-# \---
 
-# 
+Customer Growth
 
-# \##################################################
 
-# 
 
-# \# THEME SETTINGS SCREEN
+Subscription Churn
 
-# 
 
-# \##################################################
 
-# 
+Payment Success Rate
 
-# Purpose:
 
-# 
 
-# Choose visual theme.
+Charts
 
-# 
 
-# Options:
 
-# 
+Revenue Trend
 
-# Light
 
-# 
 
-# Dark
+Growth Trend
 
-# 
 
-# System Default
 
-# 
+Owner Distribution
 
-# Actions:
 
-# 
 
-# Save
+Subscription Distribution
 
-# 
 
-# Preview Theme
 
-# 
+Filters
 
-# Applies Instantly
 
-# 
 
-# \---
+Today
 
-# 
 
-# \##################################################
 
-# 
+Week
 
-# \# NOTIFICATION SETTINGS SCREEN
 
-# 
 
-# \##################################################
+Month
 
-# 
 
-# Purpose:
 
-# 
+Year
 
-# Manage notification preferences.
 
-# 
 
-# Options:
+Custom Range
 
-# 
 
-# Enable Notifications
 
-# 
+Actions
 
-# Disable Notifications
 
-# 
 
-# Categories:
+Export Report
 
-# 
 
-# Payment Notifications
 
-# 
+\---
 
-# Subscription Notifications
 
-# 
 
-# Review Notifications
+\# OWNER SUBSCRIPTIONS
 
-# 
 
-# Notice Notifications
 
-# 
+Purpose
 
-# System Notifications
 
-# 
 
-# Actions:
+Manage owner SaaS subscriptions.
 
-# 
 
-# Save
 
-# 
+Displays
 
-# \---
 
-# 
 
-# \##################################################
+Owner
 
-# 
 
-# \# SEARCH SCREEN
 
-# 
+Current Plan
 
-# \##################################################
 
-# 
 
-# Purpose:
+Billing Cycle
 
-# 
 
-# Global search experience.
 
-# 
+Start Date
 
-# Search Types:
 
-# 
 
-# Mess Name
+Expiry Date
 
-# 
 
-# Mess Code
 
-# 
+Grace Period
 
-# Customer Name (Owner/Admin)
 
-# 
 
-# Phone Number (Owner/Admin)
+Status
 
-# 
 
-# Displays:
 
-# 
+Actions
 
-# Recent Searches
 
-# 
 
-# Search Results
+Renew
 
-# 
 
-# Filters
 
-# 
+Suspend
 
-# Sorting
 
-# 
 
-# \---
+Reactivate
 
-# 
 
-# \##################################################
 
-# 
+View History
 
-# \# IMAGE VIEWER SCREEN
 
-# 
 
-# \##################################################
+Filters
 
-# 
 
-# Purpose:
 
-# 
+Trial
 
-# View uploaded images.
 
-# 
 
-# Supported Images:
+Active
 
-# 
 
-# Mess Images
 
-# 
+Renewal Due
 
-# Profile Photos
 
-# 
 
-# Verification Documents
+Grace Period
 
-# 
 
-# Functions:
 
-# 
+Expired
 
-# Zoom
 
-# 
 
-# Swipe
+Suspended
 
-# 
 
-# Download (Admin Only)
 
-# 
+\---
 
-# \---
 
-# 
 
-# \##################################################
+\# GLOBAL SETTINGS
 
-# 
 
-# \# MAP VIEW SCREEN
 
-# 
+Purpose
 
-# \##################################################
 
-# 
 
-# Purpose:
+Configure platform-wide behaviour.
 
-# 
 
-# Display mess location.
 
-# 
+Sections
 
-# Displays:
 
-# 
 
-# Google Map
+Registration
 
-# 
 
-# Mess Marker
 
-# 
+Attendance
 
-# User Location
 
-# 
 
-# Actions:
+Reviews
 
-# 
 
-# Get Directions
 
-# 
+Notifications
 
-# Open Google Maps
 
-# 
 
-# Call Owner
+Owner Subscription
 
-# 
 
-# \---
 
-# 
+Maintenance
 
-# \##################################################
 
-# 
 
-# \# DOCUMENT VIEW SCREEN
+Verification
 
-# 
 
-# \##################################################
 
-# 
+Fields
 
-# Purpose:
 
-# 
 
-# View verification documents.
+Registration Enabled
 
-# 
 
-# Supported Users:
 
-# 
+Owner Registration Enabled
 
-# Admin
 
-# 
 
-# Displays:
+Review Eligibility Days
 
-# 
 
-# Owner Documents
 
-# 
+Attendance Approval Window
 
-# Mess Verification Documents
 
-# 
 
-# Actions:
+Leave Lock Days
 
-# 
 
-# Approve
 
-# 
+Verification Timeout
 
-# Reject
 
-# 
 
-# Download
+Maximum Verification Retries
 
-# 
 
-# \---
 
-# 
+Grace Period
 
-# \##################################################
 
-# 
 
-# \# SUPPORT SCREEN
+Push Notifications
 
-# 
 
-# \##################################################
 
-# 
+Email Notifications
 
-# Purpose:
 
-# 
 
-# Contact platform support.
+Buttons
 
-# 
 
-# Displays:
 
-# 
+Save
 
-# Support Contact Number
 
-# 
 
-# Support Email
+Reset
 
-# 
 
-# FAQ Link
 
-# 
+Rules
 
-# Actions:
 
-# 
 
-# Call Support
+Changes affect the entire platform.
 
-# 
 
-# Send Email
 
-# 
+Every save generates an Audit Log.
 
-# Create Support Ticket
 
-# 
 
-# \---
+\---
 
-# 
 
-# \##################################################
 
-# 
+\# REGISTRATION CONTROL
 
-# \# SUPPORT TICKET SCREEN
 
-# 
 
-# \##################################################
+Displays
 
-# 
 
-# Purpose:
 
-# 
+Customer Registration
 
-# Submit issue to platform team.
 
-# 
 
-# Fields:
+Owner Registration
 
-# 
 
-# Issue Category
 
-# 
+Current Status
 
-# Title
 
-# 
 
-# Description
+Buttons
 
-# 
 
-# Attachment (Optional)
 
-# 
+Enable
 
-# Actions:
 
-# 
 
-# Submit Ticket
+Disable
 
-# 
 
-# Cancel
 
-# 
+Rules
 
-# Categories:
 
-# 
 
-# Technical Issue
+Existing users remain unaffected.
 
-# 
 
-# Payment Issue
 
-# 
+Only new registrations are blocked.
 
-# Subscription Issue
 
-# 
 
-# Attendance Issue
+\---
 
-# 
 
-# Review Issue
 
-# 
+\# MAINTENANCE MODE
 
-# Other
 
-# 
 
-# \---
+Purpose
 
-# 
 
-# \##################################################
 
-# 
+Control platform availability.
 
-# \# TICKET HISTORY SCREEN
 
-# 
 
-# \##################################################
+Displays
 
-# 
 
-# Purpose:
 
-# 
+Current Status
 
-# Track support requests.
 
-# 
 
-# Displays:
+Maintenance Message
 
-# 
 
-# Ticket Number
 
-# 
+Affected Services
 
-# Status
 
-# 
 
-# Created Date
+Buttons
 
-# 
 
-# Updated Date
 
-# 
+Enable
 
-# States:
 
-# 
 
-# Open
+Disable
 
-# 
 
-# In Progress
 
-# 
+Rules
 
-# Resolved
 
-# 
 
-# Closed
+Customers
 
-# 
 
-# Actions:
 
-# 
+Blocked
 
-# View Details
 
-# 
 
-# Reply
+Owners
 
-# 
 
-# Close Ticket
 
-# 
+Continue Working
 
-# \---
 
-# 
 
-# \##################################################
+Administrators
 
-# 
 
-# \# DELETE ACCOUNT REQUEST SCREEN
 
-# 
+Full Access
 
-# \##################################################
 
-# 
 
-# Purpose:
+Background services continue running.
 
-# 
 
-# Request account deletion.
 
-# 
+\---
 
-# Displays:
 
-# 
 
-# Warning Message
+\# AUDIT LOGS
 
-# 
 
-# Consequences
 
-# 
+Purpose
 
-# Retention Policy
 
-# 
 
-# Actions:
+Review administrative history.
 
-# 
 
-# Submit Request
 
-# 
+Displays
 
-# Cancel
 
-# 
 
-# Rules:
+Action
 
-# 
 
-# Account is soft deleted.
 
-# 
+Entity
 
-# Payments remain stored.
 
-# 
 
-# Audit logs remain stored.
+Performed By
 
-# 
 
-# \---
 
-# 
+Role
 
-# \##################################################
 
-# 
 
-# \# EMPTY STATE SCREEN COMPONENTS
+Previous State
 
-# 
 
-# \##################################################
 
-# 
+New State
 
-# Reusable Components
 
-# 
 
-# No Notifications
+Timestamp
 
-# 
 
-# No Subscriptions
 
-# 
+Device
 
-# No Reviews
 
-# 
 
-# No Search Results
+App Version
 
-# 
 
-# No Customers
 
-# 
+Filters
 
-# No Join Requests
 
-# 
 
-# No Attendance Records
+Date
 
-# 
 
-# No Payments
 
-# 
+Entity Type
 
-# Button:
 
-# 
 
-# Refresh
+Administrator
 
-# 
 
-# \---
 
-# 
+Action
 
-# \##################################################
 
-# 
 
-# \# ERROR STATE COMPONENTS
+Actions
 
-# 
 
-# \##################################################
 
-# 
+View Details
 
-# Reusable Error Screens
 
-# 
 
-# No Internet
+Export (Future)
 
-# 
 
-# Server Error
 
-# 
+Rules
 
-# Permission Denied
 
-# 
 
-# Something Went Wrong
+Audit Logs are immutable.
 
-# 
 
-# Actions:
 
-# 
+\---
 
-# Retry
 
-# 
 
-# Go Back
+\# PLATFORM REPORTS
 
-# 
 
-# Contact Support
 
-# 
+Displays
 
-# \---
 
-# 
 
-# \##################################################
+Daily Report
 
-# 
 
-# \# LOADING COMPONENTS
 
-# 
+Weekly Report
 
-# \##################################################
 
-# 
 
-# Reusable Loading States
+Monthly Report
 
-# 
 
-# Page Loading
 
-# 
+Yearly Report
 
-# List Loading
 
-# 
 
-# Image Loading
+Status
 
-# 
 
-# Payment Verification Loading
 
-# 
+Generating
 
-# QR Generation Loading
 
-# 
 
-# Displays:
+Ready
 
-# 
 
-# Skeleton UI
 
-# 
+Failed
 
-# Progress Indicator
 
-# 
 
-# \---
+Actions
 
-# 
 
-# \##################################################
 
-# 
+Generate
 
-# \# SUCCESS SCREEN COMPONENTS
 
-# 
 
-# \##################################################
+Download
 
-# 
 
-# Reusable Success States
 
-# 
+Delete
 
-# Registration Successful
 
-# 
 
-# Join Request Submitted
+\---
 
-# 
 
-# Payment Verified
 
-# 
+\# ADMIN NOTIFICATIONS
 
-# Subscription Activated
 
-# 
 
-# Attendance Marked
+Categories
 
-# 
 
-# Notice Published
 
-# 
+Owner Verification
 
-# Actions:
 
-# 
 
-# Continue
+Mess Approval
 
-# 
 
-# Go To Home
 
-# 
+Payment Failure
 
-# View Details
 
-# 
 
-# \---
+Manual Review
 
-# 
 
-# \##################################################
 
-# 
+Integration Failure
 
-# \# LOGOUT CONFIRMATION DIALOG
 
-# 
 
-# \##################################################
+Webhook Failure
 
-# 
 
-# Purpose:
 
-# 
+System Alert
 
-# Prevent accidental logout.
 
-# 
 
-# Displays:
+Business Alert
 
-# 
 
-# Confirmation Message
 
-# 
+Audit Alert
 
-# Actions:
 
-# 
 
-# Logout
+Maintenance
 
-# 
 
-# Cancel
 
-# 
+States
 
-# \---
 
-# 
 
-# \##################################################
+Unread
 
-# 
 
-# \# FORCE UPDATE SCREEN
 
-# 
+Read
 
-# \##################################################
 
-# 
 
-# Purpose:
+Archived
 
-# 
 
-# Mandatory app update.
 
-# 
+Actions
 
-# Displays:
 
-# 
 
-# Current Version
+Open
 
-# 
 
-# Required Version
 
-# 
+Mark Read
 
-# Update Notes
 
-# 
 
-# Actions:
+Archive
 
-# 
 
-# Update Now
 
-# 
+\---
 
-# Restrictions:
 
-# 
 
-# Cannot bypass.
+\# ADMIN PROFILE
 
-# 
 
-# Controlled by Admin Settings.
 
-# 
+Displays
 
-# \---
 
-# 
 
-# \##################################################
+Profile Photo
 
-# 
 
-# \# MAINTENANCE MODE SCREEN
 
-# 
+Name
 
-# \##################################################
 
-# 
 
-# Purpose:
+Email
 
-# 
 
-# Platform maintenance.
 
-# 
+Role
 
-# Displays:
 
-# 
 
-# Maintenance Message
+Language
 
-# 
 
-# Expected Return Time
 
-# 
+Theme
 
-# Support Contact
 
-# 
 
-# Restrictions:
+Buttons
 
-# 
 
-# Application access disabled.
 
-# 
+Edit Profile
 
-# Admin may bypass.
 
-# 
 
-# \---
+Change Password
 
-# 
 
-# \##################################################
 
-# 
+Logout
 
-# \# PERMISSION REQUEST SCREENS
 
-# 
 
-# \##################################################
+\---
 
-# 
 
-# Required Permissions
 
-# 
+\# ADMIN SETTINGS
 
-# Camera
 
-# 
 
-# Storage
+Displays
 
-# 
 
-# Notifications
 
-# 
+Language
 
-# Location
 
-# 
 
-# Displays:
+Theme
 
-# 
 
-# Permission Explanation
 
-# 
+Notification Preferences
 
-# Allow
 
-# 
 
-# Deny
+Platform Information
 
-# 
 
-# Rules:
 
-# 
+Privacy Policy
 
-# Request only when needed.
 
-# 
 
-# Never request all permissions at startup.
+Terms \& Conditions
 
-# 
 
-# \---
 
-# 
+App Version
 
-# \##################################################
 
-# 
 
-# \# GLOBAL NAVIGATION RULES
+Buttons
 
-# 
 
-# \##################################################
 
-# 
+Logout
 
-# 1\. Back button returns to previous screen.
 
-# 
 
-# 2\. Authentication required for all protected screens.
+---
 
-# 
 
-# 3\. Suspended users cannot access protected screens.
 
-# 
+\##################################################
 
-# 4\. Notifications always accessible from App Bar.
+\# SHARED COMPONENTS
 
-# 
+\##################################################
 
-# 5\. Language and Theme changes apply immediately.
 
-# 
 
-# 6\. Force Update overrides all navigation.
+Every reusable component should follow Material Design 3.
 
-# 
 
-# 7\. Maintenance Mode overrides all navigation except admin access.
 
-# 
+Shared components must maintain consistent styling throughout the application.
 
-# 
 
-# 
 
-# 
+\---
 
-# 
 
-# \# PART 5 - NAVIGATION MAP \& USER JOURNEYS
 
-# 
+\# APP BAR
 
-# \---
 
-# 
 
-# \# APPLICATION ROOT FLOW
+Displays
 
-# 
 
-# App Launch
 
-# ↓
+Back Button (when applicable)
 
-# Splash Screen
 
-# ↓
 
-# Authentication Check
+Screen Title
 
-# 
 
-# If Not Logged In
 
-# ↓
+Optional Action Buttons
 
-# Login Screen
 
-# 
 
-# If Logged In
+Rules
 
-# ↓
 
-# Role Router
 
-# 
+• Consistent height across screens.
 
-# Customer
 
-# ↓
 
-# Customer Home
+• Back navigation follows platform navigation rules.
 
-# 
 
-# Owner
 
-# ↓
+\---
 
-# Owner Dashboard
 
-# 
 
-# Admin
+\# BOTTOM NAVIGATION BAR
 
-# ↓
 
-# Admin Dashboard
 
-# 
+Customer
 
-# \---
 
-# 
 
-# \##################################################
+Home
 
-# 
 
-# \# CUSTOMER JOURNEYS
 
-# 
+Explore
 
-# \##################################################
 
-# 
 
-# \# JOURNEY 1
+Subscriptions
 
-# 
 
-# CUSTOMER REGISTRATION
 
-# 
+Notifications
 
-# Login
 
-# ↓
 
-# Register
+Profile
 
-# ↓
 
-# Enter Details
 
-# ↓
+Owner
 
-# Verify OTP
 
-# ↓
 
-# Customer Account Created
+Dashboard
 
-# ↓
 
-# Customer Home
 
-# 
+Customers
 
-# Success Condition:
 
-# 
 
-# Customer can access application.
+Attendance
 
-# 
 
-# \---
 
-# 
+Revenue
 
-# \# JOURNEY 2
 
-# 
 
-# DISCOVER MESS
+Profile
 
-# 
 
-# Customer Home
 
-# ↓
+Administrator
 
-# Explore
 
-# ↓
 
-# Search / Filter
+Dashboard
 
-# ↓
 
-# Mess Details
 
-# ↓
+Owners
 
-# View Plans
 
-# 
 
-# Success Condition:
+Payments
 
-# 
 
-# Customer finds suitable mess.
 
-# 
+Analytics
 
-# \---
 
-# 
 
-# \# JOURNEY 3
+Settings
 
-# 
 
-# JOIN MESS
 
-# 
+Rules
 
-# Mess Details
 
-# ↓
 
-# Select Plan
+Maximum five primary destinations.
 
-# ↓
 
-# Submit Join Request
 
-# ↓
+\---
 
-# Pending Approval
 
-# 
 
-# Owner Approves
+\# SEARCH BAR
 
-# ↓
 
-# Status = Approved
 
-# ↓
+Features
 
-# Payment Screen
 
-# ↓
 
-# Payment Verification
+Real-time Search
 
-# ↓
 
-# Subscription Activated
 
-# 
+Clear Button
 
-# Success Condition:
 
-# 
 
-# Active Subscription Created.
+Search Hint
 
-# 
 
-# \---
 
-# 
+Supported In
 
-# \# JOURNEY 4
 
-# 
 
-# RENEW SUBSCRIPTION
+Customers
 
-# 
 
-# My Subscription
 
-# ↓
+Messes
 
-# Renew
 
-# ↓
 
-# Select Plan
+Plans
 
-# ↓
 
-# Payment
 
-# ↓
+Payments
 
-# Verification
 
-# ↓
 
-# New Subscription Created
+Reviews
 
-# 
 
-# Success Condition:
 
-# 
+Audit Logs
 
-# Subscription renewed.
 
-# 
 
-# \---
+Rules
 
-# 
 
-# \# JOURNEY 5
 
-# 
+Search should debounce user input.
 
-# MARK LEAVE
 
-# 
 
-# Home
+\---
 
-# ↓
 
-# Leave Management
 
-# ↓
+\# FILTER PANEL
 
-# Select Dates
 
-# ↓
 
-# Save Leave
+Supported Controls
 
-# 
 
-# Success Condition:
 
-# 
+Status
 
-# Leave dates stored.
 
-# 
 
-# \---
+Date Range
 
-# 
 
-# \# JOURNEY 6
 
-# 
+Category
 
-# ATTENDANCE
 
-# 
 
-# Home
+Meal
 
-# ↓
 
-# Generate QR
 
-# ↓
+Rating
 
-# Owner Scans
 
-# ↓
 
-# Attendance Recorded
+City
 
-# 
 
-# Success Condition:
 
-# 
+Owner
 
-# Attendance marked present.
 
-# 
 
-# \---
+Mess
 
-# 
 
-# \# JOURNEY 7
 
-# 
+Rules
 
-# WRITE REVIEW
 
-# 
 
-# My Subscription
+Multiple filters may be combined.
 
-# ↓
 
-# Review Eligible
 
-# ↓
+Provide a "Clear Filters" action.
 
-# Write Review
 
-# ↓
 
-# Submit
+\---
 
-# 
 
-# Success Condition:
 
-# 
+\# STATUS CHIP
 
-# Review visible publicly.
 
-# 
 
-# \---
+Supported States
 
-# 
 
-# \# JOURNEY 8
 
-# 
+Active
 
-# PAYMENT HISTORY
 
-# 
 
-# Home
+Pending
 
-# ↓
 
-# Payment History
 
-# ↓
+Approved
 
-# View Details
 
-# 
 
-# Success Condition:
+Rejected
 
-# 
 
-# User can track payments.
 
-# 
+Suspended
 
-# \---
 
-# 
 
-# \##################################################
+Expired
 
-# 
 
-# \# OWNER JOURNEYS
 
-# 
+Failed
 
-# \##################################################
 
-# 
 
-# \# JOURNEY 1
+Verified
 
-# 
 
-# OWNER REGISTRATION
 
-# 
+Manual Review
 
-# Register Owner
 
-# ↓
 
-# Submit Documents
+Configured
 
-# ↓
 
-# Pending Verification
 
-# 
+Disabled
 
-# Admin Approves
 
-# ↓
 
-# Owner Dashboard Activated
+Rules
 
-# 
 
-# Success Condition:
 
-# 
+Status chips use consistent colors and icons throughout the application.
 
-# Owner gains access.
 
-# 
 
-# \---
+\---
 
-# 
 
-# \# JOURNEY 2
 
-# 
+\# CARDS
 
-# REGISTER MESS
 
-# 
 
-# Owner Dashboard
+Reusable Card Types
 
-# ↓
 
-# Create Mess
 
-# ↓
+Mess Card
 
-# Upload Photos
 
-# ↓
 
-# Submit
+Customer Card
 
-# 
 
-# Pending Approval
 
-# ↓
+Plan Card
 
-# Admin Approval
 
-# ↓
 
-# Mess Active
+Review Card
 
-# 
 
-# Success Condition:
 
-# 
+Payment Card
 
-# Mess visible to customers.
 
-# 
 
-# \---
+Attendance Card
 
-# 
 
-# \# JOURNEY 3
 
-# 
+Notification Card
 
-# APPROVE CUSTOMER
 
-# 
 
-# Join Requests
+Revenue Card
 
-# ↓
 
-# Review Request
 
-# ↓
+Analytics Card
 
-# Approve
 
-# 
 
-# Customer Pays
+Owner Card
 
-# ↓
 
-# Payment Verified
 
-# ↓
+Rules
 
-# Subscription Active
 
-# 
 
-# Success Condition:
+Cards should have:
 
-# 
 
-# Customer added.
 
-# 
+\- Rounded corners
 
-# \---
+\- Consistent spacing
 
-# 
+\- Material elevation
 
-# \# JOURNEY 4
+\- Responsive layout
 
-# 
 
-# REJECT CUSTOMER
 
-# 
+\---
 
-# Join Requests
 
-# ↓
 
-# Reject
+\# BUTTONS
 
-# ↓
 
-# Provide Reason
 
-# 
+Primary
 
-# Success Condition:
 
-# 
 
-# Customer notified.
+Filled Button
 
-# 
 
-# \---
 
-# 
+Secondary
 
-# \# JOURNEY 5
 
-# 
 
-# CREATE PLAN
+Outlined Button
 
-# 
 
-# Plan Management
 
-# ↓
+Tertiary
 
-# Create Plan
 
-# ↓
 
-# Configure Meals
+Text Button
 
-# ↓
 
-# Save
 
-# 
+Danger
 
-# Success Condition:
 
-# 
 
-# Plan available for purchase.
+Filled Tonal / Destructive Style
 
-# 
 
-# \---
 
-# 
+Loading
 
-# \# JOURNEY 6
 
-# 
 
-# ATTENDANCE SCAN
+Progress Indicator inside button
 
-# 
 
-# Dashboard
 
-# ↓
+Buttons should prevent duplicate taps while processing.
 
-# Scan Attendance
 
-# ↓
 
-# Scan QR
+\---
 
-# ↓
 
-# Validate
 
-# ↓
+\##################################################
 
-# Attendance Recorded
+\# DIALOGS
 
-# 
+\##################################################
 
-# Success Condition:
 
-# 
 
-# Attendance marked.
+Confirmation Dialog
 
-# 
 
-# \---
 
-# 
+Examples
 
-# \# JOURNEY 7
 
-# 
 
-# CREATE NOTICE
+Delete
 
-# 
 
-# Dashboard
 
-# ↓
+Approve
 
-# Create Notice
 
-# ↓
 
-# Publish
+Reject
 
-# 
 
-# Push Notification Sent
 
-# 
+Suspend
 
-# Success Condition:
 
-# 
 
-# Active customers notified.
+Cancel
 
-# 
 
-# \---
 
-# 
+Fields
 
-# \# JOURNEY 8
 
-# 
 
-# MANAGE CUSTOMER
+Title
 
-# 
 
-# Customer List
 
-# ↓
+Description
 
-# Customer Profile
 
-# 
 
-# Available Actions:
+Confirm
 
-# 
 
-# Add Note
 
-# 
+Cancel
 
-# Extend Subscription
 
-# 
 
-# Blacklist
+\---
 
-# 
 
-# Remove Customer
 
-# 
+\# SUCCESS DIALOG
 
-# Success Condition:
 
-# 
 
-# Customer updated.
+Displays
 
-# 
 
-# \---
 
-# 
+Success Icon
 
-# \##################################################
 
-# 
 
-# \# ADMIN JOURNEYS
+Message
 
-# 
 
-# \##################################################
 
-# 
+Continue Button
 
-# \# JOURNEY 1
 
-# 
 
-# APPROVE OWNER
+\---
 
-# 
 
-# Admin Dashboard
 
-# ↓
+\# ERROR DIALOG
 
-# Owner Approval
 
-# ↓
 
-# Review Documents
+Displays
 
-# ↓
 
-# Approve
 
-# 
+Error Icon
 
-# Success Condition:
 
-# 
 
-# Owner activated.
+Description
 
-# 
 
-# \---
 
-# 
+Retry Button
 
-# \# JOURNEY 2
 
-# 
 
-# APPROVE MESS
+Cancel Button
 
-# 
 
-# Mess Approval
 
-# ↓
+\---
 
-# Review Details
 
-# ↓
 
-# Approve
+\# LOADING DIALOG
 
-# 
 
-# Success Condition:
 
-# 
+Displays
 
-# Mess activated.
 
-# 
 
-# \---
+Circular Progress Indicator
 
-# 
 
-# \# JOURNEY 3
 
-# 
+Loading Message
 
-# MODERATE REVIEW
 
-# 
 
-# Reported Reviews
+Blocks user interaction while processing.
 
-# ↓
 
-# Review Content
 
-# 
+\---
 
-# Actions:
 
-# 
 
-# Keep
+\##################################################
 
-# 
+\# BOTTOM SHEETS
 
-# Remove
+\##################################################
 
-# 
 
-# Suspend User
 
-# 
+Used For
 
-# Success Condition:
 
-# 
 
-# Moderation completed.
+Sort
 
-# 
 
-# \---
 
-# 
+Filters
 
-# \# JOURNEY 4
 
-# 
 
-# PAYMENT OVERRIDE
+Quick Actions
 
-# 
 
-# Payment Monitoring
 
-# ↓
+Share
 
-# Open Payment
 
-# ↓
 
-# Review Logs
+Plan Selection
 
-# 
 
-# Actions:
 
-# 
+Meal Selection
 
-# Verify
 
-# 
 
-# Fail
+Rules
 
-# 
 
-# Refund
 
-# 
+Support drag-to-dismiss where appropriate.
 
-# Override
 
-# 
 
-# Success Condition:
+\---
 
-# 
 
-# Payment resolved.
 
-# 
+\##################################################
 
-# \---
+\# FORMS
 
-# 
+\##################################################
 
-# \# JOURNEY 5
 
-# 
 
-# USER MANAGEMENT
+Every form should provide:
 
-# 
 
-# User Management
 
-# ↓
+Field Validation
 
-# Open Profile
 
-# 
 
-# Actions:
+Required Indicators
 
-# 
 
-# Suspend
 
-# 
+Inline Error Messages
 
-# Reactivate
 
-# 
 
-# Delete
+Keyboard Optimization
 
-# 
 
-# Success Condition:
 
-# 
+Input Formatting
 
-# User status updated.
 
-# 
 
-# \---
+Disable submit while processing.
 
-# 
 
-# \##################################################
 
-# 
+\---
 
-# \# CROSS ROLE FLOWS
 
-# 
 
-# \##################################################
+\##################################################
 
-# 
+\# LOADING STATES
 
-# \# NOTIFICATION FLOW
+\##################################################
 
-# 
 
-# System Event
 
-# ↓
+Every screen requiring backend data should display skeleton loaders.
 
-# Notification Created
 
-# ↓
 
-# Notification Delivered
+Examples
 
-# ↓
 
-# User Opens Notification
 
-# ↓
+Dashboard
 
-# Related Screen Opens
 
-# 
 
-# \---
+Customer List
 
-# 
 
-# \# SUPPORT FLOW
 
-# 
+Payment History
 
-# User
 
-# ↓
 
-# Create Ticket
+Reviews
 
-# ↓
 
-# Admin Reviews
 
-# ↓
+Analytics
 
-# Respond
 
-# ↓
 
-# Resolved
+Avoid blank screens during loading.
 
-# 
 
-# \---
 
-# 
+\---
 
-# \# ACCOUNT DELETION FLOW
 
-# 
 
-# User
+\##################################################
 
-# ↓
+\# EMPTY STATES
 
-# Delete Account Request
+\##################################################
 
-# ↓
 
-# Admin Review
 
-# ↓
+Every list screen should provide a meaningful empty state.
 
-# Soft Delete
 
-# 
 
-# Success Condition:
+Examples
 
-# 
 
-# Account disabled.
 
-# 
+No Customers
 
-# \---
 
-# 
 
-# \##################################################
+No Reviews
 
-# 
 
-# \# ROUTING RULES
 
-# 
+No Notifications
 
-# \##################################################
 
-# 
 
-# Authentication Required:
+No Payments
 
-# 
 
-# All screens except:
 
-# 
+No Attendance Records
 
-# \* Splash
 
-# \* Login
 
-# \* OTP
+No Join Requests
 
-# \* Registration
 
-# 
 
-# \---
+Empty states should include a helpful message and, where appropriate, a primary action.
 
-# 
 
-# Role Restricted Screens:
 
-# 
+\---
 
-# Customer Screens
 
-# → Customer Only
 
-# 
+\##################################################
 
-# Owner Screens
+\# ERROR STATES
 
-# → Owner Only
+\##################################################
 
-# 
 
-# Admin Screens
 
-# → Admin Only
+Display
 
-# 
 
-# \---
 
-# 
+Error Illustration
 
-# Navigation Guards:
 
-# 
 
-# Suspended Users
+Error Message
 
-# → Account Suspended Screen
 
-# 
 
-# Maintenance Mode
+Retry Button
 
-# → Maintenance Screen
 
-# 
 
-# Force Update
+Support Contact (where applicable)
 
-# → Force Update Screen
 
-# 
 
-# \---
+Technical details should never be shown to end users.
 
-# 
 
-# \##################################################
 
-# 
+\---
 
-# \# DEEP LINK SUPPORT (FUTURE)
 
-# 
 
-# Supported Links
+\##################################################
 
-# 
+\# SUCCESS STATES
 
-# Join By QR
+\##################################################
 
-# 
 
-# mazimess://join/{messCode}
 
-# 
+Examples
 
-# \---
 
-# 
 
-# Mess Details
+Registration Complete
 
-# 
 
-# mazimess://mess/{messId}
 
-# 
+Payment Verified
 
-# \---
 
-# 
 
-# Notice
+Attendance Recorded
 
-# 
 
-# mazimess://notice/{noticeId}
 
-# 
+Review Submitted
 
-# \---
 
-# 
 
-# Payment
+Plan Created
 
-# 
 
-# mazimess://payment/{paymentIntentId}
 
-# 
+Owner Approved
 
-# \---
 
-# 
 
-# Review
+Display a confirmation message followed by the appropriate navigation.
 
-# 
 
-# mazimess://review/{reviewId}
 
-# 
+\---
 
-# \---
 
-# 
 
-# Future Expansion Only
+\##################################################
 
-# 
+\# OFFLINE STATES
 
-# Not Required For V1
+\##################################################
 
-# 
 
-# 
 
+Cached Information
 
+
+
+Profile
+
+
+
+Active Subscription
+
+
+
+Previously Loaded Notices
+
+
+
+Previously Loaded Reviews
+
+
+
+Restricted While Offline
+
+
+
+Payments
+
+
+
+Attendance Submission
+
+
+
+Attendance Approval
+
+
+
+Join Requests
+
+
+
+Global Settings
+
+
+
+Show a clear offline indicator.
+
+
+
+\---
+
+
+
+\##################################################
+
+\# NAVIGATION FLOWS
+
+\##################################################
+
+
+
+Customer
+
+
+
+Splash
+
+
+
+↓
+
+
+
+Login
+
+
+
+↓
+
+
+
+Home
+
+
+
+↓
+
+
+
+Explore
+
+
+
+↓
+
+
+
+Mess Details
+
+
+
+↓
+
+
+
+Join Request
+
+
+
+↓
+
+
+
+Payment
+
+
+
+↓
+
+
+
+Payment Verification
+
+
+
+↓
+
+
+
+Subscription Activated
+
+
+
+↓
+
+
+
+Attendance QR
+
+
+
+↓
+
+
+
+Attendance History
+
+
+
+Owner
+
+
+
+Dashboard
+
+
+
+↓
+
+
+
+Customers
+
+
+
+↓
+
+
+
+Customer Details
+
+
+
+↓
+
+
+
+Attendance
+
+
+
+↓
+
+
+
+Manual Attendance Request
+
+
+
+↓
+
+
+
+Revenue
+
+
+
+↓
+
+
+
+Owner Subscription
+
+
+
+Administrator
+
+
+
+Dashboard
+
+
+
+↓
+
+
+
+Owner Verification
+
+
+
+↓
+
+
+
+Mess Approval
+
+
+
+↓
+
+
+
+Payment Monitoring
+
+
+
+↓
+
+
+
+Integration Configuration
+
+
+
+↓
+
+
+
+Business Analytics
+
+
+
+↓
+
+
+
+Global Settings
+
+
+
+↓
+
+
+
+Audit Logs
+
+
+
+\---
+
+
+
+\##################################################
+
+\# ACCESSIBILITY GUIDELINES
+
+\##################################################
+
+
+
+Support
+
+
+
+Screen Readers
+
+
+
+Dynamic Text Scaling
+
+
+
+High Contrast
+
+
+
+Accessible Touch Targets
+
+
+
+Semantic Labels
+
+
+
+Avoid using color alone to communicate status.
+
+
+
+\---
+
+
+
+\##################################################
+
+\# RESPONSIVE DESIGN
+
+\##################################################
+
+
+
+Primary Target
+
+
+
+Mobile Phones
+
+
+
+Support
+
+
+
+Small Phones
+
+
+
+Large Phones
+
+
+
+Tablets (Future)
+
+
+
+Landscape layouts should preserve functionality.
+
+
+
+\---
+
+
+
+\##################################################
+
+\# SCREEN RELATIONSHIPS
+
+\##################################################
+
+
+
+Authentication
+
+
+
+↓
+
+
+
+Role Detection
+
+
+
+↓
+
+
+
+Customer Dashboard
+
+
+
+OR
+
+
+
+Owner Dashboard
+
+
+
+OR
+
+
+
+Admin Dashboard
+
+
+
+Business actions navigate through defined workflows only.
+
+
+
+Deep linking should respect authentication and authorization.
+
+
+
+\---
+
+
+
+\##################################################
+
+\# VERSION HISTORY
+
+\##################################################
+
+
+
+| Version | Status | Description |
+
+|----------|--------|-------------|
+
+| 1.0 | Draft | Initial screen specification |
+
+| 2.0 | Production Ready | Complete rewrite after frontend MVP completion with customer, owner, and administrator workflows, payment verification, manual attendance, owner subscriptions, integration management, analytics, maintenance mode, and shared UI standards |
+
+
+
+\---
+
+
+
+\##################################################
+
+\# RELATED DOCUMENTS
+
+\##################################################
+
+
+
+This document should be read together with:
+
+
+
+\- 01\_Firestore\_Schema.md
+
+\- 02\_Product\_Spec.md
+
+\- 03\_Permission\_Matrix.md
+
+\- 04\_State\_Machines.md
+
+\- 06\_Payment\_Verification.md
+
+\- 07\_Backend\_Architecture.md
+
+
+
+Together these documents define the complete functional, technical, and UI architecture of the Mazi Mess platform.
+
+
+
+\---
+
+
+
+\##################################################
+
+\# DOCUMENT STATUS
+
+\##################################################
+
+
+
+Document Name
+
+
+
+Screen Specification
+
+
+
+Version
+
+
+
+2.0
+
+
+
+Status
+
+
+
+Production Ready
+
+
+
+Platform
+
+
+
+Flutter
+
+
+
+Design System
+
+
+
+Material Design 3
+
+
+
+Maintained By
+
+
+
+Mazi Mess Development Team
+
+
+
+This document is the authoritative reference for all application screens, navigation flows, reusable UI components, and interaction patterns.
+
+
+
+Any new screen or significant UI change should be reflected here before implementation.
+
+
+
+\---
+
+
+
+END OF DOCUMENT
 

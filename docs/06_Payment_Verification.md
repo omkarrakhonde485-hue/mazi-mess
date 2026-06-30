@@ -1,321 +1,116 @@
-# MAZI MESS - PAYMENT VERIFICATION SYSTEM V2
+# MAZI MESS - PAYMENT VERIFICATION SYSTEM
 
-Version: 2.0
+Version: 2.1
 
-Status: Approved
+Status: Production Ready
 
 ---
 
 # PURPOSE
 
-Mazi Mess does not use a traditional payment gateway.
+Mazi Mess does not use a traditional Payment Gateway in Version 1.
 
-Customers pay mess owners directly using UPI.
+Customers pay Mess Owners directly using UPI.
 
-Payments are verified automatically using:
+Payments are verified automatically through a dedicated automation pipeline.
 
-* UPI Deep Links
-* Unique Verification Amounts
-* Paytm Business Notification Emails
-* Make.com Automation
-* Gemini Extraction
+Only successfully verified payments activate customer subscriptions.
 
-Only verified payments activate subscriptions.
+The platform never stores or processes customer funds.
+
+---
+
+# PAYMENT ARCHITECTURE
+
+Every approved mess receives its own completely independent payment verification infrastructure.
+
+Each mess has:
+
+- One Paytm Business Account
+- One Verification Gmail
+- One Make.com Account
+- One Make Scenario
+- One Webhook URL
+
+Example
+
+Sai Mess
+
+↓
+
+Paytm Business
+
+↓
+
+saimess@gmail.com
+
+↓
+
+Make Account A
+
+↓
+
+Webhook A
+
+------------------------------------
+
+Annapurna Mess
+
+↓
+
+Paytm Business
+
+↓
+
+annapurnamess@gmail.com
+
+↓
+
+Make Account B
+
+↓
+
+Webhook B
+
+Every mess operates independently.
+
+Infrastructure is never shared between different messes.
 
 ---
 
 # HIGH LEVEL FLOW
 
 Customer
+
 ↓
-Select Plan
+
+Select Subscription Plan
+
 ↓
-Create Payment Order
+
+Payment Intent Created
+
 ↓
-Assign Unique Verification Amount
+
+Unique Verification Amount Generated
+
 ↓
-Generate UPI Deep Link
+
+UPI Deep Link Generated
+
 ↓
+
 Customer Pays Using UPI
-↓
-Customer Returns To Mazi Mess
-↓
-Customer Taps "I Have Paid"
-↓
-Verification Screen
-↓
-Backend Waits 10 Seconds
-↓
-Backend Calls Owner Webhook
-↓
-Make.com Verification
-↓
-Payment Verified
-↓
-Subscription Activated
-
----
-
-# SYSTEM COMPONENTS
-
-## Component 1
-
-Customer Mobile App
-
-Purpose:
-
-* Display payment page
-* Launch UPI app
-* Allow customer confirmation
-* Display verification status
-
----
-
-## Component 2
-
-Paytm Business
-
-Purpose:
-
-* Receive customer payment
-* Send payment notification email
-
----
-
-## Component 3
-
-Verification Gmail
-
-Purpose:
-
-Receive Paytm Business payment notifications.
-
-Rules:
-
-* Dedicated Gmail account created by Admin.
-* Gmail account configured inside Make.com.
-* Owner must add this Gmail address to Paytm Business notification settings.
-* Owners cannot modify verification Gmail configuration from the app.
-
----
-
-## Component 4
-
-Make.com
-
-Purpose:
-
-* Receive webhook request
-* Search recent Paytm emails
-* Send email to Gemini
-* Compare payment amount
-* Return verification result
-
----
-
-## Make.com Email Extraction Module
-
-Purpose:
-
-Extract payment amount from Paytm email.
-
-Returns structured data.
-
----
-
-## Component 6
-
-Backend Verification Service
-
-Purpose:
-
-* Create payment order
-* Generate verification amount
-* Call Make.com webhook
-* Activate subscription
-* Store audit logs
-
----
-
-# OWNER-SPECIFIC VERIFICATION CONFIGURATION
-
-Every mess owner shall have:
-
-* UPI ID
-* Verification Gmail
-* Make.com Webhook
-* Verification Status
-
-Rules:
-
-* Admin creates Gmail account.
-* Admin imports and configures Make.com scenario.
-* Admin stores webhook URL.
-* Owners cannot view webhook URLs.
-* Owners cannot edit webhook URLs.
-* Owners cannot regenerate webhook URLs.
-
-Owner only sees:
-
-Payment Verification Status
-
-Active / Inactive
-
----
-
-# UNIQUE VERIFICATION AMOUNT SYSTEM
-
-Each payment order receives a unique verification amount.
-
-Example:
-
-Base Subscription Amount:
-
-₹3000
-
-Generated Verification Amounts:
-
-₹3000.01
-₹3000.02
-₹3000.03
-...
-₹3000.99
-
-The verification amount acts as the payment identifier.
-
-After ₹3000.99:
-
-Allocation continues from:
-
-₹3000.01
-
-Rules:
-
-* Verification amount is stored against the order.
-* Verification amount is embedded into the UPI link.
-* Verification amount is sent to Make.com.
-* Verification amount is used for verification.
-
-System does not depend on:
-
-* UTR Number
-* Transaction ID
-* Screenshots
-* Customer-entered references
-
----
-
-# PAYMENT ORDER CREATION
-
-Before payment:
-
-Create Order.
-
-Fields:
-
-* orderId
-* customerId
-* messId
-* planId
-* baseAmount
-* verificationAmount
-* paymentStatus
-* createdAt
-
-Status:
-
-pending
-
-Rules:
-
-* Order must exist before payment.
-* Verification amount assigned during order creation.
-
----
-
-# UPI PAYMENT LINK
-
-Format:
-
-upi://pay?pa={upiId}&am={verificationAmount}&cu=INR&tn=Verified
-
-Example:
-
-upi://pay?pa=saimess@paytm&am=3000.03&cu=INR&tn=Verified%20Merchant%20Account
-
-Note:
-
-The transaction note uses:
-
-Verified Merchant Account
-
-to maintain consistency with Paytm Business payment links.
-
-The transaction note is not used for payment verification.
-
-Payment verification is performed solely using the unique verification amount assigned to the order.
-
-Paytm Business notification emails do not reliably expose the transaction note field.
-
-Rules:
-
-* Generated dynamically.
-* Opens installed UPI application.
-* Amount is prefilled.
-* Customer cannot edit amount.
-
----
-
-# PAYMENT SCREEN
-
-Displays:
-
-* Mess Name
-* Plan Name
-* Verification Amount
-* Pay Using UPI Button
-* I Have Paid Button
-
-Customer Instruction:
-
-After completing the payment, return to Mazi Mess and tap the button below to verify your payment.
-
-Buttons:
-
-1. Pay Using UPI
-2. I Have Paid
-
----
-
-# CUSTOMER PAYMENT CONFIRMATION
-
-Customer completes payment externally.
-
-Customer returns to app.
-
-Customer taps:
-
-I Have Paid
-
-System Status:
-
-verification_pending
-
-Verification begins only after customer confirmation.
-
----
-
-# VERIFICATION FLOW
-
-Customer presses:
-
-I Have Paid
 
 ↓
 
-UI shows:
+Customer Returns To App
 
-Verifying your payment...
+↓
+
+Customer taps
+
+"I Have Paid"
 
 ↓
 
@@ -323,214 +118,702 @@ Backend waits 10 seconds
 
 ↓
 
-Backend calls owner's webhook
+Backend calls that mess's dedicated Webhook
 
 ↓
 
-Make.com scenario starts
+Make.com
 
 ↓
 
-Search recent Paytm Business emails
+Gemini AI
 
 ↓
 
-Gemini extracts payment amount
+Webhook Response
 
 ↓
 
-Compare extracted amount with verification amount
+Backend Validation
 
 ↓
 
-Webhook Response Returned
+Firestore Update
 
-Possible Responses:
+↓
 
-Payment recieved
-not recieved
+Subscription Activated
 
----
+↓
 
-# PAYTM EMAIL PROCESSING
-
-Source:
-
-Paytm Business Payment Received Email
-
-Required Data:
-
-* Amount
-* Timestamp
-* Sender Information (if available)
-
-Transaction ID is not required.
-
-Order ID from Paytm is ignored.
-
-Only recent payment emails are checked.
+Notifications
 
 ---
 
-# PAYMENT MATCHING LOGIC
+# SYSTEM COMPONENTS
 
-Backend sends:
+## Flutter Application
 
-Implementation Note:
+Responsibilities
 
-The current Make.com integration expects:
+- Display payment screen
+- Launch UPI application
+- Create payment intent
+- Allow customer confirmation
+- Display verification status
 
-{
-  "value": verificationAmount
-}
-
-and returns:
-
-Payment recieved
-
-or
-
-not recieved
-
-(This may change in future versions without affecting business rules.)
-
-Example:
-
-{
-  "value": 3000.03
-}
-
-Make.com searches recent emails.
-
-Gemini extracts amount.
-
-Verification succeeds when:
-
-Extracted Amount == Verification Amount
-
-No other matching is required.
+Flutter never verifies payments.
 
 ---
 
-# MATCH SUCCESS
+## Paytm Business
 
-Make.com returns:
+Responsibilities
 
-Payment recieved
+- Receive customer payment
+- Generate payment notification email
 
-Payment Status == verified
-
-Actions:
-
-* Activate Subscription
-* Notify Customer
-* Notify Owner
-* Create Audit Log
+Paytm Business remains outside the application.
 
 ---
 
-# MATCH FAILURE
+## Verification Gmail
 
-Make.com returns:
+One Gmail account exists for every approved mess.
 
-not recieved
+Responsibilities
 
-Payment Status == verification_failed
+- Receive Paytm Business emails
+- Forward email to Make.com
 
-Customer Message:
+Configured only by Admin.
 
-Payment could not be verified automatically.
+Owners cannot:
 
-If payment was completed successfully, please contact the mess owner.
-
-Actions:
-
-* Owner may manually verify payment.
-* Owner may manually activate customer subscription.
-* Audit log created.
+- View Gmail
+- Edit Gmail
+- Replace Gmail
 
 ---
 
-# SUBSCRIPTION ACTIVATION
+## Make.com
 
-Allowed Only When:
+One Make account exists for every approved mess.
 
-* Payment Verified
-  OR
-* Owner Manual Approval
+Responsibilities
 
-Actions:
+- Receive webhook
+- Search Gmail
+- Send email to Gemini
+- Format response
+- Return verification result
 
-* Create Subscription
-* Set Status = Active
-* Notify Customer
-* Notify Owner
-* Store Audit Log
+Make never updates Firestore directly.
 
 ---
 
-# SECURITY RULES
+## Gemini AI
 
-Customers Cannot:
+Purpose
 
-* Verify payments
-* Modify payment status
+Extract structured payment information.
 
-Owners Cannot:
+Extracts
 
-* View webhook URLs
-* Modify webhook URLs
-* Modify verification Gmail
+- Amount
+- Timestamp
+- Sender
+- Transaction Reference (when available)
 
-Only Admin May:
+Gemini never:
 
-* Configure Gmail
-* Configure Make.com
-* Configure Webhooks
-* Override verification status
+- Verifies payments
+- Activates subscriptions
+- Updates Firestore
 
-All actions must generate audit logs.
-
----
-
-# RETENTION
-
-Store Forever:
-
-* Orders
-* Payment Logs
-* Verification Logs
-* Audit Logs
-* Subscription Activation Logs
+Gemini performs extraction only.
 
 ---
 
-# FUTURE MIGRATION PLAN
+## Backend Verification Service
 
-Version 2+
+Responsibilities
 
-Possible Migration:
+- Create Payment Intent
+- Generate Verification Amount
+- Call Webhook
+- Validate Webhook Response
+- Activate Subscription
+- Generate Notifications
+- Generate Audit Logs
 
-* Razorpay
-* Cashfree
-* PhonePe PG
-* Other Payment Gateways
+Backend remains the final authority.
 
-Existing payment records must remain accessible.
+---
 
-No data loss allowed.
+# ADMIN INFRASTRUCTURE
+
+Only Administrators configure payment infrastructure.
+
+For every approved mess Admin configures:
+
+- Verification Gmail
+- Make Account Email
+- Make Account Password
+- Make Scenario
+- Webhook URL
+
+Admin may also:
+
+- Test Integration
+- Activate Integration
+- Disable Integration
+- Retry Verification
+- Manual Override
+
+Owners never access this information.
+
+---
+
+# INTEGRATION LIFECYCLE
+
+States
+
+not_configured
+
+↓
+
+configured
+
+↓
+
+active
+
+↓
+
+failed
+
+↓
+
+disabled
+
+Rules
+
+Only Admin changes integration state.
+
+Failed integrations generate:
+
+- Admin Notification
+- Audit Log
+
+Disabled integrations stop automatic verification.
+
+---
+
+# UNIQUE VERIFICATION AMOUNT
+
+Every Payment Intent receives a unique amount.
+
+Example
+
+Base Price
+
+₹3000
+
+Generated Values
+
+₹3000.01
+
+₹3000.02
+
+₹3000.03
+
+...
+
+₹3000.99
+
+Verification Amount uniquely identifies the payment.
+
+Verification depends only on this amount.
+
+The system does not depend on:
+
+- UTR Number
+- Transaction ID
+- Customer Screenshots
+- Transaction Note
+
+---
+
+# PAYMENT INTENT
+
+Before payment begins:
+
+Create Payment Intent.
+
+Stores:
+
+- Customer
+- Mess
+- Plan
+- Amount
+- Verification Amount
+- Expiry Time
+- Status
+
+Status
+
+pending
+
+↓
+
+under_verification
+
+↓
+
+verified
+
+OR
+
+manual_review
+
+OR
+
+failed
+
+---
+
+# UPI DEEP LINK
+
+Generated dynamically.
+
+Example
+
+upi://pay?pa=saimess@paytm&am=3000.03&cu=INR
+
+Rules
+
+- Amount prefilled
+- Customer cannot edit amount
+- Opens installed UPI application
+
+---
+
+# CUSTOMER PAYMENT
+
+Customer
+
+↓
+
+Pays through preferred UPI app
+
+↓
+
+Returns to Mazi Mess
+
+↓
+
+Presses
+
+"I Have Paid"
+
+Verification begins only after customer confirmation.
+
+---
+
+# AUTOMATIC VERIFICATION FLOW
+
+Customer presses
+
+"I Have Paid"
+
+↓
+
+10 Second Delay
+
+↓
+
+Backend calls dedicated webhook
+
+↓
+
+Make searches Gmail
+
+↓
+
+Gemini extracts payment
+
+↓
+
+Webhook returns structured response
+
+↓
+
+Backend validates
+
+↓
+
+Payment Verified
+
+↓
+
+Subscription Activated
+
+↓
+
+Notifications Generated
+
+---
+
+# BACKEND VALIDATION
+
+Even after successful Make response, backend validates:
+
+- Payment Intent exists
+- Matching verification amount
+- Payment not already verified
+- Subscription still valid
+- Join Request approved
+- Duplicate payment check
+
+Only after validation:
+
+Subscription becomes Active.
+
+---
+
+# PAYMENT MONITORING
+
+Every verification enters monitoring.
+
+States
+
+Verification Pending
+
+↓
+
+Verified
+
+↓
+
+Closed
+
+OR
+
+Verification Failed
+
+↓
+
+Retry
+
+↓
+
+Verified
+
+OR
+
+Manual Override
+
+↓
+
+Closed
+
+Every transition is logged.
+
+---
+
+# RETRY STRATEGY
+
+Automatic retries occur for temporary failures.
+
+Examples
+
+- Gmail delay
+- Webhook timeout
+- Make execution delay
+
+Retry Frequency
+
+Hourly
+
+Maximum retries are configurable.
+
+After retry limit:
+
+Manual Review required.
+
+---
+
+# MANUAL REVIEW
+
+Automatic verification may fail.
+
+Example
+
+- Delayed email
+- Ambiguous extraction
+- Temporary automation failure
+
+Admin reviews:
+
+- Payment Proof
+- Verification Logs
+- Payment Details
+
+Possible Actions
+
+Approve
+
+Reject
+
+Retry
+
+Only Admin performs manual review.
+
+---
+
+# MANUAL OVERRIDE
+
+Manual Override is Admin-only.
+
+Allowed when:
+
+- Valid payment confirmed
+- Automatic verification failed
+
+Actions
+
+- Verify payment
+- Activate subscription
+- Notify customer
+- Notify owner
+- Generate audit log
+
+Owners never perform overrides through the application.
+
+---
+
+# OWNER EXPERIENCE
+
+Owners see:
+
+Customer Name
+
+Plan
+
+Verification Amount
+
+Payment Status
+
+Verification Time
+
+Possible Status
+
+Pending
+
+Verified
+
+Failed
+
+Owners never see:
+
+- Webhook URL
+- Gmail
+- Make Account
+- Make Password
+- Gemini Response
+
+---
+
+# CUSTOMER EXPERIENCE
+
+Customer sees:
+
+Payment Pending
+
+↓
+
+Verifying
+
+↓
+
+Verified
+
+OR
+
+Verification Failed
+
+If verification fails:
+
+Customer contacts the Mess Owner directly.
+
+Payment disputes are resolved outside the application.
+
+---
+
+# ADMIN DASHBOARD
+
+Payment Monitoring displays:
+
+- Integration Status
+- Verification Queue
+- Failed Payments
+- Retry Verification
+- Manual Override
+- Verification Logs
+- Webhook Health
+- Gmail Status
+
+---
+
+# VERIFICATION LOGS
+
+Every verification attempt stores:
+
+- Payment Intent
+- Webhook Request
+- Gmail Message ID
+- Gemini Result
+- Confidence Score
+- Verification Method
+- Retry Count
+- Failure Reason
+- Administrator Actions
+
+Logs remain immutable.
+
+---
+
+# SECURITY
+
+Customers cannot:
+
+- Verify payments
+- Modify payment status
+- Retry verification
+
+Owners cannot:
+
+- Access Gmail
+- Access Make Account
+- Access Webhook
+- Override verification
+- Activate subscriptions manually
+
+Only Admin may:
+
+- Configure infrastructure
+- Retry verification
+- Manual override
+- Disable integrations
+- Enable integrations
+
+Backend only:
+
+- Activates subscriptions automatically
+- Updates payment status
+- Generates audit logs
+
+---
+
+# DATA RETENTION
+
+Stored Forever
+
+- Payment Intents
+- Verified Payments
+- Verification Logs
+- Audit Logs
+- Subscription Activation History
+
+Notifications follow the platform retention policy.
+
+---
+
+# FUTURE MIGRATION
+
+Future versions may replace Make.com with:
+
+- Firebase Cloud Functions
+- Razorpay
+- Cashfree
+- PhonePe Payment Gateway
+- Other Payment Providers
+
+Business rules remain unchanged.
+
+Only the verification implementation changes.
 
 ---
 
 # SUCCESS CRITERIA
 
-A payment is successful when:
+A payment is considered successful when:
 
-1. Order exists.
-2. Verification amount assigned.
-3. Customer completes payment.
-4. Customer taps "I Have Paid".
-5. Make.com finds matching amount.
-6. Payment marked verified.
-7. Subscription activated.
-8. Audit log created.
+1. Payment Intent exists.
+2. Verification Amount assigned.
+3. Customer completes UPI payment.
+4. Customer confirms payment.
+5. Make.com processes Gmail.
+6. Gemini extracts payment details.
+7. Backend validation succeeds.
+8. Payment marked Verified.
+9. Subscription Activated.
+10. Customer notified.
+11. Owner notified.
+12. Audit Log generated.
+
+---
+
+# RELATED DOCUMENTS
+
+This document should be read together with:
+
+- 01_Firestore_Schema.md
+- 02_Product_Spec.md
+- 03_Permission_Matrix.md
+- 04_State_Machines.md
+- 05_Screen_Specification.md
+- 07_Backend_Architecture.md
+
+---
+
+# DOCUMENT STATUS
+
+Document Name
+
+Payment Verification
+
+Version
+
+2.1
+
+Status
+
+Production Ready
+
+Automation
+
+Make.com
+
+Payment Method
+
+Direct UPI
+
+AI Extraction
+
+Gemini AI
+
+Backend
+
+Firebase
+
+Maintained By
+
+Mazi Mess Development Team
+
+This document defines the complete payment verification architecture for Version 1 of the Mazi Mess platform.
+
+---
+
+END OF DOCUMENT
