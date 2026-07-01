@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "152363072866",
+    "project_id": "mazi-mess-501105",
+    "storage_bucket": "mazi-mess-501105.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:152363072866:android:f4adbce775938ef06a003b",
+        "android_client_info": {
+          "package_name": "com.mazimess.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBRaZxiGyjY_m1IqxtQYIe5ZmwUMWdWgz0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
