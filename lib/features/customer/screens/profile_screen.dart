@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../core/mock_data/fake_users.dart';
 import '../../../core/providers/auth_repository_provider.dart';
 import '../../../core/router/app_router.dart';
-import '../../../models/user_model.dart';
+import '../../../models/app_user.dart';
 
 class ProfileScreen extends ConsumerStatefulWidget {
   const ProfileScreen({super.key});
@@ -14,12 +15,12 @@ class ProfileScreen extends ConsumerStatefulWidget {
 }
 
 class _ProfileScreenState extends ConsumerState<ProfileScreen> {
-  late final Future<User?> _userFuture;
+  late final Future<AppUser?> _userFuture;
 
   @override
   void initState() {
     super.initState();
-    _userFuture = ref.read(authRepositoryProvider).getCurrentUser();
+    _userFuture = Future.value(fakeCurrentUser);
   }
 
   void _showComingSoon(String feature) {
@@ -40,7 +41,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
       appBar: AppBar(
         title: const Text('Profile'),
       ),
-      body: FutureBuilder<User?>(
+      body: FutureBuilder<AppUser?>(
         future: _userFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -83,7 +84,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
 class _ProfileHeader extends StatelessWidget {
   const _ProfileHeader({required this.user});
 
-  final User user;
+  final AppUser user;
 
   @override
   Widget build(BuildContext context) {
@@ -122,7 +123,7 @@ class _ProfileHeader extends StatelessWidget {
 class _ProfileInfoSection extends StatelessWidget {
   const _ProfileInfoSection({required this.user});
 
-  final User user;
+  final AppUser user;
 
   @override
   Widget build(BuildContext context) {
@@ -211,7 +212,7 @@ class _SettingsSection extends StatelessWidget {
     required this.onLogout,
   });
 
-  final User user;
+  final AppUser user;
   final VoidCallback onEditProfile;
   final VoidCallback onChangeMobile;
   final VoidCallback onLanguage;

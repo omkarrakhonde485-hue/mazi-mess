@@ -22,8 +22,8 @@ enum AppThemePreference {
       };
 }
 
-class User {
-  const User({
+class AppUser {
+  const AppUser({
     required this.userId,
     required this.fullName,
     required this.phoneNumber,

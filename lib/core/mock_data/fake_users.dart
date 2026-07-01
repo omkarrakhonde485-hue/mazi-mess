@@ -1,9 +1,9 @@
-import '../../models/user_model.dart';
+import '../../models/app_user.dart';
 
 const _profilePhotoUrl =
     'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400';
 
-final fakeCurrentUser = User(
+final fakeCurrentUser = AppUser(
   userId: 'user_001',
   fullName: 'Omkar Rakhonde',
   phoneNumber: '9876543210',
