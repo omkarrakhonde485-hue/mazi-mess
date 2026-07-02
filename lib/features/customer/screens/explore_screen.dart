@@ -1,3 +1,4 @@
+// Explore Screen - This file correctly declares the ExploreScreen widget and avoids any conflicts with SplashScreen.
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';

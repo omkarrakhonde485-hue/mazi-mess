@@ -1,6 +1,9 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+
+import '../providers/auth_state_provider.dart';
 
 import '../../features/auth/screens/login_screen.dart';
 import '../../features/auth/screens/otp_screen.dart';
@@ -70,12 +73,59 @@ enum AppRoute {
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 
+class GoRouterRefreshStream extends ChangeNotifier {
+  GoRouterRefreshStream(Stream<dynamic> stream) {
+    _subscription = stream.listen(
+      (dynamic _) => notifyListeners(),
+    );
+  }
+
+  late final StreamSubscription<dynamic> _subscription;
+
+  @override
+  void dispose() {
+    _subscription.cancel();
+    super.dispose();
+  }
+}
+
 final routerProvider = Provider<GoRouter>((ref) {
+  final authStateAsync = ref.watch(authStateProvider);
+
   return GoRouter(
     navigatorKey: _rootNavigatorKey,
-    // TODO: revert to AppRoute.splash.path when auth integration begins
-    initialLocation: AppRoute.home.path,
+    initialLocation: AppRoute.splash.path,
+    refreshListenable: GoRouterRefreshStream(
+      ref.watch(authStateProvider.stream),
+    ),
     debugLogDiagnostics: false,
+    redirect: (context, state) {
+      final authState = ref.read(authStateProvider);
+      final currentLoc = state.uri.path;
+
+      final uid = authState.valueOrNull;
+      final isAuthenticated = uid != null;
+
+      final isPublicScreen = currentLoc == AppRoute.login.path ||
+          currentLoc == AppRoute.otp.path ||
+          currentLoc == AppRoute.register.path ||
+          currentLoc == AppRoute.splash.path;
+
+      if (!isAuthenticated) {
+        if (!isPublicScreen) {
+          return AppRoute.login.path;
+        }
+        if (currentLoc == AppRoute.splash.path && !authState.isLoading) {
+          return AppRoute.login.path;
+        }
+      } else {
+        if (isPublicScreen) {
+          return AppRoute.home.path;
+        }
+      }
+
+      return null;
+    },
     routes: [
       GoRoute(
         path: AppRoute.splash.path,
